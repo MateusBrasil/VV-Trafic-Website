@@ -134,7 +134,9 @@ const mobileOverlayStyles = `
 
   .mob-sheet {
     position: fixed;
-    top: 16px; left: 16px; right: 16px;
+    top: 16px; right: 16px;
+    width: calc(100vw - 32px);
+    max-width: 340px;
     background: rgba(5,28,24,0.98);
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
@@ -393,8 +395,7 @@ const FloatingNav = ({ navItems }) => {
       {/* ── Floating pill ── */}
       <div
         style={{
-          position: 'fixed', top: '16px', left: 0, right: 0,
-          display: 'flex', justifyContent: 'center',
+          position: 'fixed', top: '16px', right: '16px',
           zIndex: 9997, pointerEvents: 'none',
         }}
       >

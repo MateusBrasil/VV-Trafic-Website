@@ -357,7 +357,7 @@ export default function Espaco() {
         {/* label + pill */}
         <TopRow data-reveal>
           <Label>06 · O Nosso Espaço</Label>
-          <LocationPill><span />Lisboa, Portugal · VV Group HQ</LocationPill>
+          <LocationPill><span />Guimarães, Portugal · VV Group HQ</LocationPill>
         </TopRow>
 
         {/* heading + desc */}
@@ -366,7 +366,7 @@ export default function Espaco() {
             Onde a <em>estratégia</em><br />ganha forma.
           </Heading>
           <Desc>
-            A VV Traffic Data opera a partir de Lisboa com uma equipa
+            A VV Traffic Data opera a partir de Guimarães com uma equipa
             multidisciplinar dedicada a escalar empresas em 4 continentes.
             Um espaço criado para pensar, criar e entregar resultados reais.
           </Desc>
@@ -381,7 +381,7 @@ export default function Espaco() {
             <Overlay />
             <ImgLabel>
               <TagGreen><span />Operacional 24/7</TagGreen>
-              <Tag>Interior · Lisboa</Tag>
+              <Tag>Interior · Guimarães</Tag>
             </ImgLabel>
           </InteriorCard>
 

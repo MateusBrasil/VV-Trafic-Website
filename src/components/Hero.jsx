@@ -183,19 +183,9 @@ const VisualPanel = styled.div`
 
 const Chart = styled.div`
   margin: 24px 0;
-  height: 110px;
+  height: 116px;
   width: 100%;
-
-  svg { width: 100%; height: 100%; overflow: visible; }
-
-  path.line {
-    fill: none;
-    stroke: var(--c-verde);
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 4px 8px rgba(198,242,33,0.4));
-  }
+  svg { width: 100%; height: 100%; }
 `;
 
 const CompanyBlock = styled.div`
@@ -445,41 +435,108 @@ const ClientItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 20px;
+  padding: 0 28px;
 
-  @media (max-width: 768px) { padding: 0 14px; }
+  @media (max-width: 768px) { padding: 0 20px; }
 
   img {
-    height: 38px;
+    height: 54px;
     width: auto;
-    max-width: 130px;
+    max-width: 150px;
     object-fit: contain;
     display: block;
-    filter: grayscale(1) brightness(1.3);
-    opacity: 0.5;
-    transition: opacity 0.3s ease, filter 0.3s ease;
+    opacity: 0.82;
+    transition: opacity 0.3s ease;
     user-select: none;
     pointer-events: none;
   }
+  img:hover { opacity: 1; }
 `;
 
 const CLIENTS = [
-  { src: "/clientes/amorikids.png",      alt: "Amorikids" },
-  { src: "/clientes/amzss.png",          alt: "AMZSS" },
-  { src: "/clientes/dra-mariana.png",    alt: "Dra. Mariana" },
-  { src: "/clientes/siamma.png",         alt: "Siamma" },
-  { src: "/clientes/velara.png",         alt: "Velara" },
-  { src: "/clientes/logo-principal.png", alt: "Cliente" },
-  { src: "/clientes/logo-perfil.png",    alt: "Cliente" },
-  { src: "/clientes/client-01.png",      alt: "Cliente" },
-  { src: "/clientes/client-03.png",      alt: "Cliente" },
-  { src: "/clientes/client-04.png",      alt: "Cliente" },
-  { src: "/clientes/client-05.png",      alt: "Cliente" },
-  { src: "/clientes/client-06.png",      alt: "Cliente" },
-  { src: "/clientes/client-wa1.png",     alt: "Cliente" },
-  { src: "/clientes/client-wa2.png",     alt: "Cliente" },
-  { src: "/clientes/client-wa3.png",     alt: "Cliente" },
+  { src: "/clientes/oficina-sabores.png",      alt: "Oficina dos Sabores" },
+  { src: "/clientes/ravox.png",                alt: "RAVOX" },
+  { src: "/clientes/pt-moveis.png",            alt: "PT Móveis" },
+  { src: "/clientes/amorikids-new.png",        alt: "Amorikids" },
+  { src: "/clientes/vulcanici.png",            alt: "Vulcanici" },
+  { src: "/clientes/barao-select.png",         alt: "Barão Select" },
+  { src: "/clientes/amazon-sem-segredos.png",  alt: "Amazon Sem Segredos" },
+  { src: "/clientes/marianna-new.png",         alt: "Marianna Guimarães" },
+  { src: "/clientes/velara-home.png",          alt: "Velara Home" },
+  { src: "/clientes/vv-studios.png",           alt: "VV Studios" },
+  { src: "/clientes/retiro.png",               alt: "Retiro" },
+  { src: "/clientes/sempre-consigo.png",       alt: "Sempre Consigo" },
+  { src: "/clientes/velara-moda.png",          alt: "Velara Moda",         dark: true },
+  { src: "/clientes/rpm-brand.png",            alt: "RPM Brand" },
+  { src: "/clientes/caroline-rodrigues.png",   alt: "Caroline Rodrigues",  dark: true },
+  { src: "/clientes/vv-coffee.png",            alt: "VV Coffee Lounge" },
 ];
+
+/* ── candlestick chart data (deterministic seeded) ── */
+function sRand(i, s) {
+  const x = Math.sin(i * 17.3 + s * 31.7) * 10000;
+  return x - Math.floor(x);
+}
+
+const CANDLES = (() => {
+  const N = 44;
+  const out = [];
+  let prev = 84;
+  for (let i = 0; i < N; i++) {
+    const base = 6 + 78 * Math.exp(-2.7 * i / (N - 1));
+    const vol  = 1.2 + (84 - base) * 0.055;
+    const close = Math.max(3, Math.min(88, base + (sRand(i, 1) - 0.45) * vol * 2.2));
+    const open  = prev;
+    const up    = close <= open;
+    const high  = Math.max(2, Math.min(open, close) - sRand(i, 2) * vol * 0.9);
+    const low   = Math.min(92, Math.max(open, close) + sRand(i, 3) * vol * 0.9);
+    out.push({ open, close, high, low, up });
+    prev = close;
+  }
+  return out;
+})();
+
+function CandleChart() {
+  const W = 300, H = 95;
+  const N = CANDLES.length;
+  const slot = W / N;
+  const bodyW = Math.max(2.8, slot - 2.2);
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+      <defs>
+        <filter id="glow-up">
+          <feGaussianBlur stdDeviation="1.2" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+
+      {/* grid */}
+      {[20, 42, 64].map(y => (
+        <line key={y} x1="0" y1={y} x2={W} y2={y}
+          stroke="rgba(198,242,33,0.07)" strokeWidth="0.5" />
+      ))}
+
+      {/* candles */}
+      {CANDLES.map(({ open, close, high, low, up }, i) => {
+        const xMid  = i * slot + slot / 2;
+        const xBody = i * slot + (slot - bodyW) / 2;
+        const bodyY = Math.min(open, close);
+        const bodyH = Math.max(0.7, Math.abs(open - close));
+        const verde = '#c6f221';
+        const muted = 'rgba(198,242,33,0.28)';
+        return (
+          <g key={i} filter={up ? 'url(#glow-up)' : undefined}>
+            <line x1={xMid} y1={high} x2={xMid} y2={low}
+              stroke={up ? verde : muted} strokeWidth="0.9" />
+            <rect x={xBody} y={bodyY} width={bodyW} height={bodyH}
+              fill={up ? verde : muted} rx="0.6" />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
 
 const TARGET = 128;
 
@@ -564,16 +621,7 @@ export default function Hero() {
             </div>
 
             <Chart>
-              <svg viewBox="0 0 320 80" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="chart-grad" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="rgba(198,242,33,0.4)" />
-                    <stop offset="100%" stopColor="rgba(198,242,33,0)" />
-                  </linearGradient>
-                </defs>
-                <path d="M0,62 L30,58 L60,50 L90,52 L120,40 L150,42 L180,28 L210,30 L240,18 L270,14 L300,8 L320,4 L320,80 L0,80 Z" fill="url(#chart-grad)" />
-                <path ref={lineRef} className="line" d="M0,62 L30,58 L60,50 L90,52 L120,40 L150,42 L180,28 L210,30 L240,18 L270,14 L300,8 L320,4" />
-              </svg>
+              <CandleChart />
             </Chart>
 
             <CompanyBlock>
@@ -636,7 +684,11 @@ export default function Hero() {
             <InfiniteSlider gap={20} speed={38} speedOnHover={85} reverse={false}>
               {CLIENTS.map((c) => (
                 <ClientItem key={c.src}>
-                  <img src={c.src} alt={c.alt} draggable={false} loading="lazy" />
+                  <img
+                    src={c.src} alt={c.alt}
+                    draggable={false} loading="lazy"
+                    style={c.dark ? { filter: 'invert(1) brightness(0.88)' } : undefined}
+                  />
                 </ClientItem>
               ))}
             </InfiniteSlider>

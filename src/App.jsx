@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Header from './components/Header';
 import Hero from './components/Hero';
+import ClientLogos from './components/ClientLogos';
 import Numbers from './components/Numbers';
 import Comparison from './components/Comparison';
 import Escala from './components/Escala';
@@ -56,6 +57,7 @@ function App() {
       <div ref={containerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
       <main>
         <Hero />
+        <ClientLogos />
         <Numbers />
         <Comparison />
         <Escala />

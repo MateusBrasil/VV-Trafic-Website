@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import gsap from 'gsap';
-import { InfiniteSlider } from './ui/InfiniteSlider';
-import { ProgressiveBlur } from './ui/ProgressiveBlur';
 
 /* ── keyframes ── */
 const pulseDot = keyframes`
@@ -133,15 +131,16 @@ const CtaRow = styled.div`
 
   @media (max-width: 992px) { justify-content: flex-start; }
   @media (max-width: 768px) {
-    flex-direction: column;
     gap: 10px;
+    flex-wrap: wrap;
 
     a {
-      width: 100%;
+      flex: 1;
+      min-width: 140px;
       text-align: center;
       justify-content: center;
-      padding: 15px 20px;
-      font-size: 0.8rem;
+      padding: 14px 16px;
+      font-size: 0.78rem;
     }
   }
 `;
@@ -392,76 +391,6 @@ const TrustBar = styled.div`
   strong { color: var(--c-verde); font-weight: 700; }
 `;
 
-/* ── client logos ── */
-const ClientsStrip = styled.div`
-  margin-top: 56px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 32px;
-  overflow: hidden;
-  width: 100%;
-
-  @media (max-width: 768px) {
-    margin-top: 32px;
-    padding-top: 24px;
-  }
-
-  .strip-label {
-    text-align: center;
-    color: var(--c-text-muted);
-    margin-bottom: 24px;
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-`;
-
-const SliderWrap = styled.div`
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-`;
-
-const ClientItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  padding: 0 28px;
-
-  @media (max-width: 768px) { padding: 0 20px; }
-
-  img {
-    height: 54px;
-    width: auto;
-    max-width: 150px;
-    object-fit: contain;
-    display: block;
-    opacity: 0.82;
-    transition: opacity 0.3s ease;
-    user-select: none;
-    pointer-events: none;
-  }
-  img:hover { opacity: 1; }
-`;
-
-const CLIENTS = [
-  { src: "/clientes/oficina-sabores.png",      alt: "Oficina dos Sabores" },
-  { src: "/clientes/ravox.png",                alt: "RAVOX" },
-  { src: "/clientes/pt-moveis.png",            alt: "PT Móveis" },
-  { src: "/clientes/amorikids-new.png",        alt: "Amorikids" },
-  { src: "/clientes/vulcanici.png",            alt: "Vulcanici" },
-  { src: "/clientes/barao-select.png",         alt: "Barão Select" },
-  { src: "/clientes/amazon-sem-segredos.png",  alt: "Amazon Sem Segredos" },
-  { src: "/clientes/marianna-new.png",         alt: "Marianna Guimarães" },
-  { src: "/clientes/velara-home.png",          alt: "Velara Home" },
-  { src: "/clientes/vv-studios.png",           alt: "VV Studios" },
-  { src: "/clientes/retiro.png",               alt: "Retiro" },
-  { src: "/clientes/sempre-consigo.png",       alt: "Sempre Consigo" },
-  { src: "/clientes/velara-moda.png",          alt: "Velara Moda",         dark: true },
-  { src: "/clientes/rpm-brand.png",            alt: "RPM Brand" },
-  { src: "/clientes/caroline-rodrigues.png",   alt: "Caroline Rodrigues",  dark: true },
-  { src: "/clientes/vv-coffee.png",            alt: "VV Coffee Lounge" },
-];
 
 /* ── candlestick chart data (deterministic seeded) ── */
 function sRand(i, s) {
@@ -616,34 +545,6 @@ export default function Hero() {
             <strong>1.ª empresa na União Europeia</strong> com garantia de entrega em contrato — 30 dias adicionais se não cumprirmos.
           </span>
         </TrustBar>
-
-        {/* ── CLIENT LOGOS ── */}
-        <ClientsStrip className="reveal">
-          <p className="strip-label">Já estruturámos canais de aquisição para</p>
-          <SliderWrap>
-            <InfiniteSlider gap={20} speed={38} speedOnHover={85} reverse={false}>
-              {CLIENTS.map((c) => (
-                <ClientItem key={c.src}>
-                  <img
-                    src={c.src} alt={c.alt}
-                    draggable={false} loading="lazy"
-                    style={c.dark ? { filter: 'invert(1) brightness(0.88)' } : undefined}
-                  />
-                </ClientItem>
-              ))}
-            </InfiniteSlider>
-            <ProgressiveBlur
-              direction="left"
-              blurIntensity={0.9}
-              style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 80, pointerEvents: 'none' }}
-            />
-            <ProgressiveBlur
-              direction="right"
-              blurIntensity={0.9}
-              style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 80, pointerEvents: 'none' }}
-            />
-          </SliderWrap>
-        </ClientsStrip>
       </div>
     </HeroSection>
   );

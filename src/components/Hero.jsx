@@ -41,17 +41,17 @@ const HeroSection = styled.section`
 /* ── two-column grid ── */
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 48px;
   align-items: center;
   width: 100%;
 
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
   }
   @media (max-width: 768px) {
-    gap: 32px;
+    gap: 28px;
   }
 `;
 
@@ -88,14 +88,12 @@ const Eyebrow = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  font-size: clamp(1.7rem, 2.4vw, 2.6rem);
   font-weight: 900;
-  line-height: 1.07;
+  line-height: 1.1;
   letter-spacing: -0.03em;
   margin-bottom: 24px;
   color: #fff;
-  word-break: break-word;
-  overflow-wrap: break-word;
   max-width: 100%;
 
   span { color: var(--c-verde); }

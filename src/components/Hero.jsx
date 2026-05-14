@@ -162,20 +162,14 @@ const Guarantee = styled.div`
 const VisualPanel = styled.div`
   width: 100%;
   min-width: 0;
-  padding: 32px;
-  border-radius: 24px;
-  position: relative;
+  border-radius: 20px;
   overflow: hidden;
-  isolation: isolate;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(198,242,33,0.08);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(198,242,33,0.07) 50%, transparent 100%);
-    animation: ${rotateGrad} 12s linear infinite;
-    z-index: -1;
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   @media (max-width: 768px) { display: none; }
@@ -234,22 +228,21 @@ const CompanyBar = styled.div`
   }
 `;
 
-/* ── mobile-only panel — mirrors the key data from VisualPanel ── */
+/* ── mobile-only panel ── */
 const MobilePanel = styled.div`
   display: none;
 
   @media (max-width: 768px) {
     display: block;
-    margin-top: 36px;
-    border-radius: 20px;
+    margin-top: 32px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(198,242,33,0.12);
-    background: rgba(5,38,38,0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(198,242,33,0.08);
     animation: ${fadeUp} 0.6s 0.2s ease both;
     width: 100%;
     box-sizing: border-box;
+
+    img { width: 100%; height: auto; display: block; }
   }
 `;
 
@@ -609,65 +602,14 @@ export default function Hero() {
           </LeftCol>
 
           {/* ── RIGHT: full panel — desktop only ── */}
-          <VisualPanel className="glass reveal">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span className="t-caption muted">PAINEL · TEMPO REAL</span>
-              <span className="badge" style={{ marginBottom: 0 }}>● AO VIVO</span>
-            </div>
-
-            <div style={{ marginTop: 24 }}>
-              <div className="t-caption muted">ROAS médio · últimos 30 dias</div>
-              <div style={{ fontSize: '3rem', fontWeight: 900, color: '#fff', fontFamily: 'var(--font-display)', lineHeight: 1 }}>7,2x</div>
-            </div>
-
-            <Chart>
-              <CandleChart />
-            </Chart>
-
-            <CompanyBlock>
-              <div className="t-caption muted" style={{ marginBottom: 10 }}>Empresas aceleradas com o nosso método</div>
-              <CompanyCounter>
-                <span className="number">{count}</span>
-                <span className="suffix">empresas a&nbsp;crescer com o Método ESCALA</span>
-              </CompanyCounter>
-              <CompanyBar>
-                <div ref={barFillRef} className="fill" />
-              </CompanyBar>
-            </CompanyBlock>
+          <VisualPanel className="reveal">
+            <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" />
           </VisualPanel>
         </Grid>
 
-        {/* ── MOBILE PANEL: same data, phone-optimised ── */}
+        {/* ── MOBILE PANEL ── */}
         <MobilePanel>
-          <MobilePanelHeader>
-            <span className="tag">Painel · tempo real</span>
-            <span className="live">Ao vivo</span>
-          </MobilePanelHeader>
-
-          <MobileRoas>
-            <div className="label">ROAS médio · últimos 30 dias</div>
-            <div className="value">7,2x</div>
-          </MobileRoas>
-
-          <MobileStats>
-            <div>
-              <div className="ms-val">€12M+</div>
-              <div className="ms-lbl">Vendas geradas</div>
-            </div>
-            <div>
-              <div className="ms-val">128+</div>
-              <div className="ms-lbl">Empresas aceleradas</div>
-            </div>
-            <div>
-              <div className="ms-val">72h</div>
-              <div className="ms-lbl">1.º resultado</div>
-            </div>
-          </MobileStats>
-
-          <MobileCompany>
-            <div className="num">{count || 128}</div>
-            <div className="desc">empresas a crescer com o Método ESCALA em 8 países</div>
-          </MobileCompany>
+          <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" />
         </MobilePanel>
 
         <TrustBar>

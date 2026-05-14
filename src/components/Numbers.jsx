@@ -42,8 +42,10 @@ const StatsWrap = styled.div`
 `;
 
 const StatCard = styled.div`
-  padding: 40px 32px;
+  padding: 32px 24px;
   border-radius: 24px;
+
+  @media (max-width: 480px) { padding: 24px 20px; }
   text-align: center;
   transition: transform 0.3s ease;
   
@@ -71,8 +73,10 @@ const StatCard = styled.div`
 
 const CaseCard = styled.div`
   margin-top: 40px;
-  padding: 40px;
+  padding: 32px 24px;
   border-radius: 24px;
+
+  @media (max-width: 480px) { padding: 20px 16px; }
   display: flex;
   justify-content: space-between;
   align-items: center;

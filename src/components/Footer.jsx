@@ -23,7 +23,7 @@ const FooterAnims = createGlobalStyle`
 const FooterOuter = styled.footer`
   max-width: 1400px;
   margin: 40px auto 48px;
-  padding: 0 24px;
+  padding: 0 16px;
   width: 100%;
   font-family: 'Space Grotesk', sans-serif;
 `;
@@ -52,7 +52,8 @@ const CardContent = styled.div`
   position: relative;
   padding: 40px;
 
-  @media (max-width: 768px) { padding: 28px 24px; }
+  @media (max-width: 768px) { padding: 28px 20px; }
+  @media (max-width: 480px) { padding: 24px 16px; }
 `;
 
 /* ── grid ── */
@@ -61,8 +62,8 @@ const Grid = styled.div`
   grid-template-columns: 1.3fr repeat(3, 1fr);
   gap: 40px;
 
-  @media (max-width: 1024px) { grid-template-columns: 1fr 1fr; }
-  @media (max-width: 600px)  { grid-template-columns: 1fr; }
+  @media (max-width: 1024px) { grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 600px)  { grid-template-columns: 1fr; gap: 24px; }
 `;
 
 /* ── brand column ── */

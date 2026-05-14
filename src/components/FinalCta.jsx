@@ -34,10 +34,8 @@ const Layout = styled.div`
   gap: 80px;
   align-items: center;
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    gap: 56px;
-  }
+  @media (max-width: 900px) { grid-template-columns: 1fr; gap: 40px; }
+  @media (max-width: 480px) { gap: 28px; }
 `;
 
 /* ── left ── */
@@ -67,7 +65,7 @@ const Overline = styled.div`
 `;
 
 const Heading = styled.h2`
-  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-size: clamp(1.9rem, 6vw, 3.4rem);
   font-weight: 900;
   line-height: 1.07;
   letter-spacing: -.04em;

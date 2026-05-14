@@ -41,11 +41,13 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
+  @media (max-width: 480px) { padding: 0 16px; }
 `;
 
 const SectionHead = styled.div`
   text-align: center;
-  margin-bottom: 72px;
+  margin-bottom: 48px;
+  @media (max-width: 480px) { margin-bottom: 32px; }
 `;
 
 const Sub = styled.p`

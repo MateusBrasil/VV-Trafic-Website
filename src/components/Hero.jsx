@@ -20,6 +20,10 @@ const Grid = styled.div`
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 40px;
+  }
+  @media (max-width: 480px) {
+    gap: 28px;
   }
 `;
 
@@ -50,10 +54,17 @@ const Title = styled.h1`
   background: linear-gradient(to right, #fff, #a0a0a0);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  
+  word-break: break-word;
+  overflow-wrap: break-word;
+
   span {
     -webkit-text-fill-color: var(--c-verde);
     text-shadow: 0 0 20px rgba(198, 242, 33, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+    margin-bottom: 16px;
   }
 `;
 
@@ -71,9 +82,17 @@ const CtaRow = styled.div`
   display: flex;
   gap: 16px;
   margin-bottom: 32px;
-  
+  flex-wrap: wrap;
+
   @media (max-width: 992px) {
     justify-content: center;
+  }
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    a { text-align: center; justify-content: center; width: 100%; }
   }
 `;
 
@@ -91,6 +110,11 @@ const Guarantee = styled.div`
 const VisualPanel = styled.div`
   padding: 32px;
   border-radius: 24px;
+
+  @media (max-width: 480px) {
+    padding: 20px 18px;
+    border-radius: 16px;
+  }
   position: relative;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
@@ -184,9 +208,14 @@ const CompanyBar = styled.div`
 `;
 
 const ClientsStrip = styled.div`
-  margin-top: 80px;
+  margin-top: 48px;
   border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 40px;
+  padding-top: 32px;
+
+  @media (max-width: 480px) {
+    margin-top: 32px;
+    padding-top: 24px;
+  }
 
   .label {
     text-align: center;

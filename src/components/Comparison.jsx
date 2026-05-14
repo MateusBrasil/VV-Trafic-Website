@@ -23,9 +23,9 @@ const CmpHead = styled.div`
   background: rgba(0,0,0,0.3);
   
   > div {
-    padding: 32px;
+    padding: 20px 18px;
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: clamp(0.95rem, 3vw, 1.25rem);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -56,7 +56,7 @@ const CmpRow = styled.div`
   }
   
   > div {
-    padding: 24px 32px;
+    padding: 16px 18px;
     display: flex;
     align-items: flex-start;
     gap: 16px;

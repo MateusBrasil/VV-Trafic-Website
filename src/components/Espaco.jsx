@@ -11,491 +11,433 @@ const shimmer = keyframes`
   100% { background-position:  200% center; }
 `;
 const blink = keyframes`
-  0%,100% { opacity:1; } 50% { opacity:.35; }
-`;
-const floatY = keyframes`
-  0%,100% { transform: translateY(0px) rotate(-2deg); }
-  50%      { transform: translateY(-10px) rotate(-2deg); }
+  0%,100% { opacity:1; } 50% { opacity:.3; }
 `;
 
-/* ─── section ─── */
+/* ─── counter hook (fixed) ─── */
+function useCounter(target, duration = 1600) {
+  const [val, setVal]   = useState(0);
+  const elRef           = useRef(null);
+  const triggered       = useRef(false);
+
+  useEffect(() => {
+    const el = elRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || triggered.current) return;
+      triggered.current = true;
+      obs.disconnect();
+      const start = performance.now();
+      const tick  = (now) => {
+        const p = Math.min((now - start) / duration, 1);
+        setVal(Math.round((1 - Math.pow(1 - p, 3)) * target));
+        if (p < 1) requestAnimationFrame(tick);
+        else setVal(target);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration]);
+
+  return [val, elRef];
+}
+
+/* ─── styled ─── */
 const Section = styled.section`
+  padding: 120px 0 140px;
   position: relative;
-  overflow: hidden;
-  padding: 120px 0 0;
 `;
 
-/* ────────────────────────────────────────
-   BAND 1 — full-bleed interior
-──────────────────────────────────────── */
-const CinemaBand = styled.div`
-  position: relative;
-  width: 100%;
-  height: 88vh;
-  min-height: 560px;
-  max-height: 860px;
-  overflow: hidden;
-`;
-
-const CinemaImg = styled.img`
-  width: 100%;
-  height: 110%;          /* extra height for parallax travel */
-  object-fit: cover;
-  object-position: center 30%;
-  display: block;
-  will-change: transform;
-`;
-
-const CinemaOverlay = styled.div`
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top,  rgba(3,21,18,1)   0%,  rgba(3,21,18,0.15) 50%, transparent 80%),
-    linear-gradient(to right, rgba(3,21,18,0.6) 0%, transparent 60%);
-`;
-
-const CinemaContent = styled.div`
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 64px 72px;
-  max-width: 1400px;
+const Wrap = styled.div`
+  max-width: 1200px;
   margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
+  padding: 0 40px;
 
-  @media (max-width: 768px) { padding: 0 28px 48px; }
+  @media (max-width: 768px) { padding: 0 24px; }
 `;
 
-const Kicker = styled.div`
-  display: inline-flex;
+/* ── top label row ── */
+const TopRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+  gap: 16px;
+`;
+
+const Label = styled.span`
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--c-verde, #c6f221);
+  display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 24px;
-  width: fit-content;
-`;
-const KDot = styled.span`
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--c-verde, #c6f221);
-  animation: ${blink} 2.2s ease-in-out infinite;
-`;
-const KText = styled.span`
-  font-size: 0.72rem; font-weight: 700;
-  letter-spacing: .16em; text-transform: uppercase;
-  color: var(--c-verde, #c6f221);
+
+  &::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--c-verde, #c6f221);
+  }
 `;
 
-const CinemaHeading = styled.h2`
-  font-size: clamp(3rem, 6vw, 5.5rem);
+const LocationPill = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: .04em;
+
+  span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--c-verde, #c6f221);
+    animation: ${blink} 2s ease-in-out infinite;
+  }
+`;
+
+/* ── main title ── */
+const TitleRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 52px;
+
+  @media (max-width: 768px) { grid-template-columns: 1fr; gap: 20px; }
+`;
+
+const Heading = styled.h2`
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
   font-weight: 900;
   line-height: 1.0;
   letter-spacing: -.04em;
-  margin: 0 0 40px;
-  max-width: 720px;
+  margin: 0;
 
   em {
     font-style: normal;
-    background: linear-gradient(90deg, #c6f221 0%, #e8ff80 50%, #c6f221 100%);
+    background: linear-gradient(90deg, #c6f221 0%, #d8ff60 50%, #c6f221 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: ${shimmer} 4s linear infinite;
+    animation: ${shimmer} 5s linear infinite;
   }
 `;
 
-/* stats strip at bottom of image */
-const StatsStrip = styled.div`
-  display: flex;
-  gap: 0;
-  flex-wrap: wrap;
+const Desc = styled.p`
+  margin: 0;
+  color: rgba(255,255,255,0.5);
+  font-size: 1rem;
+  line-height: 1.8;
+  align-self: end;
 `;
 
-const StatPill = styled.div`
-  padding: 18px 36px 18px 0;
-  margin-right: 36px;
-  border-right: 1px solid rgba(255,255,255,0.1);
+/* ── photo grid ── */
+const PhotoGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: 1fr auto;
+  gap: 16px;
+  margin-bottom: 16px;
 
-  &:last-child { border-right: none; margin-right: 0; }
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+`;
 
+/* shared card */
+const ImgCard = styled.div`
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .9s cubic-bezier(.25,.46,.45,.94);
+  }
+  &:hover img { transform: scale(1.05); }
+`;
+
+/* interior — tall, spans both rows */
+const InteriorCard = styled(ImgCard)`
+  grid-column: 1;
+  grid-row: 1 / 3;
+  aspect-ratio: 4 / 5;
+
+  @media (max-width: 900px) {
+    grid-column: 1; grid-row: auto;
+    aspect-ratio: 16 / 10;
+  }
+`;
+
+/* facade — top right */
+const FacadeCard = styled(ImgCard)`
+  grid-column: 2;
+  grid-row: 1;
+  aspect-ratio: 4 / 3;
+
+  @media (max-width: 900px) { grid-column: 1; grid-row: auto; }
+`;
+
+/* stats card — bottom right */
+const StatsCard = styled.div`
+  grid-column: 2;
+  grid-row: 2;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 20px;
+
+  @media (max-width: 900px) { grid-column: 1; grid-row: auto; }
+`;
+
+const Stat = styled.div`
   .val {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     font-weight: 900;
     font-family: var(--font-display);
     color: #fff;
     line-height: 1;
     letter-spacing: -.04em;
-    display: flex; align-items: baseline; gap: 3px;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
   }
   .sup {
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: var(--c-verde, #c6f221);
     font-weight: 700;
   }
   .lbl {
-    margin-top: 5px;
-    font-size: 0.72rem;
+    margin-top: 6px;
+    font-size: 0.68rem;
     letter-spacing: .1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.35);
     font-weight: 600;
   }
-
-  @media (max-width: 600px) {
-    padding: 12px 20px 12px 0; margin-right: 20px;
-    .val { font-size: 1.8rem; }
-  }
 `;
 
-/* live badge top-right */
-const LiveBadge = styled.div`
-  position: absolute;
-  top: 32px; right: 40px;
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 16px;
-  border-radius: 100px;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(198,242,33,0.3);
-  font-size: 0.75rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--c-verde, #c6f221);
-
-  span {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--c-verde, #c6f221);
-    animation: ${blink} 1.5s ease-in-out infinite;
-  }
-`;
-
-/* ────────────────────────────────────────
-   BAND 2 — facade + copy
-──────────────────────────────────────── */
-const BottomBand = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 500px;
-
-  @media (max-width: 900px) { grid-template-columns: 1fr; }
-`;
-
-/* Left: facade image with floating card treatment */
-const FacadeWrap = styled.div`
-  position: relative;
-  overflow: hidden;
-  min-height: 480px;
-  background: #020f0d;
-`;
-
-const FacadeImg = styled.img`
-  width: 100%;
-  height: 110%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  will-change: transform;
-`;
-
-const FacadeOverlay = styled.div`
+/* image overlays */
+const Overlay = styled.div`
   position: absolute; inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(3,21,18,0.55) 0%,
-    rgba(3,21,18,0.1)  50%,
-    rgba(3,21,18,0.45) 100%
-  );
+  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 40%, transparent 65%);
+  pointer-events: none;
 `;
 
-/* floating card over facade */
-const FloatCard = styled.div`
+const ImgLabel = styled.div`
   position: absolute;
-  bottom: 36px; right: -20px;
-  width: 220px;
-  border-radius: 18px;
-  background: rgba(3,21,18,0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(198,242,33,0.18);
-  padding: 20px 22px;
-  animation: ${floatY} 5s ease-in-out infinite;
-  box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(198,242,33,0.06);
-
-  @media (max-width: 900px) { display: none; }
+  bottom: 18px; left: 18px; right: 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
 `;
 
-const FloatCardTop = styled.div`
-  display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
-  span { width:6px;height:6px;border-radius:50%;background:var(--c-verde,#c6f221);animation:${blink} 2s ease-in-out infinite; }
-  p { margin:0; font-size:.65rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.1em; font-weight:600; }
+const Tag = styled.span`
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 100px;
+  background: rgba(0,0,0,.45); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.1);
+  font-size: .68rem; font-weight: 600;
+  color: rgba(255,255,255,.8); letter-spacing:.06em; white-space:nowrap;
 `;
 
-const FloatMetric = styled.div`
-  .n { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -.04em; }
-  .u { font-size: .95rem; color: var(--c-verde,#c6f221); font-weight:700; }
-  .l { font-size: .68rem; color: rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.08em; margin-top:4px; }
-`;
-
-const FloatBar = styled.div`
-  margin-top: 16px; height: 3px;
-  background: rgba(255,255,255,.08); border-radius:2px; overflow:hidden;
-  div { height:100%; width: ${p=>p.$pct}%; background: var(--c-verde,#c6f221); border-radius:2px; }
-`;
-
-/* Right: copy panel */
-const CopyPanel = styled.div`
-  background: linear-gradient(135deg, rgba(198,242,33,0.04) 0%, rgba(3,21,18,0) 60%);
-  border-left: 1px solid rgba(255,255,255,0.05);
-  padding: 72px 64px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 32px;
-
-  @media (max-width: 768px) { padding: 52px 28px; border-left: none; border-top: 1px solid rgba(255,255,255,0.05); }
-`;
-
-const CopyLabel = styled.p`
-  margin: 0;
-  font-size: .72rem; font-weight: 700;
-  letter-spacing: .16em; text-transform: uppercase;
+const TagGreen = styled(Tag)`
+  border-color: rgba(198,242,33,.3);
   color: var(--c-verde, #c6f221);
+  span { width:5px;height:5px;border-radius:50%;background:currentColor;animation:${blink} 1.8s ease-in-out infinite; }
 `;
 
-const CopyHeading = styled.h3`
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+/* ── bottom strip ── */
+const BottomStrip = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 36px 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(135deg, rgba(198,242,33,0.03) 0%, transparent 70%);
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) { padding: 28px 24px; }
+`;
+
+const StripLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+`;
+
+const StripNum = styled.div`
+  font-size: 3.5rem;
   font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -.03em;
-  margin: 0;
+  font-family: var(--font-display);
+  color: var(--c-verde, #c6f221);
+  line-height: 1;
+  letter-spacing: -.05em;
+  flex-shrink: 0;
 `;
 
-const CopyBody = styled.p`
-  margin: 0;
-  color: rgba(255,255,255,.6);
-  font-size: 1rem;
-  line-height: 1.8;
+const StripDivider = styled.div`
+  width: 1px; height: 56px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
 `;
 
-const FeatureList = styled.ul`
-  list-style: none; margin: 0; padding: 0;
-  display: flex; flex-direction: column; gap: 14px;
+const StripText = styled.div`
+  p { margin: 0; }
+  .title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .sub   { font-size: .875rem; color: rgba(255,255,255,.45); line-height:1.5; max-width:340px; }
 `;
 
-const FeatureItem = styled.li`
-  display: flex; align-items: flex-start; gap: 14px;
-  font-size: .92rem; color: rgba(255,255,255,.75); line-height: 1.5;
-
-  .icon {
-    flex-shrink: 0; width: 32px; height: 32px;
-    border-radius: 8px;
-    background: rgba(198,242,33,0.1);
-    border: 1px solid rgba(198,242,33,0.2);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--c-verde, #c6f221); margin-top: 1px;
-  }
-  strong { color: #fff; display: block; font-weight: 700; font-size: .95rem; margin-bottom: 2px; }
-`;
-
-const CtaRow = styled.div`
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-`;
-
-const BtnPrimary = styled.a`
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 15px 32px; border-radius: 100px;
-  background: var(--c-verde, #c6f221); color: #000;
-  font-weight: 800; font-size: .875rem;
-  letter-spacing: .04em; text-transform: uppercase;
+const Btn = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 32px;
+  border-radius: 100px;
+  background: var(--c-verde, #c6f221);
+  color: #000;
+  font-weight: 800;
+  font-size: .82rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: transform .2s ease, box-shadow .2s ease;
-  &:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(198,242,33,.35); }
-`;
 
-const BtnSecondary = styled.a`
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: .875rem; font-weight: 600; color: rgba(255,255,255,.6);
-  text-decoration: none; letter-spacing: .02em;
-  transition: color .2s ease;
-  &:hover { color: #fff; }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(198,242,33,.3);
+  }
 `;
-
-/* ─── counter hook ─── */
-function useCounter(target, duration = 1800, delay = 0) {
-  const [val, setVal] = useState(0);
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
-      obs.disconnect();
-      setTimeout(() => {
-        const start = performance.now();
-        const tick = (now) => {
-          const p = Math.min((now - start) / duration, 1);
-          setVal(Math.round((1 - Math.pow(1 - p, 3)) * target));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }, delay);
-    }, { threshold: .4 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [target, duration, delay]);
-  return [val, ref];
-}
 
 /* ─── component ─── */
 export default function Espaco() {
-  const imgRef     = useRef(null);
-  const facadeRef  = useRef(null);
-  const headRef    = useRef(null);
-  const statsRef   = useRef(null);
-  const copyRef    = useRef(null);
+  const sectionRef = useRef(null);
 
-  const [roas]   = useCounter(72,  1600, 300);
-  const [emp]    = useCounter(128, 2000, 500);
-  const [cont]   = useCounter(4,   1200, 200);
-  const [h]      = useCounter(72,  1400, 400);
-
-  // stat refs for IntersectionObserver
-  const statEl   = useRef(null);
+  const [cont, contRef] = useCounter(4);
+  const [emp,  empRef]  = useCounter(128);
+  const [h,    hRef]    = useCounter(72);
+  const [roas, roasRef] = useCounter(72); // display as 7,2x separately
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // parallax — interior image
-      gsap.to(imgRef.current, {
-        yPercent: -12, ease: 'none',
-        scrollTrigger: { trigger: imgRef.current.parentElement, start: 'top bottom', end: 'bottom top', scrub: 1.5 },
+      // stagger children of section
+      gsap.utils.toArray('[data-reveal]').forEach((el) => {
+        gsap.from(el, {
+          y: 48, opacity: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        });
       });
-      // parallax — facade image
-      gsap.to(facadeRef.current, {
-        yPercent: -10, ease: 'none',
-        scrollTrigger: { trigger: facadeRef.current.parentElement, start: 'top bottom', end: 'bottom top', scrub: 1.5 },
-      });
-      // heading reveal
-      gsap.from(headRef.current.children, {
-        y: 50, opacity: 0, duration: 1, stagger: .15, ease: 'power3.out',
-        scrollTrigger: { trigger: headRef.current, start: 'top 80%', once: true },
-      });
-      // stats reveal
-      gsap.from(statsRef.current.children, {
-        y: 30, opacity: 0, duration: .8, stagger: .1, ease: 'power3.out',
-        scrollTrigger: { trigger: statsRef.current, start: 'top 88%', once: true },
-      });
-      // copy panel
-      gsap.from(copyRef.current.children, {
-        x: 40, opacity: 0, duration: 1, stagger: .12, ease: 'power3.out',
-        scrollTrigger: { trigger: copyRef.current, start: 'top 80%', once: true },
-      });
-    });
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <Section id="espaco">
+    <Section ref={sectionRef} id="espaco">
+      <Wrap>
 
-      {/* ══ BAND 1 — CINEMA ══ */}
-      <CinemaBand>
-        <CinemaImg ref={imgRef} src="/espaco/espaco-02.png" alt="Interior VV Traffic Data" />
-        <CinemaOverlay />
+        {/* label + pill */}
+        <TopRow data-reveal>
+          <Label>06 · O Nosso Espaço</Label>
+          <LocationPill><span />Lisboa, Portugal · VV Group HQ</LocationPill>
+        </TopRow>
 
-        <LiveBadge><span />Lisboa · Operacional 24/7</LiveBadge>
+        {/* heading + desc */}
+        <TitleRow data-reveal>
+          <Heading>
+            Onde a <em>estratégia</em><br />ganha forma.
+          </Heading>
+          <Desc>
+            A VV Traffic Data opera a partir de Lisboa com uma equipa
+            multidisciplinar dedicada a escalar empresas em 4 continentes.
+            Um espaço criado para pensar, criar e entregar resultados reais.
+          </Desc>
+        </TitleRow>
 
-        <CinemaContent>
-          <div ref={headRef}>
-            <Kicker>
-              <KDot /><KText>06 · O Nosso Espaço</KText>
-            </Kicker>
-            <CinemaHeading>
-              Onde a <em>estratégia</em><br />ganha forma.
-            </CinemaHeading>
-          </div>
+        {/* photos + stats */}
+        <PhotoGrid data-reveal>
 
-          <StatsStrip ref={statsRef}>
-            <StatPill>
-              <div className="val"><span ref={statEl}>{cont}</span><span className="sup">+</span></div>
+          {/* interior — left tall card */}
+          <InteriorCard>
+            <img src="/espaco/espaco-02.png" alt="Interior VV Traffic Data" />
+            <Overlay />
+            <ImgLabel>
+              <TagGreen><span />Operacional 24/7</TagGreen>
+              <Tag>Interior · Lisboa</Tag>
+            </ImgLabel>
+          </InteriorCard>
+
+          {/* facade — top right */}
+          <FacadeCard>
+            <img src="/espaco/espaco-01.png" alt="Fachada VV Traffic Data" />
+            <Overlay />
+            <ImgLabel>
+              <Tag>VV Studio · VV Traffic Data</Tag>
+            </ImgLabel>
+          </FacadeCard>
+
+          {/* stats — bottom right */}
+          <StatsCard>
+            <Stat>
+              <div className="val" ref={contRef}>{cont}<span className="sup">+</span></div>
               <div className="lbl">Continentes</div>
-            </StatPill>
-            <StatPill>
-              <div className="val">{emp}<span className="sup">+</span></div>
+            </Stat>
+            <Stat>
+              <div className="val" ref={empRef}>{emp}<span className="sup">+</span></div>
               <div className="lbl">Empresas aceleradas</div>
-            </StatPill>
-            <StatPill>
-              <div className="val">{h}<span className="sup">h</span></div>
+            </Stat>
+            <Stat>
+              <div className="val" ref={hRef}>{h}<span className="sup">h</span></div>
               <div className="lbl">Primeiros resultados</div>
-            </StatPill>
-            <StatPill>
-              <div className="val">7,2<span className="sup">x</span></div>
+            </Stat>
+            <Stat>
+              <div className="val" ref={roasRef}>7,2<span className="sup">x</span></div>
               <div className="lbl">ROAS médio</div>
-            </StatPill>
-          </StatsStrip>
-        </CinemaContent>
-      </CinemaBand>
+            </Stat>
+          </StatsCard>
 
-      {/* ══ BAND 2 — FACADE + COPY ══ */}
-      <BottomBand>
+        </PhotoGrid>
 
-        {/* Facade image */}
-        <FacadeWrap>
-          <FacadeImg ref={facadeRef} src="/espaco/espaco-01.png" alt="Fachada VV Traffic Data" />
-          <FacadeOverlay />
+        {/* bottom strip */}
+        <BottomStrip data-reveal>
+          <StripLeft>
+            <StripNum>128<span style={{fontSize:'1.5rem',color:'var(--c-verde,#c6f221)'}}>+</span></StripNum>
+            <StripDivider />
+            <StripText>
+              <p className="title">Empresas aceleradas com o Método ESCALA</p>
+              <p className="sub">
+                Garantia em contrato · Primeiros resultados em 72 horas ·
+                Presente em 4 continentes.
+              </p>
+            </StripText>
+          </StripLeft>
+          <Btn href="#agendar">
+            Agendar reunião
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </Btn>
+        </BottomStrip>
 
-          {/* floating metric card */}
-          <FloatCard>
-            <FloatCardTop>
-              <span /><p>Performance · Hoje</p>
-            </FloatCardTop>
-            <FloatMetric>
-              <div className="n">7,2<span className="u">x</span></div>
-              <div className="l">ROAS médio · 30 dias</div>
-            </FloatMetric>
-            <FloatBar $pct={82}><div /></FloatBar>
-          </FloatCard>
-        </FacadeWrap>
-
-        {/* Copy panel */}
-        <CopyPanel ref={copyRef}>
-          <CopyLabel>VV Group HQ · Lisboa, Portugal</CopyLabel>
-
-          <CopyHeading>
-            Um espaço construído<br />para resultados reais.
-          </CopyHeading>
-
-          <CopyBody>
-            Fundada em 2024, a VV Traffic Data opera a partir de Lisboa
-            com uma equipa multidisciplinar que gere tráfego pago, conteúdo
-            e estratégia de aquisição para empresas em 4 continentes.
-          </CopyBody>
-
-          <FeatureList>
-            {[
-              { icon: '📍', title: 'Presença Global', desc: 'Escritório em Lisboa, clientes em 4 continentes.' },
-              { icon: '⚡', title: '72h para os primeiros resultados', desc: 'Onboarding rápido, impacto imediato.' },
-              { icon: '🛡', title: 'Garantia em contrato', desc: '30 dias adicionais se não entregarmos o acordado.' },
-            ].map(f => (
-              <FeatureItem key={f.title}>
-                <div className="icon">{f.icon}</div>
-                <div><strong>{f.title}</strong>{f.desc}</div>
-              </FeatureItem>
-            ))}
-          </FeatureList>
-
-          <CtaRow>
-            <BtnPrimary href="#agendar">
-              Agendar reunião
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </BtnPrimary>
-            <BtnSecondary href="#equipa">
-              Conhecer a equipa →
-            </BtnSecondary>
-          </CtaRow>
-        </CopyPanel>
-
-      </BottomBand>
-
+      </Wrap>
     </Section>
   );
 }

@@ -1,22 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import gsap from 'gsap';
 import { InfiniteSlider } from './ui/InfiniteSlider';
 import { ProgressiveBlur } from './ui/ProgressiveBlur';
 
+/* ── animations ── */
+const pulse = keyframes`
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198,242,33,0.7); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(198,242,33,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198,242,33,0); }
+`;
+
+const rotateGrad = keyframes`
+  100% { transform: rotate(360deg); }
+`;
+
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
+
+/* ── section ── */
 const HeroSection = styled.section`
   min-height: 100vh;
   display: flex;
   align-items: center;
   padding-top: var(--nav-height);
+  overflow: hidden;
 
   @media (max-width: 768px) {
-    padding-top: calc(var(--nav-height) + 24px);
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + 32px);
+    padding-bottom: 64px;
     align-items: flex-start;
-    padding-bottom: 60px;
   }
 `;
 
+/* ── two-column grid ── */
 const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -30,77 +50,94 @@ const Grid = styled.div`
     text-align: center;
     gap: 40px;
   }
-  @media (max-width: 480px) {
-    gap: 28px;
+  @media (max-width: 768px) {
+    text-align: left;
+    gap: 0;
   }
 `;
 
+/* ── left column pieces ── */
 const Eyebrow = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 24px;
-  
+
   .dot {
-    width: 8px;
-    height: 8px;
+    width: 8px; height: 8px;
     background: var(--c-verde);
     border-radius: 50%;
     box-shadow: 0 0 10px var(--c-verde);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198, 242, 33, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(198, 242, 33, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198, 242, 33, 0); }
+    animation: ${pulse} 2s infinite;
+    flex-shrink: 0;
   }
 `;
 
 const Title = styled.h1`
   margin-bottom: 24px;
-  background: linear-gradient(to right, #fff, #a0a0a0);
+  background: linear-gradient(to right, #fff 40%, rgba(255,255,255,0.65) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
   word-break: break-word;
   overflow-wrap: break-word;
 
   span {
     -webkit-text-fill-color: var(--c-verde);
-    text-shadow: 0 0 20px rgba(198, 242, 33, 0.3);
+    background: none;
+    text-shadow: 0 0 28px rgba(198,242,33,0.25);
   }
 
-  @media (max-width: 480px) {
-    font-size: clamp(1.9rem, 8vw, 2.5rem);
-    margin-bottom: 16px;
+  @media (max-width: 768px) {
+    font-size: clamp(2rem, 9vw, 3rem);
+    margin-bottom: 20px;
+    line-height: 1.08;
   }
 `;
 
 const Lede = styled.p`
-  margin-bottom: 12px;
-  color: #fff;
+  margin-bottom: 10px;
+  color: rgba(255,255,255,0.9);
+  font-size: 1.05rem;
+  line-height: 1.65;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
 `;
 
 const Sub = styled.p`
-  margin-bottom: 40px;
+  margin-bottom: 36px;
   color: var(--c-text-muted);
+  line-height: 1.65;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+  }
 `;
 
 const CtaRow = styled.div`
   display: flex;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
 
   @media (max-width: 992px) {
     justify-content: center;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
+    justify-content: flex-start;
 
-    a { text-align: center; justify-content: center; width: 100%; }
+    a {
+      text-align: center;
+      justify-content: center;
+      width: 100%;
+      padding: 15px 24px;
+    }
   }
 `;
 
@@ -109,12 +146,17 @@ const Guarantee = styled.div`
   align-items: center;
   gap: 8px;
   color: var(--c-text-muted);
-  
+  font-size: 0.82rem;
+
   @media (max-width: 992px) {
     justify-content: center;
   }
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+  }
 `;
 
+/* ── desktop right panel ── */
 const VisualPanel = styled.div`
   padding: 32px;
   border-radius: 24px;
@@ -125,22 +167,17 @@ const VisualPanel = styled.div`
   width: 100%;
   min-width: 0;
 
-  @media (max-width: 480px) {
-    padding: 20px 18px;
-    border-radius: 16px;
-  }
-
   &::before {
     content: '';
     position: absolute;
     top: -50%; left: -50%; width: 200%; height: 200%;
-    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(198, 242, 33, 0.1) 50%, transparent 100%);
-    animation: rotate 10s linear infinite;
+    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(198,242,33,0.08) 50%, transparent 100%);
+    animation: ${rotateGrad} 10s linear infinite;
     z-index: -1;
   }
 
-  @keyframes rotate {
-    100% { transform: rotate(360deg); }
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -148,20 +185,16 @@ const Chart = styled.div`
   margin: 24px 0;
   height: 120px;
   width: 100%;
-  
-  svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  
+
+  svg { width: 100%; height: 100%; overflow: visible; }
+
   path.line {
     fill: none;
     stroke: var(--c-verde);
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 4px 8px rgba(198, 242, 33, 0.4));
+    filter: drop-shadow(0 4px 8px rgba(198,242,33,0.4));
   }
 `;
 
@@ -186,7 +219,7 @@ const CompanyCounter = styled.div`
   flex-wrap: wrap;
 
   .number {
-    font-size: clamp(2rem, 6vw, 3rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-family: var(--font-display);
     font-weight: 800;
     color: var(--c-verde);
@@ -216,17 +249,96 @@ const CompanyBar = styled.div`
     background: linear-gradient(90deg, var(--c-verde) 0%, rgba(198,242,33,0.4) 100%);
     border-radius: 2px;
     width: 0;
-    transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: width 2s cubic-bezier(0.22,1,0.36,1);
   }
 `;
 
+/* ── mobile-only stats strip ── */
+const MobileStats = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(5,38,38,0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    animation: ${fadeInUp} 0.7s 0.3s ease both;
+  }
+`;
+
+const MobileStat = styled.div`
+  padding: 22px 8px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+
+  &:last-child { border-right: none; }
+
+  .ms-val {
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--c-verde);
+    line-height: 1;
+    margin-bottom: 7px;
+    letter-spacing: -0.03em;
+  }
+
+  .ms-lbl {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+`;
+
+/* ── trust row below stats (mobile) ── */
+const MobileTrust = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: rgba(198,242,33,0.05);
+    border: 1px solid rgba(198,242,33,0.12);
+    animation: ${fadeInUp} 0.7s 0.5s ease both;
+  }
+
+  .icon { font-size: 1rem; flex-shrink: 0; }
+
+  .text {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+
+  .highlight {
+    color: var(--c-verde);
+    font-weight: 700;
+  }
+`;
+
+/* ── client logos strip ── */
 const ClientsStrip = styled.div`
-  margin-top: 48px;
+  margin-top: 56px;
   border-top: 1px solid rgba(255,255,255,0.05);
   padding-top: 32px;
+  overflow: hidden;
 
-  @media (max-width: 480px) {
-    margin-top: 32px;
+  @media (max-width: 768px) {
+    margin-top: 36px;
     padding-top: 24px;
   }
 
@@ -234,8 +346,8 @@ const ClientsStrip = styled.div`
     text-align: center;
     color: var(--c-text-muted);
     margin-bottom: 28px;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 `;
@@ -243,6 +355,7 @@ const ClientsStrip = styled.div`
 const SliderWrap = styled.div`
   position: relative;
   width: 100%;
+  overflow: hidden;
 `;
 
 const ClientItem = styled.div`
@@ -250,16 +363,16 @@ const ClientItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 28px;
+  padding: 0 24px;
 
   img {
-    height: 48px;
+    height: 40px;
     width: auto;
-    max-width: 160px;
+    max-width: 140px;
     object-fit: contain;
     display: block;
-    filter: grayscale(1) brightness(1.4);
-    opacity: 0.65;
+    filter: grayscale(1) brightness(1.3);
+    opacity: 0.55;
     transition: opacity 0.3s ease, filter 0.3s ease;
     user-select: none;
     pointer-events: none;
@@ -292,31 +405,31 @@ const CLIENTS = [
 const TARGET = 128;
 
 const Hero = () => {
-  const lineRef   = useRef(null);
+  const lineRef    = useRef(null);
   const barFillRef = useRef(null);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    // Chart line animation
-    gsap.fromTo(lineRef.current,
-      { strokeDasharray: 1000, strokeDashoffset: 1000 },
-      { strokeDashoffset: 0, duration: 2, ease: "power2.out", delay: 0.5 }
-    );
+    if (lineRef.current) {
+      gsap.fromTo(
+        lineRef.current,
+        { strokeDasharray: 1000, strokeDashoffset: 1000 },
+        { strokeDashoffset: 0, duration: 2, ease: 'power2.out', delay: 0.5 }
+      );
+    }
 
-    // Counter: 0 → 128 over ~2s
     const duration = 2000;
     const start = performance.now();
     const tick = (now) => {
-      const elapsed = now - start - 800; // start after 0.8s delay
+      const elapsed = now - start - 800;
       if (elapsed < 0) { requestAnimationFrame(tick); return; }
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.round(eased * TARGET));
       if (progress < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
 
-    // Bar fill
     setTimeout(() => {
       if (barFillRef.current) barFillRef.current.style.width = '100%';
     }, 900);
@@ -326,10 +439,11 @@ const Hero = () => {
     <HeroSection className="section" id="top">
       <div className="container">
         <Grid>
+          {/* ── LEFT COLUMN ── */}
           <div className="reveal">
             <Eyebrow>
-              <span className="dot"></span>
-              <span className="t-label muted t-caption">Portugal · €20.000+/mês</span>
+              <span className="dot" />
+              <span className="t-caption muted">Portugal · €20.000+/mês</span>
             </Eyebrow>
 
             <Title className="t-display-large">
@@ -337,26 +451,27 @@ const Hero = () => {
               e trazer <span>novos clientes</span> diariamente para o teu negócio.
             </Title>
 
-            <Lede className="t-body-large">
+            <Lede>
               Para empresários e decisores em Portugal que faturam €20.000+/mês.
             </Lede>
-            <Sub className="t-body">
+            <Sub>
               Com o Método ESCALA. Com garantia em contrato. Primeiros resultados em 72 horas.
             </Sub>
 
             <CtaRow>
               <a className="btn btn-primary" href="#agendar">
-                AGENDAR REUNIÃO DIAGNÓSTICA <span>→</span>
+                AGENDAR DIAGNÓSTICO <span>→</span>
               </a>
               <a className="btn btn-secondary" href="#metodo">Ver o Método</a>
             </CtaRow>
 
-            <Guarantee className="t-body-small">
+            <Guarantee>
               <span aria-hidden="true">🛡</span>
               Garantia em contrato · 30 dias adicionais se não entregarmos o acordado
             </Guarantee>
           </div>
 
+          {/* ── RIGHT PANEL (desktop only) ── */}
           <VisualPanel className="glass reveal">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span className="t-caption muted">PAINEL · TEMPO REAL</span>
@@ -372,12 +487,12 @@ const Hero = () => {
               <svg viewBox="0 0 320 80" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="chart-grad" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="rgba(198,242,33,0.4)"/>
-                    <stop offset="100%" stopColor="rgba(198,242,33,0)"/>
+                    <stop offset="0%" stopColor="rgba(198,242,33,0.4)" />
+                    <stop offset="100%" stopColor="rgba(198,242,33,0)" />
                   </linearGradient>
                 </defs>
-                <path d="M0,62 L30,58 L60,50 L90,52 L120,40 L150,42 L180,28 L210,30 L240,18 L270,14 L300,8 L320,4 L320,80 L0,80 Z" fill="url(#chart-grad)"/>
-                <path ref={lineRef} className="line" d="M0,62 L30,58 L60,50 L90,52 L120,40 L150,42 L180,28 L210,30 L240,18 L270,14 L300,8 L320,4"/>
+                <path d="M0,62 L30,58 L60,50 L90,52 L120,40 L150,42 L180,28 L210,30 L240,18 L270,14 L300,8 L320,4 L320,80 L0,80 Z" fill="url(#chart-grad)" />
+                <path ref={lineRef} className="line" d="M0,62 L30,58 L60,50 L90,52 L120,40 L150,42 L180,28 L210,30 L240,18 L270,14 L300,8 L320,4" />
               </svg>
             </Chart>
 
@@ -394,25 +509,49 @@ const Hero = () => {
           </VisualPanel>
         </Grid>
 
+        {/* ── MOBILE STATS (replaces VisualPanel on phone) ── */}
+        <MobileStats>
+          <MobileStat>
+            <div className="ms-val">7,2×</div>
+            <div className="ms-lbl">ROAS<br />médio</div>
+          </MobileStat>
+          <MobileStat>
+            <div className="ms-val">128+</div>
+            <div className="ms-lbl">Empresas<br />aceleradas</div>
+          </MobileStat>
+          <MobileStat>
+            <div className="ms-val">72h</div>
+            <div className="ms-lbl">1.º<br />resultado</div>
+          </MobileStat>
+        </MobileStats>
+
+        <MobileTrust>
+          <span className="icon">🏆</span>
+          <span className="text">
+            <span className="highlight">1.ª empresa na UE</span> com garantia de entrega em contrato
+          </span>
+        </MobileTrust>
+
+        {/* ── CLIENT LOGO STRIP ── */}
         <ClientsStrip className="reveal">
           <p className="label">Já estruturámos canais de aquisição para</p>
           <SliderWrap>
-            <InfiniteSlider gap={24} speed={40} speedOnHover={90} reverse={false}>
+            <InfiniteSlider gap={20} speed={38} speedOnHover={85} reverse={false}>
               {CLIENTS.map((c) => (
                 <ClientItem key={c.src}>
-                  <img src={c.src} alt={c.alt} draggable={false} />
+                  <img src={c.src} alt={c.alt} draggable={false} loading="lazy" />
                 </ClientItem>
               ))}
             </InfiniteSlider>
             <ProgressiveBlur
               direction="left"
               blurIntensity={0.9}
-              style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 140, pointerEvents: 'none' }}
+              style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 100, pointerEvents: 'none' }}
             />
             <ProgressiveBlur
               direction="right"
               blurIntensity={0.9}
-              style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 140, pointerEvents: 'none' }}
+              style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 100, pointerEvents: 'none' }}
             />
           </SliderWrap>
         </ClientsStrip>

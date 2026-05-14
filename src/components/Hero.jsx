@@ -4,8 +4,8 @@ import gsap from 'gsap';
 import { InfiniteSlider } from './ui/InfiniteSlider';
 import { ProgressiveBlur } from './ui/ProgressiveBlur';
 
-/* ── animations ── */
-const pulse = keyframes`
+/* ── keyframes ── */
+const pulseDot = keyframes`
   0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198,242,33,0.7); }
   70%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(198,242,33,0); }
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198,242,33,0); }
@@ -15,24 +15,26 @@ const rotateGrad = keyframes`
   100% { transform: rotate(360deg); }
 `;
 
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
+const fadeUp = keyframes`
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 `;
 
-/* ── section ── */
+/* ── section — block layout so .container is never stretched by flex ── */
 const HeroSection = styled.section`
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   padding-top: var(--nav-height);
+  padding-bottom: 80px;
   overflow: hidden;
 
   @media (max-width: 768px) {
     min-height: auto;
-    padding-top: calc(var(--nav-height) + 32px);
-    padding-bottom: 64px;
-    align-items: flex-start;
+    padding-top: calc(var(--nav-height) + 24px);
+    padding-bottom: 56px;
+    justify-content: flex-start;
   }
 `;
 
@@ -42,101 +44,106 @@ const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
-
-  > * { min-width: 0; }
+  width: 100%;
 
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
-    text-align: center;
-    gap: 40px;
+    gap: 48px;
   }
   @media (max-width: 768px) {
-    text-align: left;
-    gap: 0;
+    gap: 32px;
   }
 `;
 
-/* ── left column pieces ── */
+/* ── left column ── */
+const LeftCol = styled.div`
+  min-width: 0;
+  width: 100%;
+`;
+
 const Eyebrow = styled.div`
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 24px;
 
+  @media (max-width: 768px) { margin-bottom: 18px; }
+
   .dot {
     width: 8px; height: 8px;
+    flex-shrink: 0;
     background: var(--c-verde);
     border-radius: 50%;
     box-shadow: 0 0 10px var(--c-verde);
-    animation: ${pulse} 2s infinite;
-    flex-shrink: 0;
+    animation: ${pulseDot} 2s infinite;
+  }
+
+  .label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
   }
 `;
 
 const Title = styled.h1`
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.07;
+  letter-spacing: -0.03em;
   margin-bottom: 24px;
-  background: linear-gradient(to right, #fff 40%, rgba(255,255,255,0.65) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff;
   word-break: break-word;
   overflow-wrap: break-word;
+  max-width: 100%;
 
-  span {
-    -webkit-text-fill-color: var(--c-verde);
-    background: none;
-    text-shadow: 0 0 28px rgba(198,242,33,0.25);
-  }
+  span { color: var(--c-verde); }
 
   @media (max-width: 768px) {
-    font-size: clamp(2rem, 9vw, 3rem);
-    margin-bottom: 20px;
-    line-height: 1.08;
+    font-size: clamp(1.75rem, 7.5vw, 2.6rem);
+    margin-bottom: 18px;
+    line-height: 1.1;
   }
 `;
 
 const Lede = styled.p`
-  margin-bottom: 10px;
-  color: rgba(255,255,255,0.9);
   font-size: 1.05rem;
   line-height: 1.65;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 10px;
+  word-break: break-word;
 
-  @media (max-width: 768px) {
-    font-size: 0.95rem;
-  }
+  @media (max-width: 768px) { font-size: 0.95rem; margin-bottom: 8px; }
 `;
 
 const Sub = styled.p`
-  margin-bottom: 36px;
-  color: var(--c-text-muted);
+  font-size: 0.95rem;
   line-height: 1.65;
+  color: var(--c-text-muted);
+  margin-bottom: 36px;
+  word-break: break-word;
 
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-    margin-bottom: 28px;
-  }
+  @media (max-width: 768px) { font-size: 0.88rem; margin-bottom: 24px; }
 `;
 
 const CtaRow = styled.div`
   display: flex;
-  gap: 16px;
-  margin-bottom: 28px;
+  gap: 14px;
   flex-wrap: wrap;
+  margin-bottom: 24px;
 
-  @media (max-width: 992px) {
-    justify-content: center;
-  }
+  @media (max-width: 992px) { justify-content: flex-start; }
   @media (max-width: 768px) {
     flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    justify-content: flex-start;
+    gap: 10px;
 
     a {
+      width: 100%;
       text-align: center;
       justify-content: center;
-      width: 100%;
-      padding: 15px 24px;
+      padding: 15px 20px;
+      font-size: 0.8rem;
     }
   }
 `;
@@ -146,44 +153,37 @@ const Guarantee = styled.div`
   align-items: center;
   gap: 8px;
   color: var(--c-text-muted);
-  font-size: 0.82rem;
-
-  @media (max-width: 992px) {
-    justify-content: center;
-  }
-  @media (max-width: 768px) {
-    justify-content: flex-start;
-  }
+  font-size: 0.8rem;
+  line-height: 1.4;
+  word-break: break-word;
 `;
 
-/* ── desktop right panel ── */
+/* ── right panel — desktop only ── */
 const VisualPanel = styled.div`
+  width: 100%;
+  min-width: 0;
   padding: 32px;
   border-radius: 24px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  width: 100%;
-  min-width: 0;
 
   &::before {
     content: '';
     position: absolute;
     top: -50%; left: -50%; width: 200%; height: 200%;
-    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(198,242,33,0.08) 50%, transparent 100%);
-    animation: ${rotateGrad} 10s linear infinite;
+    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(198,242,33,0.07) 50%, transparent 100%);
+    animation: ${rotateGrad} 12s linear infinite;
     z-index: -1;
   }
 
-  @media (max-width: 768px) {
-    display: none;
-  }
+  @media (max-width: 768px) { display: none; }
 `;
 
 const Chart = styled.div`
   margin: 24px 0;
-  height: 120px;
+  height: 110px;
   width: 100%;
 
   svg { width: 100%; height: 100%; overflow: visible; }
@@ -204,14 +204,6 @@ const CompanyBlock = styled.div`
   border-top: 1px solid rgba(255,255,255,0.07);
 `;
 
-const CompanyLabel = styled.div`
-  font-size: 0.8rem;
-  color: var(--c-text-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-`;
-
 const CompanyCounter = styled.div`
   display: flex;
   align-items: baseline;
@@ -219,7 +211,7 @@ const CompanyCounter = styled.div`
   flex-wrap: wrap;
 
   .number {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2.2rem, 5vw, 3rem);
     font-family: var(--font-display);
     font-weight: 800;
     color: var(--c-verde);
@@ -227,12 +219,11 @@ const CompanyCounter = styled.div`
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
   }
-
   .suffix {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.6);
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.55);
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 1.4;
     max-width: 160px;
   }
 `;
@@ -246,107 +237,198 @@ const CompanyBar = styled.div`
 
   .fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--c-verde) 0%, rgba(198,242,33,0.4) 100%);
+    background: linear-gradient(90deg, var(--c-verde) 0%, rgba(198,242,33,0.35) 100%);
     border-radius: 2px;
     width: 0;
     transition: width 2s cubic-bezier(0.22,1,0.36,1);
   }
 `;
 
-/* ── mobile-only stats strip ── */
-const MobileStats = styled.div`
+/* ── mobile-only panel — mirrors the key data from VisualPanel ── */
+const MobilePanel = styled.div`
   display: none;
 
   @media (max-width: 768px) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 40px;
+    display: block;
+    margin-top: 36px;
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(5,38,38,0.5);
+    border: 1px solid rgba(198,242,33,0.12);
+    background: rgba(5,38,38,0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    animation: ${fadeInUp} 0.7s 0.3s ease both;
+    animation: ${fadeUp} 0.6s 0.2s ease both;
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 
-const MobileStat = styled.div`
-  padding: 22px 8px;
-  text-align: center;
-  border-right: 1px solid rgba(255,255,255,0.07);
-  position: relative;
+const MobilePanelHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 
-  &:last-child { border-right: none; }
+  .tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    font-weight: 700;
+  }
+
+  .live {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+
+    &::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--c-verde);
+      flex-shrink: 0;
+    }
+  }
+`;
+
+const MobileRoas = styled.div`
+  padding: 20px 20px 0;
+
+  .label {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .value {
+    font-size: 2.4rem;
+    font-weight: 900;
+    font-family: var(--font-display);
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+`;
+
+const MobileStats = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 16px 12px 20px;
+  margin-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+
+  > div {
+    padding: 0 8px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.06);
+
+    &:last-child { border-right: none; }
+  }
 
   .ms-val {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 800;
     font-family: var(--font-display);
     color: var(--c-verde);
-    line-height: 1;
-    margin-bottom: 7px;
     letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
   }
 
   .ms-lbl {
     font-size: 0.58rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.3);
     font-weight: 600;
     line-height: 1.4;
   }
 `;
 
-/* ── trust row below stats (mobile) ── */
-const MobileTrust = styled.div`
+const MobileCompany = styled.div`
+  padding: 16px 20px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  .num {
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: var(--font-display);
+    color: var(--c-verde);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .desc {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+`;
+
+/* ── trust bar ── */
+const TrustBar = styled.div`
   display: none;
 
   @media (max-width: 768px) {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
-    margin-top: 20px;
-    padding: 14px 18px;
+    margin-top: 12px;
+    padding: 12px 16px;
     border-radius: 14px;
-    background: rgba(198,242,33,0.05);
-    border: 1px solid rgba(198,242,33,0.12);
-    animation: ${fadeInUp} 0.7s 0.5s ease both;
+    background: rgba(198,242,33,0.04);
+    border: 1px solid rgba(198,242,33,0.1);
+    animation: ${fadeUp} 0.6s 0.35s ease both;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .icon { font-size: 1rem; flex-shrink: 0; }
+  .icon { font-size: 0.9rem; flex-shrink: 0; padding-top: 1px; }
 
   .text {
     font-size: 0.75rem;
-    line-height: 1.5;
-    color: rgba(255,255,255,0.5);
+    line-height: 1.55;
+    color: rgba(255,255,255,0.45);
     font-weight: 500;
+    word-break: break-word;
   }
 
-  .highlight {
-    color: var(--c-verde);
-    font-weight: 700;
-  }
+  strong { color: var(--c-verde); font-weight: 700; }
 `;
 
-/* ── client logos strip ── */
+/* ── client logos ── */
 const ClientsStrip = styled.div`
   margin-top: 56px;
   border-top: 1px solid rgba(255,255,255,0.05);
   padding-top: 32px;
   overflow: hidden;
+  width: 100%;
 
   @media (max-width: 768px) {
-    margin-top: 36px;
+    margin-top: 32px;
     padding-top: 24px;
   }
 
-  .label {
+  .strip-label {
     text-align: center;
     color: var(--c-text-muted);
-    margin-bottom: 28px;
-    font-size: 0.72rem;
+    margin-bottom: 24px;
+    font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
@@ -363,24 +445,21 @@ const ClientItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 24px;
+  padding: 0 20px;
+
+  @media (max-width: 768px) { padding: 0 14px; }
 
   img {
-    height: 40px;
+    height: 38px;
     width: auto;
-    max-width: 140px;
+    max-width: 130px;
     object-fit: contain;
     display: block;
     filter: grayscale(1) brightness(1.3);
-    opacity: 0.55;
+    opacity: 0.5;
     transition: opacity 0.3s ease, filter 0.3s ease;
     user-select: none;
     pointer-events: none;
-  }
-
-  &:hover img {
-    filter: grayscale(0) brightness(1);
-    opacity: 1;
   }
 `;
 
@@ -404,7 +483,7 @@ const CLIENTS = [
 
 const TARGET = 128;
 
-const Hero = () => {
+export default function Hero() {
   const lineRef    = useRef(null);
   const barFillRef = useRef(null);
   const [count, setCount] = useState(0);
@@ -419,9 +498,9 @@ const Hero = () => {
     }
 
     const duration = 2000;
-    const start = performance.now();
+    const startTime = performance.now();
     const tick = (now) => {
-      const elapsed = now - start - 800;
+      const elapsed = now - startTime - 800;
       if (elapsed < 0) { requestAnimationFrame(tick); return; }
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
@@ -439,16 +518,17 @@ const Hero = () => {
     <HeroSection className="section" id="top">
       <div className="container">
         <Grid>
-          {/* ── LEFT COLUMN ── */}
-          <div className="reveal">
+          {/* ── LEFT: text + CTAs ── */}
+          <LeftCol className="reveal">
             <Eyebrow>
               <span className="dot" />
-              <span className="t-caption muted">Portugal · €20.000+/mês</span>
+              <span className="label">Portugal · €20.000+/mês</span>
             </Eyebrow>
 
-            <Title className="t-display-large">
-              Descobre como abrir <span>múltiplos canais</span> de aquisição
-              e trazer <span>novos clientes</span> diariamente para o teu negócio.
+            <Title>
+              Descobre como abrir <span>múltiplos canais</span> de
+              aquisição e trazer <span>novos clientes</span> diariamente
+              para o teu negócio.
             </Title>
 
             <Lede>
@@ -465,13 +545,13 @@ const Hero = () => {
               <a className="btn btn-secondary" href="#metodo">Ver o Método</a>
             </CtaRow>
 
-            <Guarantee>
+            <Guarantee className="t-body-small">
               <span aria-hidden="true">🛡</span>
               Garantia em contrato · 30 dias adicionais se não entregarmos o acordado
             </Guarantee>
-          </div>
+          </LeftCol>
 
-          {/* ── RIGHT PANEL (desktop only) ── */}
+          {/* ── RIGHT: full panel — desktop only ── */}
           <VisualPanel className="glass reveal">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span className="t-caption muted">PAINEL · TEMPO REAL</span>
@@ -480,7 +560,7 @@ const Hero = () => {
 
             <div style={{ marginTop: 24 }}>
               <div className="t-caption muted">ROAS médio · últimos 30 dias</div>
-              <div className="t-display-large" style={{ fontSize: '3rem', color: '#fff' }}>7,2x</div>
+              <div style={{ fontSize: '3rem', fontWeight: 900, color: '#fff', fontFamily: 'var(--font-display)', lineHeight: 1 }}>7,2x</div>
             </div>
 
             <Chart>
@@ -497,7 +577,7 @@ const Hero = () => {
             </Chart>
 
             <CompanyBlock>
-              <CompanyLabel>Empresas aceleradas com o nosso método</CompanyLabel>
+              <div className="t-caption muted" style={{ marginBottom: 10 }}>Empresas aceleradas com o nosso método</div>
               <CompanyCounter>
                 <span className="number">{count}</span>
                 <span className="suffix">empresas a&nbsp;crescer com o Método ESCALA</span>
@@ -509,32 +589,49 @@ const Hero = () => {
           </VisualPanel>
         </Grid>
 
-        {/* ── MOBILE STATS (replaces VisualPanel on phone) ── */}
-        <MobileStats>
-          <MobileStat>
-            <div className="ms-val">7,2×</div>
-            <div className="ms-lbl">ROAS<br />médio</div>
-          </MobileStat>
-          <MobileStat>
-            <div className="ms-val">128+</div>
-            <div className="ms-lbl">Empresas<br />aceleradas</div>
-          </MobileStat>
-          <MobileStat>
-            <div className="ms-val">72h</div>
-            <div className="ms-lbl">1.º<br />resultado</div>
-          </MobileStat>
-        </MobileStats>
+        {/* ── MOBILE PANEL: same data, phone-optimised ── */}
+        <MobilePanel>
+          <MobilePanelHeader>
+            <span className="tag">Painel · tempo real</span>
+            <span className="live">Ao vivo</span>
+          </MobilePanelHeader>
 
-        <MobileTrust>
+          <MobileRoas>
+            <div className="label">ROAS médio · últimos 30 dias</div>
+            <div className="value">7,2x</div>
+          </MobileRoas>
+
+          <MobileStats>
+            <div>
+              <div className="ms-val">€12M+</div>
+              <div className="ms-lbl">Vendas geradas</div>
+            </div>
+            <div>
+              <div className="ms-val">128+</div>
+              <div className="ms-lbl">Empresas aceleradas</div>
+            </div>
+            <div>
+              <div className="ms-val">72h</div>
+              <div className="ms-lbl">1.º resultado</div>
+            </div>
+          </MobileStats>
+
+          <MobileCompany>
+            <div className="num">{count || 128}</div>
+            <div className="desc">empresas a crescer com o Método ESCALA em 8 países</div>
+          </MobileCompany>
+        </MobilePanel>
+
+        <TrustBar>
           <span className="icon">🏆</span>
           <span className="text">
-            <span className="highlight">1.ª empresa na UE</span> com garantia de entrega em contrato
+            <strong>1.ª empresa na União Europeia</strong> com garantia de entrega em contrato — 30 dias adicionais se não cumprirmos.
           </span>
-        </MobileTrust>
+        </TrustBar>
 
-        {/* ── CLIENT LOGO STRIP ── */}
+        {/* ── CLIENT LOGOS ── */}
         <ClientsStrip className="reveal">
-          <p className="label">Já estruturámos canais de aquisição para</p>
+          <p className="strip-label">Já estruturámos canais de aquisição para</p>
           <SliderWrap>
             <InfiniteSlider gap={20} speed={38} speedOnHover={85} reverse={false}>
               {CLIENTS.map((c) => (
@@ -546,18 +643,16 @@ const Hero = () => {
             <ProgressiveBlur
               direction="left"
               blurIntensity={0.9}
-              style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 100, pointerEvents: 'none' }}
+              style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 80, pointerEvents: 'none' }}
             />
             <ProgressiveBlur
               direction="right"
               blurIntensity={0.9}
-              style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 100, pointerEvents: 'none' }}
+              style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 80, pointerEvents: 'none' }}
             />
           </SliderWrap>
         </ClientsStrip>
       </div>
     </HeroSection>
   );
-};
-
-export default Hero;
+}

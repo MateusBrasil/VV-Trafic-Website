@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 
@@ -60,159 +60,100 @@ const StatCard = styled.div`
   .label { font-size: 1rem; color: var(--c-text-muted); line-height: 1.5; }
 `;
 
-/* ─── Carousel container ─── */
+/* ─── Carousel ─── */
 const CarouselWrap = styled.div`
   position: relative;
+  user-select: none;
 `;
 
-const CarouselLabel = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-  gap: 16px;
-`;
-
-const CaseSlide = styled(motion.div)`
-  border-radius: 24px;
+const SlideTrack = styled.div`
+  position: relative;
+  border-radius: 20px;
   overflow: hidden;
+  background: #0a1a10;
+  /* 16:9 aspect ratio */
+  aspect-ratio: 16 / 9;
+  @media (max-width: 600px) { aspect-ratio: 4 / 3; border-radius: 14px; }
 `;
 
-/* ─── Card layout ─── */
-const CardInner = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 260px;
-  @media (max-width: 680px) {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
+const SlideImg = styled(motion.img)`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
 `;
 
-const CardLeft = styled.div`
-  padding: 36px 36px 36px 36px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-right: 1px solid rgba(255,255,255,0.06);
-  @media (max-width: 680px) {
-    padding: 28px 24px 24px;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-`;
-
-const CardRight = styled.div`
-  padding: 36px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  background: rgba(198,242,33,0.03);
-  @media (max-width: 680px) { padding: 24px; }
-`;
-
-const ClientName = styled.h3`
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2.5vw, 1.7rem);
-  font-weight: 800;
-  color: #fff;
-  margin: 12px 0 10px;
-  line-height: 1.2;
-`;
-
-const ClientDesc = styled.p`
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.5);
-  margin: 0;
-`;
-
-const MetricRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-`;
-
-const MetricBox = styled.div`
-  flex: 1;
-  min-width: 80px;
-  .lbl { font-size: 0.62rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 6px; font-weight: 600; }
-  .amt { font-size: clamp(1.4rem, 2.5vw, 1.8rem); font-weight: 700; color: ${p => p.$verde ? 'var(--c-verde)' : '#fff'}; font-family: var(--font-display); }
-`;
-
-const Arrow = styled.div`
-  font-size: 1.6rem;
-  color: rgba(255,255,255,0.2);
-  flex-shrink: 0;
-`;
-
-const RoiBadge = styled.div`
+/* placeholder shown when image not yet added */
+const Placeholder = styled(motion.div)`
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  background: rgba(198,242,33,0.12);
-  border: 1px solid rgba(198,242,33,0.25);
-  flex-shrink: 0;
-  .num { font-size: 1.5rem; font-weight: 800; color: var(--c-verde); font-family: var(--font-display); line-height: 1; }
-  .sub { font-size: 0.55rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-verde); margin-top: 3px; font-weight: 700; }
-`;
-
-const ChartBar = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
-  height: 48px;
-`;
-
-const Bar = styled.div`
-  width: 10px;
-  border-radius: 4px 4px 0 0;
-  background: linear-gradient(to top, rgba(198,242,33,0.15), rgba(198,242,33,0.7));
-  height: ${p => p.$h}%;
-  transition: height 0.4s ease;
-`;
-
-/* ─── Nav controls ─── */
-const NavRow = styled.div`
-  display: flex;
-  align-items: center;
   gap: 12px;
-  margin-top: 24px;
-  justify-content: center;
+  background: rgba(10,26,16,0.95);
+  color: rgba(255,255,255,0.3);
+  font-size: 0.8rem;
+  letter-spacing: .06em;
+  text-align: center;
+  padding: 24px;
+
+  .icon { font-size: 2.5rem; opacity: .3; }
+  .name { color: rgba(198,242,33,0.5); font-weight: 700; font-size: 0.9rem; }
 `;
 
-const NavBtn = styled.button`
-  width: 40px;
-  height: 40px;
+/* side arrow buttons */
+const ArrowBtn = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${p => p.$left ? 'left: 12px;' : 'right: 12px;'}
+  z-index: 10;
+  width: 44px; height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.7);
-  font-size: 1.1rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 1.2rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   transition: all .2s ease;
-  &:hover { background: rgba(198,242,33,0.12); border-color: rgba(198,242,33,0.3); color: #c6f221; }
-  &:disabled { opacity: 0.3; cursor: default; }
+  @media (max-width: 480px) { width: 36px; height: 36px; font-size: 1rem; }
+  &:hover { background: rgba(198,242,33,0.2); border-color: rgba(198,242,33,0.4); color: #c6f221; }
 `;
 
-const Dots = styled.div`
+/* counter badge top-right */
+const CounterBadge = styled.div`
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 10;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: .08em;
+`;
+
+/* dots */
+const DotsRow = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-content: center;
+  margin-top: 18px;
 `;
 
 const Dot = styled.button`
-  width: ${p => p.$active ? '24px' : '8px'};
+  width: ${p => p.$active ? '28px' : '8px'};
   height: 8px;
   border-radius: 4px;
   background: ${p => p.$active ? 'var(--c-verde)' : 'rgba(255,255,255,0.15)'};
@@ -222,140 +163,149 @@ const Dot = styled.button`
   padding: 0;
 `;
 
-const slideVariants = {
-  enter: (dir) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
-  center: { x: 0, opacity: 1 },
-  exit: (dir) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
-};
+/* progress bar at bottom of slide */
+const ProgressBar = styled.div`
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  background: var(--c-verde);
+  border-radius: 0 2px 0 0;
+  z-index: 10;
+  transition: width linear;
+`;
 
-/* ─── Cases data ─── */
-const cases = [
+/* ─── Slides data ─── */
+const slides = [
   {
-    badge: "CASE · PORTUGAL",
-    industry: "Beleza & Estética",
-    name: "Salão de Beleza",
-    desc: "Em apenas 30 dias, o Método ESCALA gerou um retorno 7x sobre o investimento em publicidade paga.",
-    investimento: "€54",
-    faturacao: "€380",
-    roi: "7x",
-    bars: [20, 30, 25, 45, 40, 60, 55, 75, 70, 100],
+    src: '/provas/prova-1.jpg',
+    label: 'Salão de Beleza · €54 → €380 · ROI 7x',
   },
   {
-    badge: "CASE · PORTUGAL",
-    industry: "Consultoria & Tech",
-    name: "Nabla Core",
-    desc: "Estrutura de aquisição criada de raiz com tráfego pago e funil de conversão dedicado ao segmento B2B.",
-    investimento: "€1.200",
-    faturacao: "€8.400",
-    roi: "7x",
-    bars: [15, 28, 22, 38, 50, 45, 65, 72, 80, 100],
+    src: '/provas/prova-2.jpg',
+    label: 'Empresa de Limpeza · €86 → €697 · ROI 8.1x',
   },
   {
-    badge: "CASE · PORTUGAL",
-    industry: "Marketing Digital",
-    name: "Nobres Digital",
-    desc: "Campanha de tráfego pago com otimização contínua de criativos e segmentação avançada de audiências.",
-    investimento: "€650",
-    faturacao: "€5.200",
-    roi: "8x",
-    bars: [10, 22, 35, 30, 48, 55, 60, 78, 88, 100],
+    src: '/provas/prova-3.jpg',
+    label: 'Salão de Beleza · €16 → €240 · ROI 15x',
+  },
+  {
+    src: '/provas/prova-4.jpg',
+    label: 'Fábrica de Produtos · R$2.441 → R$12.476 · ROI 8.25x',
+  },
+  {
+    src: '/provas/prova-5.jpg',
+    label: 'Múltiplos Casos · Loja Informática / Limpeza / E-commerce',
   },
 ];
 
-/* ─── Carousel component ─── */
-function CasesCarousel() {
+const INTERVAL = 5000;
+
+const variants = {
+  enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
+};
+
+function ProvasCarousel() {
   const [[idx, dir], setPage] = useState([0, 0]);
+  const [progress, setProgress] = useState(0);
+  const [loaded, setLoaded] = useState({});
+  const timerRef = useRef(null);
+  const startRef = useRef(null);
+  const rafRef = useRef(null);
 
   const paginate = useCallback((newDir) => {
-    setPage(([cur]) => {
-      const next = (cur + newDir + cases.length) % cases.length;
-      return [next, newDir];
-    });
+    setPage(([cur]) => [(cur + newDir + slides.length) % slides.length, newDir]);
+    setProgress(0);
   }, []);
 
-  /* auto-advance */
+  /* progress ticker */
   useEffect(() => {
-    const t = setTimeout(() => paginate(1), 5000);
-    return () => clearTimeout(t);
+    setProgress(0);
+    startRef.current = performance.now();
+
+    const tick = (now) => {
+      const elapsed = now - startRef.current;
+      const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+      setProgress(pct);
+      if (pct < 100) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        paginate(1);
+      }
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
   }, [idx, paginate]);
 
-  const c = cases[idx];
+  const goTo = (i) => setPage(([cur]) => [i, i > cur ? 1 : -1]);
 
   return (
     <CarouselWrap>
-      <CarouselLabel>
-        <span className="badge badge-emerald">{c.badge}</span>
-        <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '.08em', textTransform: 'uppercase' }}>
-          {idx + 1} / {cases.length} casos
-        </span>
-      </CarouselLabel>
+      <SlideTrack>
+        <AnimatePresence custom={dir} initial={false} mode="wait">
+          <motion.div
+            key={idx}
+            custom={dir}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{ position: 'absolute', inset: 0 }}
+          >
+            {loaded[idx] ? (
+              <SlideImg
+                src={slides[idx].src}
+                alt={slides[idx].label}
+                draggable={false}
+              />
+            ) : (
+              <>
+                <Placeholder>
+                  <div className="icon">📸</div>
+                  <div className="name">{slides[idx].label.split('·')[0].trim()}</div>
+                  <div>Adiciona a imagem em<br /><code style={{color:'#c6f221',fontSize:'0.75rem'}}>public/provas/prova-{idx+1}.jpg</code></div>
+                </Placeholder>
+                {/* hidden img to detect load */}
+                <img
+                  src={slides[idx].src}
+                  alt=""
+                  style={{ display: 'none' }}
+                  onLoad={() => setLoaded(l => ({ ...l, [idx]: true }))}
+                />
+              </>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
-      <AnimatePresence custom={dir} mode="wait">
-        <CaseSlide
-          key={idx}
-          custom={dir}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="glass"
-        >
-          <CardInner>
-            {/* ── left: info ── */}
-            <CardLeft>
-              <div>
-                <div style={{ fontSize: '0.68rem', letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', fontWeight: 600 }}>
-                  {c.industry}
-                </div>
-                <ClientName>{c.name}</ClientName>
-                <ClientDesc>{c.desc}</ClientDesc>
-              </div>
+        {/* arrows */}
+        <ArrowBtn $left onClick={() => paginate(-1)} aria-label="Anterior">‹</ArrowBtn>
+        <ArrowBtn onClick={() => paginate(1)} aria-label="Seguinte">›</ArrowBtn>
 
-              {/* mini bar chart */}
-              <ChartBar style={{ marginTop: 24 }}>
-                {c.bars.map((h, i) => <Bar key={i} $h={h} />)}
-              </ChartBar>
-            </CardLeft>
+        {/* counter */}
+        <CounterBadge>{idx + 1} / {slides.length}</CounterBadge>
 
-            {/* ── right: metrics ── */}
-            <CardRight>
-              <MetricRow>
-                <MetricBox>
-                  <div className="lbl">Investimento</div>
-                  <div className="amt">{c.investimento}</div>
-                </MetricBox>
-                <Arrow>→</Arrow>
-                <MetricBox $verde>
-                  <div className="lbl">Faturação</div>
-                  <div className="amt">{c.faturacao}</div>
-                </MetricBox>
-                <RoiBadge>
-                  <span className="num">{c.roi}</span>
-                  <span className="sub">ROI</span>
-                </RoiBadge>
-              </MetricRow>
+        {/* progress bar */}
+        <ProgressBar style={{ width: `${progress}%` }} />
+      </SlideTrack>
 
-              <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+      {/* dots */}
+      <DotsRow>
+        {slides.map((_, i) => (
+          <Dot key={i} $active={i === idx} onClick={() => goTo(i)} aria-label={`Caso ${i + 1}`} />
+        ))}
+      </DotsRow>
 
-              <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '.06em', lineHeight: 1.6 }}>
-                Resultados verificados · Método ESCALA · VV Traffic Data
-              </div>
-            </CardRight>
-          </CardInner>
-        </CaseSlide>
-      </AnimatePresence>
-
-      {/* ── navigation ── */}
-      <NavRow>
-        <NavBtn onClick={() => paginate(-1)} aria-label="Anterior">←</NavBtn>
-        <Dots>
-          {cases.map((_, i) => (
-            <Dot key={i} $active={i === idx} onClick={() => setPage([i, i > idx ? 1 : -1])} aria-label={`Caso ${i + 1}`} />
-          ))}
-        </Dots>
-        <NavBtn onClick={() => paginate(1)} aria-label="Seguinte">→</NavBtn>
-      </NavRow>
+      {/* label under slide */}
+      <div style={{
+        marginTop: 12, textAlign: 'center',
+        fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)',
+        letterSpacing: '.06em', fontWeight: 600,
+        textTransform: 'uppercase',
+      }}>
+        {slides[idx].label}
+      </div>
     </CarouselWrap>
   );
 }
@@ -391,7 +341,7 @@ const Numbers = () => (
       </StatsWrap>
 
       <div className="reveal">
-        <CasesCarousel />
+        <ProvasCarousel />
       </div>
 
       <div className="reveal" style={{ marginTop: 60, display: "flex", justifyContent: "center" }}>

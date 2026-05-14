@@ -296,7 +296,7 @@ export default function FinalCta() {
               Se não houver — sais com um diagnóstico claro do teu canal de aquisição.
             </Body>
 
-            <WaBtn href="https://wa.me/351000000000" target="_blank" rel="noopener noreferrer">
+            <WaBtn href="https://wa.link/i13y51" target="_blank" rel="noopener noreferrer">
               <WaIcon />
               Agendar no WhatsApp
             </WaBtn>

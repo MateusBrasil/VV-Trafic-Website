@@ -240,7 +240,7 @@ const Testimonials = () => (
     <Section id="testemunhos">
       <Container>
         <Header className="reveal">
-          <span className="badge">07 · Testemunhos</span>
+          <span className="badge">Testemunhos</span>
           <h2 className="t-section-heading" style={{ marginTop: 16 }}>
             O que os nossos <span className="verde">clientes dizem.</span>
           </h2>

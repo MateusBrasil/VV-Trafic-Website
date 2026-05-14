@@ -356,7 +356,7 @@ export default function Espaco() {
 
         {/* label + pill */}
         <TopRow data-reveal>
-          <Label>06 · O Nosso Espaço</Label>
+          <Label>O Nosso Espaço</Label>
           <LocationPill><span />Guimarães, Portugal · VV Group HQ</LocationPill>
         </TopRow>
 

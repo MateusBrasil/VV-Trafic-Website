@@ -251,7 +251,7 @@ export default function Team() {
     <Wrapper id="equipa">
       <Container>
         <SectionHead className="reveal">
-          <span className="badge">05 · Equipa</span>
+          <span className="badge">Equipa</span>
           <h2 className="t-section-heading" style={{ marginTop: 16 }}>
             A equipa por detrás dos <span className="verde">resultados.</span>
           </h2>

@@ -115,7 +115,7 @@ const EscalaComponent = () => {
     <section className="section" id="metodo">
       <div className="container">
         <div className="reveal" style={{ textAlign: 'center' }}>
-          <span className="badge">04 · Método</span>
+          <span className="badge">Método</span>
           <h2 className="t-section-heading" style={{ marginTop: 16 }}>
             O <span className="verde">Método ESCALA.</span>
           </h2>

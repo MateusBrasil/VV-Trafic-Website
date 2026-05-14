@@ -79,7 +79,7 @@ const LogoWrap = styled.div`
   gap: 12px;
   text-decoration: none;
 
-  img { height: 40px; width: auto; }
+  img { height: 64px; width: auto; border-radius: 10px; }
 
   .name {
     font-weight: 800;

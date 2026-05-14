@@ -10,6 +10,8 @@ const gradShift = keyframes`
 const Section = styled.section`
   padding: 160px 0 180px;
   position: relative;
+  background: #fff;
+  @media (max-width: 768px) { padding: 80px 0 100px; }
 `;
 
 const Wrap = styled.div`
@@ -23,7 +25,7 @@ const Wrap = styled.div`
 const Rule = styled.div`
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 70%, transparent);
   margin-bottom: 80px;
 `;
 
@@ -70,7 +72,7 @@ const Heading = styled.h2`
   line-height: 1.07;
   letter-spacing: -.04em;
   margin: 0 0 24px;
-  color: #fff;
+  color: #0a1a0a;
 
   em {
     font-style: normal;
@@ -86,7 +88,7 @@ const Heading = styled.h2`
 const Body = styled.p`
   font-size: 1rem;
   line-height: 1.8;
-  color: rgba(255,255,255,0.4);
+  color: rgba(0,0,0,0.5);
   margin: 0 0 44px;
   max-width: 440px;
 `;
@@ -124,20 +126,21 @@ const Micro = styled.p`
   font-size: 0.65rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: rgba(0,0,0,0.3);
   font-weight: 600;
 `;
 
 /* ── right: metrics panel ── */
 const Panel = styled.div`
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 24px;
   overflow: hidden;
+  background: #f7f9f4;
 `;
 
 const PanelHeader = styled.div`
   padding: 24px 32px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.07);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,7 +151,7 @@ const PanelLabel = styled.span`
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(0,0,0,0.4);
 `;
 
 const LiveDot = styled.div`
@@ -159,7 +162,7 @@ const LiveDot = styled.div`
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
+  color: rgba(0,0,0,0.4);
 
   &::before {
     content: '';
@@ -202,13 +205,13 @@ const StatDesc = styled.div`
   font-size: 0.72rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(0,0,0,0.4);
   font-weight: 600;
 `;
 
 const Divider = styled.div`
   height: 1px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.07);
 `;
 
 const MetricsRow = styled.div`
@@ -223,7 +226,7 @@ const MetricsRow = styled.div`
 
 const Metric = styled.div`
   padding: 0 20px;
-  border-right: 1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid rgba(0,0,0,0.07);
 
   &:first-child { padding-left: 0; }
   &:last-child  { padding-right: 0; border-right: none; }
@@ -233,31 +236,31 @@ const MetricNum = styled.div`
   font-size: 1.6rem;
   font-weight: 900;
   font-family: var(--font-display);
-  color: #fff;
+  color: #0a1a0a;
   letter-spacing: -.03em;
   line-height: 1;
   margin-bottom: 5px;
 
-  span { font-size: 1rem; color: var(--c-verde, #c6f221); font-weight: 700; }
+  span { font-size: 1rem; color: #5a8a00; font-weight: 700; }
 `;
 
 const MetricLbl = styled.div`
   font-size: 0.6rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
+  color: rgba(0,0,0,0.35);
   font-weight: 600;
 `;
 
 const Quote = styled.div`
   padding: 20px 0 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(0,0,0,0.07);
 `;
 
 const QuoteText = styled.p`
   font-size: 0.825rem;
   line-height: 1.65;
-  color: rgba(255,255,255,0.4);
+  color: rgba(0,0,0,0.5);
   font-style: italic;
   margin: 0 0 8px;
 `;
@@ -266,7 +269,7 @@ const QuoteAuthor = styled.p`
   font-size: 0.65rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: rgba(0,0,0,0.3);
   font-weight: 600;
   margin: 0;
 `;

@@ -174,7 +174,7 @@ const mobileOverlayStyles = `
   .mob-logo-area {
     display: flex; align-items: center; gap: 10px;
   }
-  .mob-logo-area img { height: 32px; width: auto; }
+  .mob-logo-area img { height: 48px; width: auto; border-radius: 8px; }
   .mob-logo-area .ml-name {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 800; font-size: 1rem; color: #fff; letter-spacing: -.02em;
@@ -357,10 +357,6 @@ const FloatingNav = ({ navItems }) => {
               <div className="mob-sheet-head">
                 <div className="mob-logo-area">
                   <img src="/assets/vv-logo.png" alt="VV Traffic Data" />
-                  <div>
-                    <div className="ml-name">VV Traffic Data</div>
-                    <div className="ml-sub">Technology</div>
-                  </div>
                 </div>
                 <button className="mob-close-btn" onClick={closeMobile} aria-label="Fechar menu">
                   ✕

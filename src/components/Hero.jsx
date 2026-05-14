@@ -132,15 +132,16 @@ const CtaRow = styled.div`
   @media (max-width: 992px) { justify-content: flex-start; }
   @media (max-width: 768px) {
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     a {
       flex: 1;
-      min-width: 140px;
+      min-width: 0;
       text-align: center;
       justify-content: center;
-      padding: 14px 16px;
-      font-size: 0.78rem;
+      padding: 14px 10px;
+      font-size: 0.72rem;
+      white-space: nowrap;
     }
   }
 `;

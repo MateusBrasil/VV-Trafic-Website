@@ -8,6 +8,7 @@ import Numbers from './components/Numbers';
 import Comparison from './components/Comparison';
 import Escala from './components/Escala';
 import Team from './components/Team';
+import Espaco from './components/Espaco';
 import Testimonials from './components/Testimonials';
 import FinalCta from './components/FinalCta';
 import Footer from './components/Footer';
@@ -58,6 +59,7 @@ function App() {
         <Comparison />
         <Escala />
         <Team />
+        <Espaco />
         <Testimonials />
         <FinalCta />
       </main>

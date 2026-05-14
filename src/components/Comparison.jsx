@@ -126,8 +126,7 @@ const Comparison = () => {
     <section className="section" id="comparativo">
       <div className="container">
         <div className="reveal" style={{ maxWidth: 760 }}>
-          <span className="badge">Comparativo</span>
-          <h2 className="t-section-heading" style={{ marginTop: 16 }}>
+          <h2 className="t-section-heading">
             VV Traffic Data <span className="muted">vs</span> <br/> 
             <span className="verde">Agências Tradicionais.</span>
           </h2>

@@ -16,7 +16,7 @@ const GlobalScrollAnim = createGlobalStyle`
 
 /* ── styled ── */
 const Section = styled.section`
-  padding: 120px 0 140px;
+  padding: 88px 0 100px;
 `;
 
 const Container = styled.div`
@@ -240,8 +240,7 @@ const Testimonials = () => (
     <Section id="testemunhos">
       <Container>
         <Header className="reveal">
-          <span className="badge">Testemunhos</span>
-          <h2 className="t-section-heading" style={{ marginTop: 16 }}>
+          <h2 className="t-section-heading">
             O que os nossos <span className="verde">clientes dizem.</span>
           </h2>
         </Header>

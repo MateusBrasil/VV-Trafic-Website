@@ -315,7 +315,6 @@ const Numbers = () => (
   <section className="section" id="numeros">
     <div className="container">
       <div className="reveal" style={{ maxWidth: '800px' }}>
-        <span className="badge">Prova social</span>
         <h2 className="t-section-heading">
           Os números <span className="verde">falam por si.</span>
         </h2>

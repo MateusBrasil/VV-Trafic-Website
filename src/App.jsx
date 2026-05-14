@@ -51,8 +51,9 @@ function App() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+    <>
       <Header />
+      <div ref={containerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
       <main>
         <Hero />
         <Numbers />
@@ -64,7 +65,8 @@ function App() {
         <FinalCta />
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
 

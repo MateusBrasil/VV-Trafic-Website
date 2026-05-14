@@ -32,14 +32,15 @@ const FooterOuter = styled.footer`
 const Card = styled.div`
   position: relative;
   overflow: hidden;
-  background: rgba(0,0,0,0.75);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(3,21,18,0.88);
+  border: 1px solid rgba(198,242,33,0.1);
   border-radius: 40px;
   backdrop-filter: blur(24px);
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.06),
+    0 0 0 1px rgba(255,255,255,0.04),
     0 1px 1px -0.5px rgba(0,0,0,0.3),
-    0 12px 24px -12px rgba(0,0,0,0.5);
+    0 12px 40px -12px rgba(0,0,0,0.6),
+    0 0 60px -20px rgba(198,242,33,0.06);
 `;
 
 const CardInner = styled.div`

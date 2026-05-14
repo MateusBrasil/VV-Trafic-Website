@@ -135,28 +135,6 @@ const EscalaComponent = () => {
           ))}
         </Grid>
 
-        <GuaranteeBox className="glass reveal">
-          <Shield size={64} color="var(--c-verde)" strokeWidth={1.5} />
-          <div className="points">
-            <div className="point">
-              <b>Garantia em contrato</b>
-              <span>Compromisso assinado, não promessa verbal</span>
-            </div>
-            <div className="point">
-              <b>Campanha no ar em 7 dias úteis</b>
-              <span>Do contrato à primeira impressão</span>
-            </div>
-            <div className="point">
-              <b>Primeiros resultados em 72h</b>
-              <span>Leads no funil, não relatórios futuros</span>
-            </div>
-            <div className="point">
-              <b>30 dias adicionais</b>
-              <span>Se não entregarmos o acordado</span>
-            </div>
-          </div>
-          <ZeroButton href="#agendar" label="Agendar Reunião Diagnóstica" />
-        </GuaranteeBox>
       </div>
     </section>
   );

@@ -20,6 +20,9 @@
     "styled-components": "^6.4.1",
     "tailwind-merge": "^3.6.0"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/react": "^19.2.14",

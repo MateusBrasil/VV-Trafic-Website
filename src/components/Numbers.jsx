@@ -177,26 +177,12 @@ const ProgressBar = styled.div`
 
 /* ─── Slides data ─── */
 const slides = [
-  {
-    src: '/provas/prova-1.jpg',
-    label: 'Salão de Beleza · €54 → €380 · ROI 7x',
-  },
-  {
-    src: '/provas/prova-2.jpg',
-    label: 'Empresa de Limpeza · €86 → €697 · ROI 8.1x',
-  },
-  {
-    src: '/provas/prova-3.jpg',
-    label: 'Salão de Beleza · €16 → €240 · ROI 15x',
-  },
-  {
-    src: '/provas/prova-4.jpg',
-    label: 'Fábrica de Produtos · R$2.441 → R$12.476 · ROI 8.25x',
-  },
-  {
-    src: '/provas/prova-5.jpg',
-    label: 'Múltiplos Casos · Loja Informática / Limpeza / E-commerce',
-  },
+  { src: '/provas/prova-1.png', label: 'Caso de Sucesso · Resultados Reais' },
+  { src: '/provas/prova-2.png', label: 'Caso de Sucesso · Resultados Reais' },
+  { src: '/provas/prova-3.png', label: 'Caso de Sucesso · Resultados Reais' },
+  { src: '/provas/prova-4.png', label: 'Caso de Sucesso · Resultados Reais' },
+  { src: '/provas/prova-5.png', label: 'Caso de Sucesso · Resultados Reais' },
+  { src: '/provas/prova-6.png', label: 'Caso de Sucesso · Resultados Reais' },
 ];
 
 const INTERVAL = 5000;
@@ -266,7 +252,7 @@ function ProvasCarousel() {
                 <Placeholder>
                   <div className="icon">📸</div>
                   <div className="name">{slides[idx].label.split('·')[0].trim()}</div>
-                  <div>Adiciona a imagem em<br /><code style={{color:'#c6f221',fontSize:'0.75rem'}}>public/provas/prova-{idx+1}.jpg</code></div>
+                  <div>Adiciona a imagem em<br /><code style={{color:'#c6f221',fontSize:'0.75rem'}}>public/provas/prova-{idx+1}.png</code></div>
                 </Placeholder>
                 {/* hidden img to detect load */}
                 <img

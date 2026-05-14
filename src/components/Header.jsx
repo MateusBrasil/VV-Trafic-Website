@@ -90,6 +90,22 @@ const customStyles = `
   }
   .bookmarkBtn:hover .btn-text { opacity: 0; transform: translateX(40px); }
 
+  /* ── pill wrapper positioning ── */
+  .nav-pill-wrap {
+    position: fixed;
+    top: 16px; left: 0; right: 0;
+    display: flex; justify-content: center;
+    z-index: 9997; pointer-events: none;
+  }
+  .nav-pill-wrap > * { pointer-events: auto; }
+
+  @media (max-width: 768px) {
+    .nav-pill-wrap {
+      left: auto; right: 16px;
+      justify-content: flex-end;
+    }
+  }
+
   /* ── mobile brand in pill ── */
   .mobile-brand { display: none; }
 
@@ -393,12 +409,7 @@ const FloatingNav = ({ navItems }) => {
       </AnimatePresence>
 
       {/* ── Floating pill ── */}
-      <div
-        style={{
-          position: 'fixed', top: '16px', right: '16px',
-          zIndex: 9997, pointerEvents: 'none',
-        }}
-      >
+      <div className="nav-pill-wrap">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}

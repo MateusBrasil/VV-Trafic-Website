@@ -1,50 +1,416 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
-const FooterWrap = styled.footer`
-  padding: 40px 0;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  background: var(--c-bg-surface);
-  
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: 16px;
-      text-align: center;
-    }
+/* ── global animations (exact from prompt) ── */
+const FooterAnims = createGlobalStyle`
+  @keyframes rotate-gradient {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    
-    img {
-      width: 24px;
-      height: 24px;
-      opacity: 0.8;
-    }
+  @keyframes borderBeamRotation {
+    0%   { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes shinery {
+    0%,100% { left: -20%; opacity: 0; }
+    20%     { opacity: 1; }
+    48%     { left: 140%; opacity: 1; }
+    51%     { opacity: 0; }
   }
 `;
 
-const Footer = () => {
-  return (
-    <FooterWrap>
-      <div className="container row">
-        <div className="brand">
-          <img src="/assets/vv-logo.png" alt="VV Logo" />
-          <span className="t-caption">VV Traffic Data · VV Group © 2026</span>
-        </div>
-        <div className="t-caption muted">
-          Portugal · 4 continentes · estrategistas em simultâneo na tua conta
-        </div>
-      </div>
-    </FooterWrap>
-  );
-};
+/* ── outer wrapper ── */
+const FooterOuter = styled.footer`
+  max-width: 1400px;
+  margin: 40px auto 48px;
+  padding: 0 24px;
+  width: 100%;
+  font-family: 'Space Grotesk', sans-serif;
+`;
 
-export default Footer;
+/* ── glass card ── */
+const Card = styled.div`
+  position: relative;
+  overflow: hidden;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px;
+  backdrop-filter: blur(24px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 1px 1px -0.5px rgba(0,0,0,0.3),
+    0 12px 24px -12px rgba(0,0,0,0.5);
+`;
+
+const CardInner = styled.div`
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 40%, transparent 100%);
+`;
+
+const CardContent = styled.div`
+  position: relative;
+  padding: 40px;
+
+  @media (max-width: 768px) { padding: 28px 24px; }
+`;
+
+/* ── grid ── */
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1.3fr repeat(3, 1fr);
+  gap: 40px;
+
+  @media (max-width: 1024px) { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px)  { grid-template-columns: 1fr; }
+`;
+
+/* ── brand column ── */
+const BrandCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const LogoWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+
+  img { height: 40px; width: auto; }
+
+  .name {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: -.02em;
+  }
+  .sub {
+    font-size: 0.65rem;
+    color: var(--c-verde, #c6f221);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+`;
+
+const BrandDesc = styled.p`
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+`;
+
+const BrandEmail = styled.div`
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+`;
+
+/* ── AURA BUTTON (exact from prompt) ── */
+const AuraBtn = styled.a`
+  --speed: 4s;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 200px;
+  max-width: max-content;
+  height: 52px;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 100px;
+  background: #fff;
+  text-decoration: none;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+
+  &:hover {
+    --speed: 2.2s;
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px -5px rgba(255,255,255,0.15);
+  }
+
+  /* shimmer onda */
+  .shimmer-onda {
+    content: '';
+    background: linear-gradient(10deg, rgba(255,255,255,0.8) 12.81%, rgba(255,255,255,0) 66.66%);
+    mix-blend-mode: overlay;
+    width: 90px;
+    height: 150%;
+    position: absolute;
+    top: -25%;
+    transform: translateX(-50%) skew(-25deg);
+    pointer-events: none;
+    animation: shinery 6s infinite ease-in-out;
+    z-index: 4;
+  }
+
+  /* fundo branco hover */
+  .fundo-white-hover {
+    position: absolute;
+    left: 5px;
+    width: 0%;
+    height: calc(100% - 10px);
+    background: #f8f9fa;
+    border-radius: 100px;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 6;
+    opacity: 0;
+  }
+  &:hover .fundo-white-hover { width: calc(100% - 10px); opacity: 1; }
+
+  /* ícone móvel */
+  .wrapper-icones {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 50%;
+    z-index: 20;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  &:hover .wrapper-icones { left: calc(100% - 44px); }
+
+  .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; }
+  .arrow { display: none; color: #fff; }
+  &:hover .dot   { display: none; }
+  &:hover .arrow { display: block; }
+
+  /* textos */
+  .texto-principal {
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 1;
+    transform: translateX(12px);
+    z-index: 10;
+    color: #0f172a;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  &:hover .texto-principal { opacity: 0; transform: translateX(-40px); }
+
+  .texto-hover {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%) translateX(25px);
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 0.875rem;
+    z-index: 10;
+    white-space: nowrap;
+  }
+  &:hover .texto-hover { opacity: 1; transform: translate(-50%, -50%) translateX(-12px); }
+
+  /* shimmer container */
+  .shimmer-container {
+    position: absolute; inset: -200%;
+    width: 400%; height: 400%;
+    animation: rotate-gradient var(--speed) linear infinite;
+  }
+  .shimmer-gradient {
+    position: absolute; inset: 0;
+    background: conic-gradient(from 225deg, transparent 0%, rgba(0,0,0,0.05) 10%, transparent 20%);
+  }
+
+  /* bottom glow */
+  .bottom-glow {
+    position: absolute; bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 80%; height: 40%;
+    background: radial-gradient(circle at bottom, rgba(255,255,255,0.8) 0%, transparent 70%);
+    z-index: 2; pointer-events: none; opacity: 0.5;
+  }
+
+  /* inner bg */
+  .inner-bg {
+    position: absolute;
+    inset: 1.5px;
+    background: linear-gradient(to bottom, #fff, #fcfcfc, #f0f0f0);
+    border-radius: 100px;
+    z-index: 1;
+  }
+`;
+
+/* ── nav columns ── */
+const NavCol = styled.div``;
+
+const ColTitle = styled.h4`
+  font-size: 0.7rem;
+  letter-spacing: .15em;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 16px;
+`;
+
+const NavList = styled.ul`
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 10px;
+`;
+
+const NavLink = styled.a`
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  &:hover { color: #fff; }
+`;
+
+/* ── bottom bar ── */
+const BottomBar = styled.div`
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) { flex-direction: column; align-items: flex-start; }
+`;
+
+const BottomNav = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+`;
+
+const BottomLink = styled.a`
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: color .2s ease;
+  &:hover { color: rgba(255,255,255,0.7); }
+`;
+
+const Separator = styled.span`
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.15);
+`;
+
+const Copyright = styled.div`
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.25);
+`;
+
+/* ── component ── */
+export default function Footer() {
+  return (
+    <>
+      <FooterAnims />
+      <FooterOuter>
+        <Card>
+          <CardInner />
+          <CardContent>
+            <Grid>
+
+              {/* Brand */}
+              <BrandCol>
+                <LogoWrap as="a" href="#top">
+                  <img src="/assets/vv-logo.png" alt="VV Traffic Data" />
+                  <div>
+                    <div className="name">VV Traffic Data</div>
+                    <div className="sub">Technology</div>
+                  </div>
+                </LogoWrap>
+
+                <BrandDesc>
+                  Gestão de tráfego pago, copywriting e estratégia de
+                  aquisição para empresas que faturam €20.000+/mês em
+                  Portugal e em 4 continentes.
+                </BrandDesc>
+
+                {/* AURA BUTTON */}
+                <AuraBtn href="#agendar">
+                  <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{opacity:.4}}>
+                    <div className="shimmer-container"><div className="shimmer-gradient" /></div>
+                  </div>
+                  <div className="shimmer-onda" />
+                  <div className="absolute inset-0 z-0 pointer-events-none" style={{opacity:.2}}>
+                    <div style={{position:'absolute',width:'150%',height:'150%',background:'linear-gradient(90deg,transparent,#000,transparent)',animation:'borderBeamRotation var(--speed) infinite linear',top:'50%',left:'50%',transform:'translate(-50%,-50%)'}}/>
+                  </div>
+                  <div className="inner-bg" />
+                  <div className="bottom-glow" />
+                  <div className="fundo-white-hover" />
+                  <div className="wrapper-icones">
+                    <div className="dot" />
+                    <svg className="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </div>
+                  <div style={{position:'relative',zIndex:10,width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 40px'}}>
+                    <span className="texto-principal">Agendar reunião</span>
+                    <span className="texto-hover">Iniciar agora →</span>
+                  </div>
+                </AuraBtn>
+
+                <BrandEmail>contato@vvtrafficdata.com</BrandEmail>
+              </BrandCol>
+
+              {/* Empresa */}
+              <NavCol>
+                <ColTitle>Empresa</ColTitle>
+                <NavList>
+                  <li><NavLink href="#equipa">A nossa equipa</NavLink></li>
+                  <li><NavLink href="#espaco">O nosso espaço</NavLink></li>
+                  <li><NavLink href="#numeros">Resultados</NavLink></li>
+                  <li><NavLink href="#testemunhos">Testemunhos</NavLink></li>
+                  <li><NavLink href="#agendar">Carreiras</NavLink></li>
+                </NavList>
+              </NavCol>
+
+              {/* Serviços */}
+              <NavCol>
+                <ColTitle>Serviços</ColTitle>
+                <NavList>
+                  <li><NavLink href="#metodo">Método ESCALA</NavLink></li>
+                  <li><NavLink href="#metodo">Tráfego Pago</NavLink></li>
+                  <li><NavLink href="#metodo">Copywriting</NavLink></li>
+                  <li><NavLink href="#metodo">Estratégia Digital</NavLink></li>
+                  <li><NavLink href="#metodo">Análise de Dados</NavLink></li>
+                </NavList>
+              </NavCol>
+
+              {/* Contacto */}
+              <NavCol>
+                <ColTitle>Contacto</ColTitle>
+                <NavList>
+                  <li><NavLink href="#agendar">Agendar reunião</NavLink></li>
+                  <li><NavLink href="#comparativo">Comparativo</NavLink></li>
+                  <li><NavLink href="#numeros">Case studies</NavLink></li>
+                  <li><NavLink href="#agendar">Diagnóstico gratuito</NavLink></li>
+                </NavList>
+              </NavCol>
+
+            </Grid>
+
+            {/* Bottom bar */}
+            <BottomBar>
+              <BottomNav>
+                <BottomLink href="#">Política de Privacidade</BottomLink>
+                <Separator>|</Separator>
+                <BottomLink href="#">Termos de Uso</BottomLink>
+                <Separator>|</Separator>
+                <BottomLink href="#">RGPD</BottomLink>
+                <Separator>|</Separator>
+                <BottomLink href="#">Cookies</BottomLink>
+                <Separator>|</Separator>
+                <BottomLink href="#">Mapa do Site</BottomLink>
+              </BottomNav>
+              <Copyright>© 2026 VV Traffic Data · VV Group. Todos os direitos reservados.</Copyright>
+            </BottomBar>
+
+          </CardContent>
+        </Card>
+      </FooterOuter>
+    </>
+  );
+}

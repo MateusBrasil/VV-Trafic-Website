@@ -148,16 +148,67 @@ const CtaRow = styled.div`
   @media (max-width: 768px) {
     gap: 10px;
     flex-wrap: nowrap;
+  }
+`;
 
-    .btn-secondary {
-      flex: 1;
-      min-width: 0;
-      text-align: center;
-      justify-content: center;
-      padding: 14px 10px;
-      font-size: 0.72rem;
-      white-space: nowrap;
+/* ── Secondary Button ── */
+const SecondaryBtn = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 10px 24px 10px 28px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+
+  .arrow {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+
+    svg { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  }
+
+  &:hover {
+    border-color: rgba(198, 242, 33, 0.3);
+    background: rgba(198, 242, 33, 0.05);
+    color: #fff;
+
+    .arrow {
+      border-color: rgba(198, 242, 33, 0.4);
+      background: rgba(198, 242, 33, 0.1);
+      color: var(--c-verde);
+      svg { transform: translateX(3px); }
     }
+  }
+
+  @media (max-width: 768px) {
+    flex: 1;
+    height: 56px;
+    padding: 8px 16px 8px 20px;
+    font-size: 0.68rem;
+    justify-content: center;
+    .arrow { width: 26px; height: 26px; }
   }
 `;
 
@@ -638,7 +689,14 @@ export default function Hero() {
 
             <CtaRow>
               <ZeroButton href="#agendar" label="Agendar Diagnóstico" />
-              <a className="btn btn-secondary" href="#metodo">Ver o Método</a>
+              <SecondaryBtn href="#metodo">
+                Ver o Método
+                <span className="arrow">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </span>
+              </SecondaryBtn>
             </CtaRow>
 
             <Guarantee className="t-body-small">

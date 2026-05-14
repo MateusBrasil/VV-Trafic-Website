@@ -140,7 +140,7 @@ const CtaRow = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-bottom: 24px;
 
   @media (max-width: 992px) { justify-content: flex-start; }

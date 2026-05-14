@@ -306,41 +306,11 @@ export default function FinalCta() {
 
           {/* RIGHT */}
           <Panel>
-            <PanelHeader>
-              <PanelLabel>Resultados · últimos 30 dias</PanelLabel>
-              <LiveDot>Ao vivo</LiveDot>
-            </PanelHeader>
-
-            <PanelBody>
-              <MainStat>
-                <StatNum>7,2<sup>×</sup></StatNum>
-                <StatDesc>ROAS médio de retorno</StatDesc>
-              </MainStat>
-
-              <Divider />
-
-              <MetricsRow>
-                <Metric>
-                  <MetricNum>128<span>+</span></MetricNum>
-                  <MetricLbl>Empresas</MetricLbl>
-                </Metric>
-                <Metric>
-                  <MetricNum>4<span>×</span></MetricNum>
-                  <MetricLbl>Continentes</MetricLbl>
-                </Metric>
-                <Metric>
-                  <MetricNum>72<span>h</span></MetricNum>
-                  <MetricLbl>1.º resultado</MetricLbl>
-                </Metric>
-              </MetricsRow>
-
-              <Quote>
-                <QuoteText>
-                  "Toda a equipa envolvida no projeto como se fosse deles — muita dedicação e transparência."
-                </QuoteText>
-                <QuoteAuthor>Wagner Castro · Google ★★★★★</QuoteAuthor>
-              </Quote>
-            </PanelBody>
+            <img
+              src="/assets/panel-roas-2.png"
+              alt="Painel de resultados VV Traffic Data"
+              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
+            />
           </Panel>
         </Layout>
       </Wrap>

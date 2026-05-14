@@ -202,29 +202,34 @@ const InfiniteMovingCards = ({
 /* ── testimonials data ── */
 const testimonials = [
   {
-    quote: "O novo site transformou completamente a nossa presença digital. Em apenas um mês após o lançamento, as nossas solicitações de orçamento aumentaram em 40%. O design é moderno e a navegação é impecável!",
-    name: "Ricardo Mendes",
-    title: "CEO da TechInova Soluções",
+    quote: "São uma equipe espetacular, recebendo-nos sempre muito bem, super profissionais e fazem um trabalho fantástico... Com certeza são os melhores... Obrigada por tudo.",
+    name: "Leonor Nascimento",
+    title: "Avaliação Google · ★★★★★",
   },
   {
-    quote: "Eu precisava de uma loja virtual que fosse rápida e segura. A equipe entregou exatamente o que eu queria. O checkout é fluido e meus clientes elogiam a facilidade de compra o tempo todo.",
-    name: "Amanda Silveira",
-    title: "Fundadora da Boutique Elegance",
+    quote: "É uma satisfação trabalhar com VV Traffic Data, com profissionais especializados em cada área do mundo digital e atendimento personalizado, proporcionando uma maior credibilidade e resultados no meu negócio.",
+    name: "André Vitaliano",
+    title: "Avaliação Google · ★★★★★",
   },
   {
-    quote: "Trabalho com consultoria e ter um site que transmite autoridade mudou meu patamar de negociação. Hoje fecho contratos maiores porque minha imagem online condiz com a qualidade do meu serviço.",
-    name: "Carlos Eduardo",
-    title: "Consultor Estratégico na CE Negócios",
+    quote: "Simpatia, competência, um grande sentido de empreendedorismo. O parceiro certo para a divulgação e crescimento do seu negócio/trabalho. Recomendo vivamente!",
+    name: "Alberto Augusto Campos Ribeiro Baptista",
+    title: "Local Guide · 47 avaliações",
   },
   {
-    quote: "A integração do SEO foi fenomenal. Estamos na primeira página do Google para as palavras-chave mais importantes do nosso nicho sem gastar fortunas em anúncios. Melhor investimento que fizemos.",
-    name: "Juliana Costa",
-    title: "Diretora de Marketing na Verde Vida",
+    quote: "Está sendo incrível. Toda a equipe envolvida no projeto como se fosse deles... muita dedicação, conhecimento e transparência.... Top top!",
+    name: "Wagner Castro",
+    title: "Avaliação Google · ★★★★★",
   },
   {
-    quote: "Além da estética incrível, o site é extremamente leve. A taxa de rejeição caiu drasticamente e o suporte pós-venda é excelente. Recomendo para qualquer empresa que queira crescer de verdade.",
-    name: "Felipe Almeida",
-    title: "Proprietário da Pizzaria Donatello",
+    quote: "Atendimento incrível, ótimos designers, qualidade extrema. Super recomendo!!!!",
+    name: "Jesse Elton",
+    title: "Avaliação Google · 5/5",
+  },
+  {
+    quote: "Experiência incrível. Excelente atendimento, ambiente agradável e um trabalho com entrega rápida e com qualidade.",
+    name: "Lizy Marques",
+    title: "Avaliação Google · 5/5",
   },
 ];
 

@@ -54,7 +54,7 @@ const StatCard = styled.div`
   }
   
   .val {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     font-family: var(--font-display);
     color: var(--c-verde);

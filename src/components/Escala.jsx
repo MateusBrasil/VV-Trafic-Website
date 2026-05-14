@@ -55,7 +55,7 @@ const StepCard = styled.article`
 
   .letter {
     font-family: var(--font-display);
-    font-size: 5rem;
+    font-size: clamp(3rem, 5vw, 5rem);
     font-weight: 700;
     line-height: 1;
     color: rgba(255,255,255,0.1);
@@ -65,7 +65,7 @@ const StepCard = styled.article`
   }
 
   .title {
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
     margin-bottom: 16px;
   }
 
@@ -77,7 +77,7 @@ const StepCard = styled.article`
 `;
 
 const GuaranteeBox = styled.div`
-  padding: 48px;
+  padding: clamp(24px, 4vw, 48px);
   border-radius: 24px;
   display: flex;
   flex-direction: column;

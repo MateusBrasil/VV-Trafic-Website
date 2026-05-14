@@ -182,10 +182,71 @@ const IconQuote = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{color:'white'}}><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1 0 2.5 1 5 2.5 5 1.5 0 2.5 1 2.5 2v1H3z"/><path d="M13 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2h-2c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1 0 2.5 1 5 2.5 5 1.5 0 2.5 1 2.5 2v1h-7z"/></svg>
 );
 
+/* ── mobile menu overlay styles ── */
+const mobileStyles = `
+  .mobile-menu-overlay {
+    position: fixed; inset: 0;
+    background: rgba(3,21,18,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .mobile-menu-overlay a {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    letter-spacing: -.02em;
+    padding: 14px 32px;
+    transition: color .2s;
+  }
+  .mobile-menu-overlay a:hover { color: #c6f221; }
+  .mobile-menu-overlay .mob-cta {
+    margin-top: 16px;
+    padding: 16px 40px;
+    border-radius: 100px;
+    background: #c6f221;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px; height: 40px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    margin-left: 8px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all .3s ease;
+  }
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .desktop-nav { display: none !important; }
+    .desktop-cta { display: none !important; }
+  }
+`;
+
 /* ── FloatingNav ── */
 const FloatingNav = ({ navItems, className }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [visible, setVisible] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   React.useEffect(() => {
     const onScroll = () => {
@@ -195,9 +256,23 @@ const FloatingNav = ({ navItems, className }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const closeMobile = () => setMobileOpen(false);
+
   return createPortal(
     <>
       <style>{customStyles}</style>
+      <style>{mobileStyles}</style>
+
+      {/* Mobile overlay menu */}
+      {mobileOpen && (
+        <nav className="mobile-menu-overlay" aria-label="Navegação mobile">
+          {navItems.map((item, i) => (
+            <a key={i} href={item.link} onClick={closeMobile}>{item.name}</a>
+          ))}
+          <a href="#agendar" className="mob-cta" onClick={closeMobile}>Agendar</a>
+        </nav>
+      )}
+
       <div
         style={{
           position: 'fixed',
@@ -210,13 +285,13 @@ const FloatingNav = ({ navItems, className }) => {
           pointerEvents: 'none',
         }}
       >
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          style={{ pointerEvents: visible ? 'auto' : 'none' }}
+        >
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            style={{ pointerEvents: visible ? 'auto' : 'none' }}
-          >
-            <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
@@ -234,75 +309,70 @@ const FloatingNav = ({ navItems, className }) => {
               whiteSpace: 'nowrap',
             }}
           >
-            {navItems.map((navItem, idx) => (
-              <a
-                key={`link-${idx}`}
-                href={navItem.link}
-                onMouseEnter={() => setHoveredIndex(idx)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className="optn"
-                style={{ position: 'relative', textDecoration: 'none' }}
-              >
-                <div className="elementor-icon-list-items">
-                  <span className="elementor-icon-list-icon">
-                    {navItem.icon}
-                  </span>
-                  <span
-                    className="elementor-icon-list-text"
-                    style={{
-                      color: 'rgba(163,163,163,1)',
-                      fontSize: '1.05rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.025em',
-                    }}
-                  >
-                    {navItem.name}
-                  </span>
+            {/* Desktop nav items */}
+            <nav className="desktop-nav" aria-label="Navegação principal" style={{ display: 'flex', alignItems: 'center' }}>
+              {navItems.map((navItem, idx) => (
+                <a
+                  key={`link-${idx}`}
+                  href={navItem.link}
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className="optn"
+                  style={{ position: 'relative', textDecoration: 'none' }}
+                >
+                  <div className="elementor-icon-list-items">
+                    <span className="elementor-icon-list-icon">{navItem.icon}</span>
+                    <span
+                      className="elementor-icon-list-text"
+                      style={{ color: 'rgba(163,163,163,1)', fontSize: '1.05rem', fontWeight: 600, letterSpacing: '0.025em' }}
+                    >
+                      {navItem.name}
+                    </span>
+                    {hoveredIndex === idx && (
+                      <motion.span
+                        layoutId="navUnderline"
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        animate={{ scaleX: 1, opacity: 1 }}
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        style={{
+                          position: 'absolute', bottom: '-4px', left: 0, right: 0,
+                          height: '3px',
+                          background: 'linear-gradient(to right, transparent, #c6f221, transparent)',
+                          transformOrigin: 'center',
+                          boxShadow: '0 0 12px rgba(198,242,33,0.8)',
+                        }}
+                      />
+                    )}
+                  </div>
+                </a>
+              ))}
+            </nav>
 
-                  {hoveredIndex === idx && (
-                    <motion.span
-                      layoutId="navUnderline"
-                      initial={{ scaleX: 0, opacity: 0 }}
-                      animate={{ scaleX: 1, opacity: 1 }}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      style={{
-                        position: 'absolute',
-                        bottom: '-4px',
-                        left: 0,
-                        right: 0,
-                        height: '3px',
-                        background: 'linear-gradient(to right, transparent, #c6f221, transparent)',
-                        transformOrigin: 'center',
-                        boxShadow: '0 0 12px rgba(198,242,33,0.8)',
-                      }}
-                    />
-                  )}
-                </div>
-              </a>
-            ))}
-
-            <a href="#agendar" style={{ textDecoration: 'none' }}>
-              <button className="bookmarkBtn">
+            {/* Desktop CTA button */}
+            <a href="#agendar" className="desktop-cta" style={{ textDecoration: 'none' }}>
+              <button className="bookmarkBtn" aria-label="Agendar reunião">
                 <span className="IconContainer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="btn-icon-svg"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-icon-svg">
+                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                   </svg>
                 </span>
                 <p className="btn-text">Agendar</p>
               </button>
             </a>
+
+            {/* Hamburger (mobile only) */}
+            <button
+              className="hamburger"
+              onClick={() => setMobileOpen(o => !o)}
+              aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={mobileOpen}
+            >
+              <span style={{ transform: mobileOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
+              <span style={{ opacity: mobileOpen ? 0 : 1 }} />
+              <span style={{ transform: mobileOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
+            </button>
           </motion.div>
-          </motion.div>
+        </motion.div>
       </div>
     </>,
     document.body

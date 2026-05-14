@@ -185,7 +185,7 @@ const MainStat = styled.div`
 `;
 
 const StatNum = styled.div`
-  font-size: 4rem;
+  font-size: clamp(2.8rem, 5vw, 4rem);
   font-weight: 900;
   font-family: var(--font-display);
   color: var(--c-verde, #c6f221);
@@ -217,6 +217,10 @@ const MetricsRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 const Metric = styled.div`

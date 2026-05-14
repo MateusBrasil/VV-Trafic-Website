@@ -287,7 +287,7 @@ export default function Team() {
                 boxShadow: shadow,
               }}
             >
-              <img src={m.img} alt={m.name} draggable={false} />
+              <img src={m.img} alt={m.name} draggable={false} loading="lazy" />
             </Card>
           );
         })}

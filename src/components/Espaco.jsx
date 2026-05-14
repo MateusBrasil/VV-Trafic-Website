@@ -284,7 +284,7 @@ const StripLeft = styled.div`
 `;
 
 const StripNum = styled.div`
-  font-size: 3.5rem;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
   font-weight: 900;
   font-family: var(--font-display);
   color: var(--c-verde, #c6f221);
@@ -377,7 +377,7 @@ export default function Espaco() {
 
           {/* interior — left tall card */}
           <InteriorCard>
-            <img src="/espaco/espaco-02.png" alt="Interior VV Traffic Data" />
+            <img src="/espaco/espaco-02.png" alt="Interior VV Traffic Data" loading="lazy" />
             <Overlay />
             <ImgLabel>
               <TagGreen><span />Operacional 24/7</TagGreen>
@@ -387,7 +387,7 @@ export default function Espaco() {
 
           {/* facade — top right */}
           <FacadeCard>
-            <img src="/espaco/espaco-01.png" alt="Fachada VV Traffic Data" />
+            <img src="/espaco/espaco-01.png" alt="Fachada VV Traffic Data" loading="lazy" />
             <Overlay />
             <ImgLabel>
               <Tag>VV Studio · VV Traffic Data</Tag>

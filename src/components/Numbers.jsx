@@ -80,11 +80,28 @@ const CaseCard = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
+  }
+`;
+
+const CaseMetrics = styled.div`
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 `;
 
@@ -128,21 +145,21 @@ const Numbers = () => {
               €54 investidos → €380 faturados em 30 dias.
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+          <CaseMetrics>
             <div>
               <div className="t-caption muted">Investimento</div>
-              <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>€54</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 600 }}>€54</div>
             </div>
-            <div style={{ fontSize: '2rem', color: 'var(--c-text-muted)' }}>→</div>
+            <div style={{ fontSize: '1.5rem', color: 'var(--c-text-muted)', flexShrink: 0 }}>→</div>
             <div>
               <div className="t-caption muted">Faturação</div>
-              <div className="verde" style={{ fontSize: '2rem', fontWeight: 700 }}>€380</div>
+              <div className="verde" style={{ fontSize: '1.8rem', fontWeight: 700 }}>€380</div>
             </div>
-            <div style={{ padding: '12px 24px', background: 'rgba(198,242,33,0.1)', borderRadius: '12px', textAlign: 'center' }}>
-              <div className="verde" style={{ fontSize: '2rem', fontWeight: 700 }}>7x</div>
+            <div style={{ padding: '10px 20px', background: 'rgba(198,242,33,0.1)', borderRadius: '12px', textAlign: 'center', flexShrink: 0 }}>
+              <div className="verde" style={{ fontSize: '1.8rem', fontWeight: 700 }}>7x</div>
               <div className="t-caption verde">ROI</div>
             </div>
-          </div>
+          </CaseMetrics>
         </CaseCard>
 
         <div className="reveal" style={{ marginTop: 60, display: "flex", justifyContent: "center" }}>

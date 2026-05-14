@@ -9,6 +9,12 @@ const HeroSection = styled.section`
   display: flex;
   align-items: center;
   padding-top: var(--nav-height);
+
+  @media (max-width: 768px) {
+    padding-top: calc(var(--nav-height) + 24px);
+    align-items: flex-start;
+    padding-bottom: 60px;
+  }
 `;
 
 const Grid = styled.div`
@@ -16,6 +22,8 @@ const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
+
+  > * { min-width: 0; }
 
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
@@ -110,15 +118,18 @@ const Guarantee = styled.div`
 const VisualPanel = styled.div`
   padding: 32px;
   border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  width: 100%;
+  min-width: 0;
 
   @media (max-width: 480px) {
     padding: 20px 18px;
     border-radius: 16px;
   }
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -127,7 +138,7 @@ const VisualPanel = styled.div`
     animation: rotate 10s linear infinite;
     z-index: -1;
   }
-  
+
   @keyframes rotate {
     100% { transform: rotate(360deg); }
   }
@@ -172,18 +183,20 @@ const CompanyCounter = styled.div`
   display: flex;
   align-items: baseline;
   gap: 12px;
+  flex-wrap: wrap;
 
   .number {
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
     font-family: var(--font-display);
     font-weight: 800;
     color: var(--c-verde);
     line-height: 1;
     font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
   }
 
   .suffix {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: rgba(255,255,255,0.6);
     font-weight: 500;
     line-height: 1.3;

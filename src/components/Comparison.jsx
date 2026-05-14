@@ -21,7 +21,7 @@ const CmpHead = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: rgba(0,0,0,0.3);
-  
+
   > div {
     padding: 20px 18px;
     font-family: var(--font-display);
@@ -31,7 +31,7 @@ const CmpHead = styled.div`
     align-items: center;
     gap: 16px;
   }
-  
+
   .pill {
     padding: 4px 12px;
     border-radius: 100px;
@@ -40,8 +40,22 @@ const CmpHead = styled.div`
     text-transform: uppercase;
   }
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  .head-label { }
+
+  @media (max-width: 600px) {
+    > div {
+      padding: 14px 12px;
+      font-size: 0.82rem;
+      gap: 8px;
+      justify-content: center;
+    }
+    .pill {
+      padding: 5px 12px;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .head-label { display: none; }
   }
 `;
 
@@ -50,25 +64,34 @@ const CmpRow = styled.div`
   grid-template-columns: 1fr 1fr;
   border-top: 1px solid rgba(255,255,255,0.05);
   transition: background 0.3s ease;
-  
+
   &:hover {
     background: rgba(255,255,255,0.02);
   }
-  
+
   > div {
     padding: 16px 18px;
     display: flex;
     align-items: flex-start;
-    gap: 16px;
+    gap: 12px;
     line-height: 1.5;
+    font-size: 0.9rem;
   }
-  
+
   .neg { color: var(--c-error); flex-shrink: 0; margin-top: 2px; }
   .pos { color: var(--c-verde); flex-shrink: 0; margin-top: 2px; }
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    > div:first-child { border-bottom: 1px dashed rgba(255,255,255,0.1); }
+  @media (max-width: 600px) {
+    > div {
+      padding: 12px 10px;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+    .neg, .pos {
+      width: 16px !important;
+      height: 16px !important;
+      flex-shrink: 0;
+    }
   }
 `;
 
@@ -81,13 +104,20 @@ const Highlight = styled.div`
   gap: 24px;
   background: linear-gradient(90deg, rgba(198,242,33,0.1) 0%, transparent 100%);
   border-left: 4px solid var(--c-verde);
-  
+
   .icon {
     font-family: var(--font-display);
     font-size: 2rem;
     font-weight: 700;
     color: var(--c-verde);
     opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    padding: 20px 16px;
+    gap: 16px;
+    .icon { font-size: 1.4rem; }
   }
 `;
 
@@ -107,11 +137,11 @@ const Comparison = () => {
           <CmpHead>
             <div>
               <span className="pill" style={{ background: "rgba(255,74,74,0.1)", color: "var(--c-error)" }}>Tradicional</span>
-              Agências Tradicionais
+              <span className="head-label">Agências Tradicionais</span>
             </div>
             <div style={{ background: "rgba(198,242,33,0.05)" }}>
               <span className="pill" style={{ background: "rgba(198,242,33,0.15)", color: "var(--c-verde)" }}>VV</span>
-              VV Traffic Data
+              <span className="head-label">VV Traffic Data</span>
             </div>
           </CmpHead>
 

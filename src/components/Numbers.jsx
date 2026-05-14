@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
+import ZeroButton from './ZeroButton';
 
 /* ─── CountUp ─── */
 function CountUp({ to, prefix = "", suffix = "", duration = 2000 }) {
@@ -344,7 +345,7 @@ const Numbers = () => (
       </div>
 
       <div className="reveal" style={{ marginTop: 60, display: "flex", justifyContent: "center" }}>
-        <a className="btn btn-primary" href="#agendar">AGENDAR REUNIÃO DIAGNÓSTICA <span>→</span></a>
+        <ZeroButton href="#agendar" label="Agendar Reunião Diagnóstica" />
       </div>
     </div>
   </section>

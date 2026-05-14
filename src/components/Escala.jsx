@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Shield } from 'lucide-react';
+import ZeroButton from './ZeroButton';
 
 const ESCALA = [
   ["E", "Estruturação",  "Definimos o teu cliente ideal e construímos a oferta irresistível. Sem oferta sólida, nenhum anúncio funciona."],
@@ -154,7 +155,7 @@ const EscalaComponent = () => {
               <span>Se não entregarmos o acordado</span>
             </div>
           </div>
-          <a className="btn btn-primary" href="#agendar">AGENDAR REUNIÃO DIAGNÓSTICA <span>→</span></a>
+          <ZeroButton href="#agendar" label="Agendar Reunião Diagnóstica" />
         </GuaranteeBox>
       </div>
     </section>

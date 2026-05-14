@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ZeroButton from './ZeroButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -429,12 +430,7 @@ export default function Espaco() {
               </p>
             </StripText>
           </StripLeft>
-          <Btn href="#agendar">
-            Agendar reunião
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </Btn>
+          <ZeroButton href="#agendar" label="Agendar Reunião" />
         </BottomStrip>
 
       </Wrap>

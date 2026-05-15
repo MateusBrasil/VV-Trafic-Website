@@ -558,7 +558,7 @@ export default function Espaco() {
             <PhotoCard>
               <picture>
                 <source srcSet="/espaco/espaco-nova.webp" type="image/webp" />
-                <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" width="800" height="600" />
+                <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" decoding="async" width="800" height="600" />
               </picture>
               <PhotoOverlay />
               <PhotoLabel>

@@ -313,6 +313,7 @@ export default function FinalCta() {
                 alt="Painel de resultados VV Traffic Data"
                 width="1200" height="675"
                 loading="lazy"
+                decoding="async"
                 style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
               />
             </picture>

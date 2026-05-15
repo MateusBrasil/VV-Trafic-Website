@@ -9,18 +9,22 @@ const Strip = styled.div`
   overflow: hidden;
   width: 100%;
 
-  @media (max-width: 768px) {
-    padding: 36px 0 44px;
-  }
+  @media (max-width: 768px) { padding: 36px 0 44px; }
 
   .strip-label {
     text-align: center;
     color: var(--c-text-muted);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
+`;
+
+const Rows = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const SliderWrap = styled.div`
@@ -39,12 +43,12 @@ const ClientItem = styled.div`
   @media (max-width: 768px) { padding: 0 24px; }
 
   img {
-    height: 72px;
+    height: 64px;
     width: auto;
-    max-width: 180px;
+    max-width: 160px;
     object-fit: contain;
     display: block;
-    opacity: 0.9;
+    opacity: 0.88;
     transition: opacity 0.3s ease;
     user-select: none;
     pointer-events: none;
@@ -52,7 +56,7 @@ const ClientItem = styled.div`
   img:hover { opacity: 1; }
 `;
 
-const CLIENTS = [
+const ROW1 = [
   { src: "/clientes/n-2.png",  alt: "VV Studios" },
   { src: "/clientes/n-3.png",  alt: "Oficina dos Sabores" },
   { src: "/clientes/n-4.png",  alt: "RAVOX" },
@@ -61,6 +65,9 @@ const CLIENTS = [
   { src: "/clientes/n-7.png",  alt: "Vulcanici" },
   { src: "/clientes/n-8.png",  alt: "Barão Select" },
   { src: "/clientes/n-9.png",  alt: "Amazon Sem Segredos" },
+];
+
+const ROW2 = [
   { src: "/clientes/n-10.png", alt: "Marianna Guimarães" },
   { src: "/clientes/n-11.png", alt: "Velara Home" },
   { src: "/clientes/n-14.png", alt: "Retiro" },
@@ -71,32 +78,38 @@ const CLIENTS = [
   { src: "/clientes/n-19.png", alt: "VV Coffee Lounge" },
 ];
 
+function Row({ clients, reverse, speed }) {
+  return (
+    <SliderWrap>
+      <InfiniteSlider gap={0} speed={speed} speedOnHover={speed * 2.2} reverse={reverse}>
+        {clients.map((c) => (
+          <ClientItem key={c.src}>
+            <img src={c.src} alt={c.alt} draggable={false} loading="lazy" />
+          </ClientItem>
+        ))}
+      </InfiniteSlider>
+      <ProgressiveBlur
+        direction="left"
+        blurIntensity={0.9}
+        style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 100, pointerEvents: 'none' }}
+      />
+      <ProgressiveBlur
+        direction="right"
+        blurIntensity={0.9}
+        style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 100, pointerEvents: 'none' }}
+      />
+    </SliderWrap>
+  );
+}
+
 export default function ClientLogos() {
   return (
     <Strip className="reveal">
       <p className="strip-label">Já estruturámos canais de aquisição para</p>
-      <SliderWrap>
-        <InfiniteSlider gap={20} speed={38} speedOnHover={85} reverse={false}>
-          {CLIENTS.map((c) => (
-            <ClientItem key={c.src}>
-              <img
-                src={c.src} alt={c.alt}
-                draggable={false} loading="lazy"
-              />
-            </ClientItem>
-          ))}
-        </InfiniteSlider>
-        <ProgressiveBlur
-          direction="left"
-          blurIntensity={0.9}
-          style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 80, pointerEvents: 'none' }}
-        />
-        <ProgressiveBlur
-          direction="right"
-          blurIntensity={0.9}
-          style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 80, pointerEvents: 'none' }}
-        />
-      </SliderWrap>
+      <Rows>
+        <Row clients={ROW1} reverse={false} speed={36} />
+        <Row clients={ROW2} reverse={true}  speed={42} />
+      </Rows>
     </Strip>
   );
 }

@@ -473,6 +473,21 @@ export default function Espaco() {
   }, []);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) {
+          video.src = '/espaco/video-site.mp4';
+          video.load();
+          video.play().catch(() => {});
+          obs.disconnect();
+        }
+      }, { rootMargin: '200px' });
+      obs.observe(video);
+    }
+  }, []);
+
+  useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
         gsap.from(el, {
@@ -508,11 +523,11 @@ export default function Espaco() {
           <VideoCard>
             <video
               ref={videoRef}
-              src="/espaco/video-site.mp4"
               autoPlay
               muted
               loop
               playsInline
+              preload="none"
             />
 
             <Scanline />
@@ -541,7 +556,7 @@ export default function Espaco() {
 
             {/* photo */}
             <PhotoCard>
-              <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" />
+              <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" width="800" height="600" />
               <PhotoOverlay />
               <PhotoLabel>
                 <Tag>● Operacional 24/7</Tag>

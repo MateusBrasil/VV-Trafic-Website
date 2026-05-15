@@ -320,6 +320,8 @@ function ProvasCarousel() {
                 src={slides[idx].src}
                 alt={slides[idx].label}
                 draggable={false}
+                width="1280"
+                height="720"
               />
             ) : (
               <>

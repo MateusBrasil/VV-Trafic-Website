@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Preconnect: fonts & analytics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload critical font subset (Space Grotesk 700 — used in hero) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;600&display=swap" />
+
+    <!-- Preload LCP hero image -->
+    <link rel="preload" as="image" href="/assets/panel-roas.png" />
+
     <!-- Primary -->
     <title>VV Traffic Data — Método ESCALA | Tráfego Pago em Portugal</title>
     <meta name="description" content="Gestão de tráfego pago, copywriting e estratégia de aquisição para empresas que faturam €20.000+/mês. Primeiros resultados em 72 horas. Garantia em contrato." />
@@ -24,6 +34,10 @@
     <meta name="twitter:title" content="VV Traffic Data — Método ESCALA" />
     <meta name="twitter:description" content="Tráfego pago e aquisição para empresas que faturam €20.000+/mês. ROAS médio 7,2×." />
     <meta name="twitter:image" content="https://vvtrafficdata.com/assets/vv-logo.png" />
+
+    <!-- Fonts: non-blocking load -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" /></noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/vv-logo.png" />

@@ -356,7 +356,7 @@ const FloatingNav = ({ navItems }) => {
               {/* header */}
               <div className="mob-sheet-head">
                 <div className="mob-logo-area">
-                  <img src="/assets/vv-logo.png" alt="VV Traffic Data" />
+                  <img src="/assets/vv-logo.png" alt="VV Traffic Data" width="48" height="48" />
                 </div>
                 <button className="mob-close-btn" onClick={closeMobile} aria-label="Fechar menu">
                   ✕

@@ -1,18 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Critical path — loaded immediately
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ClientLogos from './components/ClientLogos';
-import Numbers from './components/Numbers';
-import Comparison from './components/Comparison';
-import Escala from './components/Escala';
-import Team from './components/Team';
-import Espaco from './components/Espaco';
-import Testimonials from './components/Testimonials';
-import FinalCta from './components/FinalCta';
-import Footer from './components/Footer';
+
+// Below-the-fold — lazy loaded
+const Numbers      = lazy(() => import('./components/Numbers'));
+const Comparison   = lazy(() => import('./components/Comparison'));
+const Escala       = lazy(() => import('./components/Escala'));
+const Team         = lazy(() => import('./components/Team'));
+const Espaco       = lazy(() => import('./components/Espaco'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const FinalCta     = lazy(() => import('./components/FinalCta'));
+const Footer       = lazy(() => import('./components/Footer'));
 
 import './index.css';
 
@@ -58,15 +61,19 @@ function App() {
       <main>
         <Hero />
         <ClientLogos />
-        <Numbers />
-        <Comparison />
-        <Escala />
-        <Team />
-        <Espaco />
-        <Testimonials />
-        <FinalCta />
+        <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
+          <Numbers />
+          <Comparison />
+          <Escala />
+          <Team />
+          <Espaco />
+          <Testimonials />
+          <FinalCta />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       </div>
     </>
   );

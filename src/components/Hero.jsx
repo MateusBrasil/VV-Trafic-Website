@@ -707,13 +707,13 @@ export default function Hero() {
 
           {/* ── RIGHT: full panel — desktop only ── */}
           <VisualPanel className="reveal">
-            <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" />
+            <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
           </VisualPanel>
         </Grid>
 
         {/* ── MOBILE PANEL ── */}
         <MobilePanel>
-          <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" />
+          <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
         </MobilePanel>
 
         <TrustBar>

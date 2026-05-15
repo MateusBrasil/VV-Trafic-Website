@@ -32,33 +32,108 @@ function CountUp({ to, prefix = "", suffix = "", duration = 2000 }) {
 /* ─── Styled ─── */
 const StatsWrap = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  grid-template-columns: 1.1fr 1fr 0.9fr;
+  gap: 2px;
   margin: 60px 0 72px;
-  @media (max-width: 768px) { grid-template-columns: 1fr; }
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
 `;
 
 const StatCard = styled.div`
-  padding: 32px 24px;
-  border-radius: 24px;
-  text-align: center;
-  transition: transform 0.3s ease;
-  @media (max-width: 480px) { padding: 24px 20px; }
+  padding: 44px 40px 40px;
+  position: relative;
+  background: rgba(10,26,16,0.6);
+  backdrop-filter: blur(12px);
+  transition: background 0.4s ease;
+  overflow: hidden;
+
+  @media (max-width: 480px) { padding: 32px 28px; }
+
+  /* top accent bar */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--c-verde), transparent);
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+  }
+
+  /* corner glow */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198,242,33,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+  }
+
   &:hover {
-    transform: translateY(-5px);
-    background: rgba(198,242,33,0.05);
-    border-color: rgba(198,242,33,0.3);
+    background: rgba(198,242,33,0.04);
+    &::before { opacity: 1; }
+    &::after  { opacity: 1; }
+    .val-num  { text-shadow: 0 0 40px rgba(198,242,33,0.3); }
   }
-  .val {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+
+  .eyebrow {
+    font-size: 0.6rem;
     font-weight: 700;
-    font-family: var(--font-display);
-    color: var(--c-verde);
-    margin-bottom: 16px;
-    line-height: 1;
-    text-shadow: 0 0 30px rgba(198,242,33,0.2);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(198,242,33,0.6);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: rgba(198,242,33,0.4);
+    }
   }
-  .label { font-size: 1rem; color: var(--c-text-muted); line-height: 1.5; }
+
+  .val-num {
+    font-size: clamp(3rem, 5vw, 4.8rem);
+    font-weight: 900;
+    font-family: var(--font-display);
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -.04em;
+    margin-bottom: 0;
+    transition: text-shadow 0.4s ease;
+
+    em {
+      font-style: normal;
+      color: var(--c-verde);
+    }
+  }
+
+  .divider {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    margin: 20px 0;
+  }
+
+  .label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.6;
+    max-width: 200px;
+  }
 `;
 
 /* ─── Carousel ─── */
@@ -311,17 +386,31 @@ const Numbers = () => (
       </div>
 
       <StatsWrap>
-        <StatCard className="glass reveal">
-          <div className="val"><CountUp to={12} prefix="€" suffix="M+" /></div>
-          <div className="label">gerados em vendas para os nossos clientes</div>
+        <StatCard className="reveal">
+          <div className="eyebrow">Vendas Geradas</div>
+          <div className="val-num">
+            <CountUp to={12} prefix="€" suffix="M" /><em>+</em>
+          </div>
+          <div className="divider" />
+          <div className="label">em vendas diretas geradas para os nossos clientes nos últimos 2 anos</div>
         </StatCard>
-        <StatCard className="glass reveal">
-          <div className="val"><CountUp to={132} prefix="+" /></div>
-          <div className="label">negócios com canal de aquisição estruturado</div>
+
+        <StatCard className="reveal">
+          <div className="eyebrow">Negócios Acelerados</div>
+          <div className="val-num">
+            <em>+</em><CountUp to={132} />
+          </div>
+          <div className="divider" />
+          <div className="label">negócios com canal de aquisição estruturado e activo</div>
         </StatCard>
-        <StatCard className="glass reveal">
-          <div className="val"><CountUp to={8} /></div>
-          <div className="label">países com operações ativas</div>
+
+        <StatCard className="reveal">
+          <div className="eyebrow">Presença Global</div>
+          <div className="val-num">
+            <CountUp to={8} />
+          </div>
+          <div className="divider" />
+          <div className="label">países com operações ativas do VV Group</div>
         </StatCard>
       </StatsWrap>
 

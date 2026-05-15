@@ -35,6 +35,7 @@ const customStyles = `
     border: 1px solid rgba(198,242,33,0.5); background: rgb(15,15,15);
     display: flex; align-items: center; justify-content: flex-start;
     cursor: pointer; overflow: hidden; padding: 0; position: relative; margin-left: 15px; transition: 0.3s;
+    text-decoration: none;
   }
   .bookmarkBtn::before {
     content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
@@ -296,15 +297,13 @@ const FloatingNav = ({ navItems, lang, setLang }) => {
             <LanguageSelector lang={lang} setLang={setLang} />
           </span>
 
-          <a href="#agendar" className="desktop-cta" style={{ textDecoration: 'none' }}>
-            <button className="bookmarkBtn" aria-label="Agendar reunião">
-              <span className="IconContainer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-icon-svg">
-                  <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-                </svg>
-              </span>
-              <p className="btn-text">Agendar</p>
-            </button>
+          <a href="#agendar" className="bookmarkBtn desktop-cta" aria-label="Agendar reunião">
+            <span className="IconContainer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-icon-svg">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </span>
+            <p className="btn-text">Agendar</p>
           </a>
 
           <button

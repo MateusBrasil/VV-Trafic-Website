@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 const GRADIENT_ANGLES = { top: 0, right: 90, bottom: 180, left: 270 };
 
 export function ProgressiveBlur({
@@ -28,7 +26,7 @@ export function ProgressiveBlur({
         const gradient = `linear-gradient(${angle}deg, ${stops.join(',')})`;
 
         return (
-          <motion.div
+          <div
             key={i}
             style={{
               position: 'absolute',

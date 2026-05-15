@@ -192,15 +192,20 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Fallback reveal: fires at 600ms if GSAP async load is slow.
+   GSAP inline styles take precedence when it fires earlier. */
+@keyframes revealFallback {
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  /* safety: se GSAP não animar, aparece após 1s via CSS */
-  transition: opacity 0.1s, transform 0.1s;
+  animation: revealFallback 0.8s 0.6s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; animation: none; }
 }
 
 .t-display-large { font-size: clamp(2.5rem, 5vw, 4rem); }

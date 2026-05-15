@@ -88,7 +88,7 @@ const Heading = styled.h2`
 const Body = styled.p`
   font-size: 1rem;
   line-height: 1.8;
-  color: rgba(0,0,0,0.5);
+  color: rgba(0,0,0,0.62);
   margin: 0 0 44px;
   max-width: 440px;
 `;
@@ -126,7 +126,7 @@ const Micro = styled.p`
   font-size: 0.65rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(0,0,0,0.3);
+  color: rgba(0,0,0,0.5);
   font-weight: 600;
 `;
 

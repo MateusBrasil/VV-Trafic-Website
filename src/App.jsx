@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, lazy, Suspense } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Critical path — loaded immediately
 import Header from './components/Header';
@@ -19,39 +17,45 @@ const Footer       = lazy(() => import('./components/Footer'));
 
 import './index.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
 function App() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray('.reveal').forEach((elem) => {
-        const rect = elem.getBoundingClientRect();
-        const alreadyVisible = rect.top < window.innerHeight * 0.95;
+    let gsapCtx;
 
-        if (alreadyVisible) {
-          // already in viewport — animate immediately
-          gsap.to(elem, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
-        } else {
-          gsap.to(elem, {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: elem,
-              start: 'top 88%',
-              once: true,
-            },
-          });
-        }
-      });
+    // Load GSAP after critical render — keeps it off the blocking JS path
+    Promise.all([
+      import('gsap').then(m => m.default),
+      import('gsap/ScrollTrigger').then(m => m.ScrollTrigger),
+    ]).then(([gsap, ScrollTrigger]) => {
+      gsap.registerPlugin(ScrollTrigger);
 
-      ScrollTrigger.refresh();
-    }, containerRef);
+      gsapCtx = gsap.context(() => {
+        gsap.utils.toArray('.reveal').forEach((elem) => {
+          const alreadyVisible = elem.getBoundingClientRect().top < window.innerHeight * 0.95;
 
-    return () => ctx.revert();
+          if (alreadyVisible) {
+            gsap.to(elem, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
+          } else {
+            gsap.to(elem, {
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: elem,
+                start: 'top 88%',
+                once: true,
+              },
+            });
+          }
+        });
+
+        ScrollTrigger.refresh();
+      }, containerRef);
+    });
+
+    return () => gsapCtx?.revert();
   }, []);
 
   return (

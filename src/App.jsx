@@ -65,15 +65,15 @@ function App() {
       <main>
         <Hero />
         <ClientLogos />
-        <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
-          <Numbers />
-          <Comparison />
-          <Escala />
-          <Team />
-          <Espaco />
-          <Testimonials />
-          <FinalCta />
-        </Suspense>
+        {/* Each section in its own Suspense so they load/render independently
+            — no single blanket placeholder that hides everything at once */}
+        <Suspense fallback={null}><Numbers /></Suspense>
+        <Suspense fallback={null}><Comparison /></Suspense>
+        <Suspense fallback={null}><Escala /></Suspense>
+        <Suspense fallback={null}><Team /></Suspense>
+        <Suspense fallback={null}><Espaco /></Suspense>
+        <Suspense fallback={null}><Testimonials /></Suspense>
+        <Suspense fallback={null}><FinalCta /></Suspense>
       </main>
       <Suspense fallback={null}>
         <Footer />

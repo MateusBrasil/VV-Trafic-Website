@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import ZeroButton from './ZeroButton';
+import { useLang } from '../context/LanguageContext';
 
 /* ── keyframes ── */
 const pulseDot = keyframes`
@@ -633,6 +634,8 @@ function CandleChart() {
 const TARGET = 128;
 
 export default function Hero() {
+  const { lang } = useLang();
+  const isEn = lang === 'en';
   useEffect(() => {}, []);
 
   return (
@@ -680,8 +683,8 @@ export default function Hero() {
           {/* ── RIGHT: full panel — desktop only ── */}
           <VisualPanel className="reveal">
             <picture>
-              <source srcSet="/assets/panel-roas.webp" type="image/webp" />
-              <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
+              <source srcSet={isEn ? "/assets/panel-roas-en.webp" : "/assets/panel-roas.webp"} type="image/webp" />
+              <img src={isEn ? "/assets/panel-roas-en.png" : "/assets/panel-roas.png"} alt="ROAS Panel · VV Traffic Data · 7.2x" width="1280" height="720" fetchpriority="high" />
             </picture>
           </VisualPanel>
         </Grid>
@@ -689,8 +692,8 @@ export default function Hero() {
         {/* ── MOBILE PANEL ── */}
         <MobilePanel>
           <picture>
-            <source srcSet="/assets/panel-roas.webp" type="image/webp" />
-            <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
+            <source srcSet={isEn ? "/assets/panel-roas-en.webp" : "/assets/panel-roas.webp"} type="image/webp" />
+            <img src={isEn ? "/assets/panel-roas-en.png" : "/assets/panel-roas.png"} alt="ROAS Panel · VV Traffic Data · 7.2x" width="1280" height="720" fetchpriority="high" />
           </picture>
         </MobilePanel>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { useLang } from '../context/LanguageContext';
 
 const gradShift = keyframes`
   0%,100% { background-position: 0% 50%; }
@@ -275,6 +276,9 @@ const QuoteAuthor = styled.p`
 `;
 
 export default function FinalCta() {
+  const { lang } = useLang();
+  const isEn = lang === 'en';
+
   return (
     <Section id="agendar">
       <Wrap>
@@ -307,10 +311,10 @@ export default function FinalCta() {
           {/* RIGHT */}
           <Panel>
             <picture>
-              <source srcSet="/assets/panel-roas-2.webp" type="image/webp" />
+              <source srcSet={isEn ? "/assets/panel-roas-2-en.webp" : "/assets/panel-roas-2.webp"} type="image/webp" />
               <img
-                src="/assets/panel-roas-2.png"
-                alt="Painel de resultados VV Traffic Data"
+                src={isEn ? "/assets/panel-roas-2-en.png" : "/assets/panel-roas-2.png"}
+                alt="VV Traffic Data results panel"
                 width="1200" height="675"
                 loading="lazy"
                 decoding="async"

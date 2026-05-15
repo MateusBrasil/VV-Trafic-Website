@@ -276,9 +276,10 @@ const TrustBar = styled.div`
 export default function Hero() {
   const { lang } = useLang();
   const isEn = lang === 'en';
+  const isAr = lang === 'ar';
   const t = T[lang].hero;
-  const panelWebp = isEn ? "/assets/panel-roas-en.webp" : "/assets/panel-roas.webp";
-  const panelPng  = isEn ? "/assets/panel-roas-en.png"  : "/assets/panel-roas.png";
+  const panelWebp = isAr ? "/assets/panel-roas-ar.png" : isEn ? "/assets/panel-roas-en.webp" : "/assets/panel-roas.webp";
+  const panelPng  = isAr ? "/assets/panel-roas-ar.png" : isEn ? "/assets/panel-roas-en.png"  : "/assets/panel-roas.png";
   return (
     <HeroSection className="section" id="top">
       <div className="container">

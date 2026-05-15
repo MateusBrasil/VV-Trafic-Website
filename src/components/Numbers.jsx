@@ -296,6 +296,14 @@ const SLIDES_EN = [
   { src: '/provas/prova-5-en.png', label: 'Success Story · Real Results' },
 ];
 
+const SLIDES_AR = [
+  { src: '/provas/prova-1-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-2-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-3-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-4-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-5-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
+];
+
 const INTERVAL = 5000;
 
 const variants = {
@@ -307,7 +315,7 @@ const variants = {
 function ProvasCarousel() {
   const { lang } = useLang();
   const tn = T[lang].numbers;
-  const slides = lang === 'en' ? SLIDES_EN : SLIDES_PT;
+  const slides = lang === 'ar' ? SLIDES_AR : lang === 'en' ? SLIDES_EN : SLIDES_PT;
 
   const [[idx, dir], setPage] = useState([0, 0]);
   const [progress, setProgress] = useState(0);

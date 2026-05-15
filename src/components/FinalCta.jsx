@@ -290,6 +290,7 @@ const QuoteAuthor = styled.p`
 export default function FinalCta() {
   const { lang } = useLang();
   const isEn = lang === 'en';
+  const isAr = lang === 'ar';
   const t = T[lang].finalCta;
 
   return (
@@ -320,9 +321,9 @@ export default function FinalCta() {
           {/* RIGHT */}
           <Panel>
             <picture>
-              <source srcSet={isEn ? "/assets/panel-roas-2-en.webp" : "/assets/panel-roas-2.webp"} type="image/webp" />
+              {!isAr && <source srcSet={isEn ? "/assets/panel-roas-2-en.webp" : "/assets/panel-roas-2.webp"} type="image/webp" />}
               <PanelImg
-                src={isEn ? "/assets/panel-roas-2-en.png" : "/assets/panel-roas-2.png"}
+                src={isAr ? "/assets/panel-roas-2-ar.png" : isEn ? "/assets/panel-roas-2-en.png" : "/assets/panel-roas-2.png"}
                 alt="VV Traffic Data results panel"
                 width="1200" height="675"
                 loading="lazy"

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import ZeroButton from './ZeroButton';
+import { useLang } from '../context/LanguageContext';
 
 /* ─── CountUp ─── */
 function CountUp({ to, prefix = "", suffix = "", duration = 2000 }) {
@@ -250,13 +251,21 @@ const ProgressBar = styled.div`
   transition: width linear;
 `;
 
-/* ─── Slides data ─── */
-const slides = [
+/* ─── Slides data — two sets, switched by language ─── */
+const SLIDES_PT = [
   { src: '/provas/prova-1.png', label: 'Caso de Sucesso · Resultados Reais' },
   { src: '/provas/prova-2.png', label: 'Caso de Sucesso · Resultados Reais' },
   { src: '/provas/prova-3.png', label: 'Caso de Sucesso · Resultados Reais' },
   { src: '/provas/prova-4.png', label: 'Caso de Sucesso · Resultados Reais' },
   { src: '/provas/prova-5.png', label: 'Caso de Sucesso · Resultados Reais' },
+];
+
+const SLIDES_EN = [
+  { src: '/provas/prova-1-en.png', label: 'Success Story · Real Results' },
+  { src: '/provas/prova-2-en.png', label: 'Success Story · Real Results' },
+  { src: '/provas/prova-3-en.png', label: 'Success Story · Real Results' },
+  { src: '/provas/prova-4-en.png', label: 'Success Story · Real Results' },
+  { src: '/provas/prova-5-en.png', label: 'Success Story · Real Results' },
 ];
 
 const INTERVAL = 5000;
@@ -268,12 +277,22 @@ const variants = {
 };
 
 function ProvasCarousel() {
+  const { lang } = useLang();
+  const slides = lang === 'en' ? SLIDES_EN : SLIDES_PT;
+
   const [[idx, dir], setPage] = useState([0, 0]);
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState({});
   const timerRef = useRef(null);
   const startRef = useRef(null);
   const rafRef = useRef(null);
+
+  // Reset carousel when language changes
+  useEffect(() => {
+    setPage([0, 0]);
+    setLoaded({});
+    setProgress(0);
+  }, [lang]);
 
   const paginate = useCallback((newDir) => {
     setPage(([cur]) => [(cur + newDir + slides.length) % slides.length, newDir]);

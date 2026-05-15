@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, lazy, Suspense } from 'react';
+import { LanguageProvider } from './context/LanguageContext';
 
 // Critical path — loaded immediately
 import Header from './components/Header';
@@ -59,7 +60,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <LanguageProvider>
       <Header />
       <div ref={containerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
       <main>
@@ -79,7 +80,7 @@ function App() {
         <Footer />
       </Suspense>
       </div>
-    </>
+    </LanguageProvider>
   );
 }
 

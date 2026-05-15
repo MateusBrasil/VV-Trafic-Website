@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import LanguageSelector from "./ui/LanguageSelector";
+import { useLang } from "../context/LanguageContext";
 
 /* ── CSS ── */
 const customStyles = `
@@ -324,7 +325,7 @@ const FloatingNav = ({ navItems, lang, setLang }) => {
 };
 
 export default function Header() {
-  const [lang, setLang] = useState('pt-PT');
+  const { lang, setLang } = useLang();
 
   const navItems = [
     { name: "Início",      link: "#top",        icon: <IconHome /> },

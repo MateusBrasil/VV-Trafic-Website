@@ -34,17 +34,17 @@ const ClientItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 28px;
+  padding: 0 36px;
 
-  @media (max-width: 768px) { padding: 0 20px; }
+  @media (max-width: 768px) { padding: 0 24px; }
 
   img {
-    height: 54px;
+    height: 72px;
     width: auto;
-    max-width: 150px;
+    max-width: 180px;
     object-fit: contain;
     display: block;
-    opacity: 0.82;
+    opacity: 0.9;
     transition: opacity 0.3s ease;
     user-select: none;
     pointer-events: none;
@@ -53,22 +53,22 @@ const ClientItem = styled.div`
 `;
 
 const CLIENTS = [
-  { src: "/clientes/oficina-sabores.png",      alt: "Oficina dos Sabores" },
-  { src: "/clientes/ravox.png",                alt: "RAVOX" },
-  { src: "/clientes/pt-moveis.png",            alt: "PT Móveis" },
-  { src: "/clientes/amorikids-new.png",        alt: "Amorikids" },
-  { src: "/clientes/vulcanici.png",            alt: "Vulcanici" },
-  { src: "/clientes/barao-select.png",         alt: "Barão Select" },
-  { src: "/clientes/amazon-sem-segredos.png",  alt: "Amazon Sem Segredos" },
-  { src: "/clientes/marianna-new.png",         alt: "Marianna Guimarães" },
-  { src: "/clientes/velara-home.png",          alt: "Velara Home" },
-  { src: "/clientes/vv-studios.png",           alt: "VV Studios" },
-  { src: "/clientes/retiro.png",               alt: "Retiro" },
-  { src: "/clientes/sempre-consigo.png",       alt: "Sempre Consigo" },
-  { src: "/clientes/velara-moda.png",          alt: "Velara Moda",        dark: true },
-  { src: "/clientes/rpm-brand.png",            alt: "RPM Brand" },
-  { src: "/clientes/caroline-rodrigues.png",   alt: "Caroline Rodrigues", dark: true },
-  { src: "/clientes/vv-coffee.png",            alt: "VV Coffee Lounge" },
+  { src: "/clientes/n-2.png",  alt: "VV Studios" },
+  { src: "/clientes/n-3.png",  alt: "Oficina dos Sabores" },
+  { src: "/clientes/n-4.png",  alt: "RAVOX" },
+  { src: "/clientes/n-5.png",  alt: "PT Móveis" },
+  { src: "/clientes/n-6.png",  alt: "AmorüDs" },
+  { src: "/clientes/n-7.png",  alt: "Vulcanici" },
+  { src: "/clientes/n-8.png",  alt: "Barão Select" },
+  { src: "/clientes/n-9.png",  alt: "Amazon Sem Segredos" },
+  { src: "/clientes/n-10.png", alt: "Marianna Guimarães" },
+  { src: "/clientes/n-11.png", alt: "Velara Home" },
+  { src: "/clientes/n-14.png", alt: "Retiro" },
+  { src: "/clientes/n-15.png", alt: "Sempre Consigo" },
+  { src: "/clientes/n-16.png", alt: "Velara Moda" },
+  { src: "/clientes/n-17.png", alt: "RPM Brand Consultancy" },
+  { src: "/clientes/n-18.png", alt: "Caroline Rodrigues" },
+  { src: "/clientes/n-19.png", alt: "VV Coffee Lounge" },
 ];
 
 export default function ClientLogos() {
@@ -82,7 +82,6 @@ export default function ClientLogos() {
               <img
                 src={c.src} alt={c.alt}
                 draggable={false} loading="lazy"
-                style={c.dark ? { filter: 'invert(1) brightness(0.88)' } : undefined}
               />
             </ClientItem>
           ))}

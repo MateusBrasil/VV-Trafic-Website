@@ -102,13 +102,17 @@ function Row({ clients, reverse, speed }) {
   );
 }
 
+/* repeat each row 3× so there's never a gap regardless of screen width */
+const ROW1_FULL = [...ROW1, ...ROW1, ...ROW1];
+const ROW2_FULL = [...ROW2, ...ROW2, ...ROW2];
+
 export default function ClientLogos() {
   return (
     <Strip className="reveal">
       <p className="strip-label">Já estruturámos canais de aquisição para</p>
       <Rows>
-        <Row clients={ROW1} reverse={false} speed={36} />
-        <Row clients={ROW2} reverse={true}  speed={42} />
+        <Row clients={ROW1_FULL} reverse={false} speed={36} />
+        <Row clients={ROW2_FULL} reverse={true}  speed={42} />
       </Rows>
     </Strip>
   );

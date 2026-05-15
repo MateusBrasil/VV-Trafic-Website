@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Preconnect: fonts & analytics -->
+    <!-- Preconnect: fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -32,9 +32,8 @@
     <meta name="twitter:description" content="Tráfego pago e aquisição para empresas que faturam €20.000+/mês. ROAS médio 7,2×." />
     <meta name="twitter:image" content="https://vvtrafficdata.com/assets/vv-logo.png" />
 
-    <!-- Fonts: non-blocking load -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" /></noscript>
+    <!-- Fonts: display=swap avoids FOIT without inline JS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/vv-logo.png" />

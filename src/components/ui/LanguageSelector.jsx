@@ -134,7 +134,7 @@ export default function LanguageSelector({ lang, setLang }) {
           className="lang-btn"
           style={btnStyle}
           onClick={() => setOpen(o => !o)}
-          aria-label={`Idioma: ${current.label}`}
+          aria-label={`${current.short} – ${current.label}`}
           aria-expanded={open}
         >
           {FLAGS[current.code]}

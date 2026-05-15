@@ -350,7 +350,7 @@ export default function Footer() {
                   </div>
                   <div style={{position:'relative',zIndex:10,width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 40px'}}>
                     <span className="texto-principal">Agendar reunião</span>
-                    <span className="texto-hover">Iniciar agora →</span>
+                    <span className="texto-hover" aria-hidden="true">Iniciar agora →</span>
                   </div>
                 </AuraBtn>
 

@@ -84,7 +84,7 @@ function Row({ clients, reverse, speed }) {
       <InfiniteSlider gap={0} speed={speed} speedOnHover={speed * 2.2} reverse={reverse}>
         {clients.map((c) => (
           <ClientItem key={c.src}>
-            <img src={c.src} alt={c.alt} draggable={false} loading="lazy" width="160" height="64" />
+            <img src={c.src} alt={c.alt} draggable={false} loading="lazy" height="64" decoding="async" />
           </ClientItem>
         ))}
       </InfiniteSlider>

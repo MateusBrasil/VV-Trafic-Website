@@ -182,7 +182,6 @@ const slides = [
   { src: '/provas/prova-3.png', label: 'Caso de Sucesso · Resultados Reais' },
   { src: '/provas/prova-4.png', label: 'Caso de Sucesso · Resultados Reais' },
   { src: '/provas/prova-5.png', label: 'Caso de Sucesso · Resultados Reais' },
-  { src: '/provas/prova-6.png', label: 'Caso de Sucesso · Resultados Reais' },
 ];
 
 const INTERVAL = 5000;

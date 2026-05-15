@@ -263,7 +263,20 @@ const ProgressBar = styled.div`
   background: var(--c-verde);
   border-radius: 0 2px 0 0;
   z-index: 10;
+  width: ${p => p.$pct}%;
   transition: width linear;
+`;
+
+const HiddenImg = styled.img`display: none;`;
+
+const PlaceholderCode = styled.code`
+  color: #c6f221;
+  font-size: 0.75rem;
+`;
+
+const MotionFill = styled(motion.div)`
+  position: absolute;
+  inset: 0;
 `;
 
 /* ─── Slides data — two sets, switched by language ─── */
@@ -340,7 +353,7 @@ function ProvasCarousel() {
     <CarouselWrap>
       <SlideTrack>
         <AnimatePresence custom={dir} initial={false} mode="wait">
-          <motion.div
+          <MotionFill
             key={idx}
             custom={dir}
             variants={variants}
@@ -348,7 +361,6 @@ function ProvasCarousel() {
             animate="center"
             exit="exit"
             transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{ position: 'absolute', inset: 0 }}
           >
             {loaded[idx] ? (
               <SlideImg
@@ -363,18 +375,16 @@ function ProvasCarousel() {
                 <Placeholder>
                   <div className="icon">📸</div>
                   <div className="name">{slides[idx].label.split('·')[0].trim()}</div>
-                  <div>Adiciona a imagem em<br /><code style={{color:'#c6f221',fontSize:'0.75rem'}}>public/provas/prova-{idx+1}.png</code></div>
+                  <div>Adiciona a imagem em<br /><PlaceholderCode>public/provas/prova-{idx+1}.png</PlaceholderCode></div>
                 </Placeholder>
-                {/* hidden img to detect load */}
-                <img
+                <HiddenImg
                   src={slides[idx].src}
                   alt=""
-                  style={{ display: 'none' }}
                   onLoad={() => setLoaded(l => ({ ...l, [idx]: true }))}
                 />
               </>
             )}
-          </motion.div>
+          </MotionFill>
         </AnimatePresence>
 
         {/* arrows */}
@@ -385,7 +395,7 @@ function ProvasCarousel() {
         <CounterBadge>{idx + 1} / {slides.length}</CounterBadge>
 
         {/* progress bar */}
-        <ProgressBar style={{ width: `${progress}%` }} />
+        <ProgressBar $pct={progress} />
       </SlideTrack>
 
       {/* dots */}
@@ -395,18 +405,52 @@ function ProvasCarousel() {
         ))}
       </DotsRow>
 
-      {/* label under slide */}
-      <div style={{
-        marginTop: 12, textAlign: 'center',
-        fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)',
-        letterSpacing: '.06em', fontWeight: 600,
-        textTransform: 'uppercase',
-      }}>
-        {slides[idx].label}
-      </div>
+      <SlideLabel>{slides[idx].label}</SlideLabel>
     </CarouselWrap>
   );
 }
+
+const NumbersHead = styled.div`
+  max-width: 800px;
+`;
+
+const NumbersSubtitle = styled.p`
+  margin-top: 16px;
+`;
+
+const ProgressWrap = styled.div`
+  margin-top: 24px;
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const ProgressFill = styled.div`
+  height: 100%;
+  border-radius: 2px;
+  background: var(--c-verde, #c6f221);
+  width: ${p => p.$pct}%;
+  transition: width 0.12s linear;
+`;
+
+const CtaWrap = styled.div`
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+`;
+
+const SlideLabel = styled.div`
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: .06em;
+  font-weight: 600;
+  text-transform: uppercase;
+`;
 
 /* ─── Main section ─── */
 const Numbers = () => {
@@ -415,14 +459,14 @@ const Numbers = () => {
   return (
   <section className="section" id="numeros">
     <div className="container">
-      <div className="reveal" style={{ maxWidth: '800px' }}>
+      <NumbersHead className="reveal">
         <h2 className="t-section-heading">
           {t.headingPre}<span className="verde">{t.headingGreen}</span>
         </h2>
-        <p className="t-body-large muted" style={{ marginTop: 16 }}>
+        <NumbersSubtitle className="t-body-large muted">
           {t.subtitle}
-        </p>
-      </div>
+        </NumbersSubtitle>
+      </NumbersHead>
 
       <StatsWrap>
         <StatCard className="reveal">
@@ -457,9 +501,9 @@ const Numbers = () => {
         <ProvasCarousel />
       </div>
 
-      <div className="reveal" style={{ marginTop: 60, display: "flex", justifyContent: "center" }}>
+      <CtaWrap className="reveal">
         <ZeroButton href="#agendar" label={t.cta} />
-      </div>
+      </CtaWrap>
     </div>
   </section>
   );

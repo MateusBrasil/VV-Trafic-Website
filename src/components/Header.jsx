@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import LanguageSelector from "./ui/LanguageSelector";
 import { useLang } from "../context/LanguageContext";
 import { T } from "../i18n/translations";
+import { getNonce } from "../utils/nonce";
 
 /* ── CSS ── */
 const customStyles = `
@@ -81,6 +82,22 @@ const customStyles = `
     width: 40px; height: 40px; cursor: pointer; background: none; border: none; padding: 4px; margin-left: 8px;
   }
   .hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all .3s ease; }
+  .hamburger[data-open="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger[data-open="true"] span:nth-child(2) { opacity: 0; }
+  .hamburger[data-open="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-pill-content {
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 9999px; padding: 12px 12px 12px 24px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); white-space: nowrap;
+  }
+  .desktop-nav-inner { display: flex; align-items: center; }
+  .nav-link { position: relative; text-decoration: none; }
+  .nav-link-text { color: rgba(163,163,163,1); font-size: 1.05rem; font-weight: 600; letter-spacing: 0.025em; }
+  .nav-underline {
+    position: absolute; bottom: -4px; left: 0; right: 0; height: 3px;
+    background: linear-gradient(to right, transparent, #c6f221, transparent);
+    box-shadow: 0 0 12px rgba(198,242,33,0.8);
+  }
   @media (max-width: 768px) {
     .hamburger { display: flex; }
     .desktop-nav { display: none !important; }
@@ -171,6 +188,7 @@ const mobileOverlayStyles = `
   .mob-cta-btn .cta-arrow { transition: transform .25s ease; }
   .mob-cta-btn:hover .cta-arrow { transform: translateX(4px); }
   .mob-trust { margin-top: 10px; text-align: center; font-size: 0.62rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,0.2); font-weight: 600; }
+  .mob-lang-wrap { margin-top: 12px; display: flex; justify-content: center; }
 `;
 
 /* ── Icons ── */
@@ -195,6 +213,7 @@ const NAV_ICONS = [<IconHome />, <IconChart />, <IconMethod />, <IconTeam />, <I
 
 /* ── FloatingNav — no framer-motion ── */
 const FloatingNav = ({ navItems, th, lang, setLang }) => {
+  const nonce = getNonce();
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [visible, setVisible]           = useState(true);
   const [mobileOpen, setMobileOpen]     = useState(false);
@@ -214,8 +233,8 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
 
   return createPortal(
     <>
-      <style>{customStyles}</style>
-      <style>{mobileOverlayStyles}</style>
+      <style nonce={nonce}>{customStyles}</style>
+      <style nonce={nonce}>{mobileOverlayStyles}</style>
 
       {/* Mobile overlay */}
       <div
@@ -249,7 +268,7 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
             {th.mobileCta}
             <span className="cta-arrow">→</span>
           </a>
-          <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center' }}>
+          <div className="mob-lang-wrap">
             <LanguageSelector lang={lang} setLang={setLang} />
           </div>
           <p className="mob-trust">{th.mobileTrust}</p>
@@ -258,40 +277,26 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
 
       {/* Floating pill */}
       <div className="nav-pill-wrap" {...(!visible ? { 'data-hidden': '' } : {})}>
-        <div
-          className="nav-pill-inner glass-container"
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            borderRadius: '9999px', padding: '12px 12px 12px 24px',
-            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', whiteSpace: 'nowrap',
-          }}
-        >
+        <div className="nav-pill-inner glass-container nav-pill-content">
           <span className="mobile-brand">
             <span className="mb-logo">VV Traffic<span className="mb-dot">.</span></span>
           </span>
 
-          <nav className="desktop-nav" aria-label="Navegação principal" style={{ display: 'flex', alignItems: 'center' }}>
+          <nav className="desktop-nav desktop-nav-inner" aria-label="Navegação principal">
             {navItems.map((navItem, idx) => (
               <a
                 key={`link-${idx}`}
                 href={navItem.link}
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="optn"
-                style={{ position: 'relative', textDecoration: 'none' }}
+                className="optn nav-link"
               >
                 <div className="elementor-icon-list-items">
                   <span className="elementor-icon-list-icon">{navItem.icon}</span>
-                  <span className="elementor-icon-list-text" style={{ color: 'rgba(163,163,163,1)', fontSize: '1.05rem', fontWeight: 600, letterSpacing: '0.025em' }}>
+                  <span className="elementor-icon-list-text nav-link-text">
                     {navItem.name}
                   </span>
-                  {hoveredIndex === idx && (
-                    <span style={{
-                      position: 'absolute', bottom: '-4px', left: 0, right: 0, height: '3px',
-                      background: 'linear-gradient(to right, transparent, #c6f221, transparent)',
-                      boxShadow: '0 0 12px rgba(198,242,33,0.8)',
-                    }} />
-                  )}
+                  {hoveredIndex === idx && <span className="nav-underline" />}
                 </div>
               </a>
             ))}
@@ -312,13 +317,14 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
 
           <button
             className="hamburger"
+            data-open={mobileOpen ? "true" : "false"}
             onClick={() => setMobileOpen(o => !o)}
             aria-label={mobileOpen ? th.ariaClose : th.ariaOpen}
             aria-expanded={mobileOpen}
           >
-            <span style={{ transform: mobileOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
-            <span style={{ opacity: mobileOpen ? 0 : 1 }} />
-            <span style={{ transform: mobileOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </div>

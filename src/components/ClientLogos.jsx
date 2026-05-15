@@ -35,6 +35,22 @@ const SliderWrap = styled.div`
   overflow: hidden;
 `;
 
+const BlurEdgeLeft = styled(ProgressiveBlur)`
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 100px;
+  pointer-events: none;
+`;
+
+const BlurEdgeRight = styled(ProgressiveBlur)`
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  width: 100px;
+  pointer-events: none;
+`;
+
 const ClientItem = styled.div`
   display: flex;
   align-items: center;
@@ -90,16 +106,8 @@ function Row({ clients, reverse, speed }) {
           </ClientItem>
         ))}
       </InfiniteSlider>
-      <ProgressiveBlur
-        direction="left"
-        blurIntensity={0.9}
-        style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 100, pointerEvents: 'none' }}
-      />
-      <ProgressiveBlur
-        direction="right"
-        blurIntensity={0.9}
-        style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 100, pointerEvents: 'none' }}
-      />
+      <BlurEdgeLeft direction="left" blurIntensity={0.9} />
+      <BlurEdgeRight direction="right" blurIntensity={0.9} />
     </SliderWrap>
   );
 }

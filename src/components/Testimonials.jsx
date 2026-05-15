@@ -53,6 +53,12 @@ const ScrollerList = styled.ul`
   margin: 0;
 `;
 
+const BlockQuote = styled.blockquote`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
 const CardItem = styled.li`
   width: 420px;
   max-width: 90vw;
@@ -176,13 +182,12 @@ const InfiniteMovingCards = ({
       <ScrollerList
         ref={scrollerRef}
         className={`${start ? "animate-scroll" : ""}`}
-        style={{ animationPlayState: undefined }}
       >
         {items.map((item, idx) => {
           const initials = item.name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
           return (
             <CardItem key={item.name + idx}>
-              <blockquote style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+              <BlockQuote>
                 <Stars>★★★★★</Stars>
                 <Quote>"{item.quote}"</Quote>
                 <CardBottom>
@@ -192,7 +197,7 @@ const InfiniteMovingCards = ({
                     <AuthorTitle>{item.title}</AuthorTitle>
                   </span>
                 </CardBottom>
-              </blockquote>
+              </BlockQuote>
             </CardItem>
           );
         })}

@@ -1,10 +1,24 @@
+import styled from 'styled-components';
+
 const GRADIENT_ANGLES = { top: 0, right: 90, bottom: 180, left: 270 };
+
+const BlurLayer = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mask-image: ${p => p.$gradient};
+  -webkit-mask-image: ${p => p.$gradient};
+  backdrop-filter: blur(${p => p.$blur}px);
+`;
+
+const BlurWrap = styled.div`
+  position: relative;
+`;
 
 export function ProgressiveBlur({
   direction = 'bottom',
   blurLayers = 8,
   blurIntensity = 0.25,
-  style,
   className,
   ...props
 }) {
@@ -13,7 +27,7 @@ export function ProgressiveBlur({
   const angle = GRADIENT_ANGLES[direction];
 
   return (
-    <div style={{ position: 'relative', ...style }} className={className}>
+    <BlurWrap className={className} {...props}>
       {Array.from({ length: layers }).map((_, i) => {
         const stops = [
           i * segmentSize,
@@ -26,20 +40,13 @@ export function ProgressiveBlur({
         const gradient = `linear-gradient(${angle}deg, ${stops.join(',')})`;
 
         return (
-          <div
+          <BlurLayer
             key={i}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-              maskImage: gradient,
-              WebkitMaskImage: gradient,
-              backdropFilter: `blur(${i * blurIntensity}px)`,
-            }}
-            {...props}
+            $gradient={gradient}
+            $blur={i * blurIntensity}
           />
         );
       })}
-    </div>
+    </BlurWrap>
   );
 }

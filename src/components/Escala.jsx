@@ -17,6 +17,14 @@ const Grid = styled.div`
   }
 `;
 
+const SectionHead = styled.div`
+  text-align: center;
+`;
+
+const SubTitle = styled.p`
+  margin-top: 16px;
+`;
+
 const StepCard = styled.article`
   padding: 40px 32px;
   border-radius: 24px;
@@ -25,6 +33,7 @@ const StepCard = styled.article`
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: ${p => p.$delay ?? 0}s;
   
   &:hover {
     background: rgba(198,242,33,0.05);
@@ -108,18 +117,18 @@ const EscalaComponent = () => {
   return (
     <section className="section" id="metodo">
       <div className="container">
-        <div className="reveal" style={{ textAlign: 'center' }}>
+        <SectionHead className="reveal">
           <h2 className="t-section-heading">
             {t.headingPre}<span className="verde">{t.headingGreen}</span>
           </h2>
-          <p className="t-body-large muted" style={{ marginTop: 16 }}>
+          <SubTitle className="t-body-large muted">
             {t.subtitle}
-          </p>
-        </div>
+          </SubTitle>
+        </SectionHead>
 
         <Grid>
           {t.steps.map(([letter, title, body], i) => (
-            <StepCard className="reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
+            <StepCard className="reveal" key={i} $delay={i * 0.1}>
               <span className="index t-mono">{String(i + 1).padStart(2, "0")}</span>
               <span className="letter">{letter}</span>
               <h3 className="title">{title}</h3>

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, lazy, Suspense } from 'react';
+import styled from 'styled-components';
 import { LanguageProvider } from './context/LanguageContext';
 
 // Critical path — loaded immediately
@@ -17,6 +18,12 @@ const FinalCta     = lazy(() => import('./components/FinalCta'));
 const Footer       = lazy(() => import('./components/Footer'));
 
 import './index.css';
+
+const AppWrap = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+`;
 
 function App() {
   const containerRef = useRef(null);
@@ -61,7 +68,7 @@ function App() {
   return (
     <LanguageProvider>
       <Header />
-      <div ref={containerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+      <AppWrap ref={containerRef}>
       <main>
         <Hero />
         <ClientLogos />
@@ -78,7 +85,7 @@ function App() {
       <Suspense fallback={null}>
         <Footer />
       </Suspense>
-      </div>
+      </AppWrap>
     </LanguageProvider>
   );
 }

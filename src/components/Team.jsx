@@ -84,6 +84,10 @@ const Card = styled.div`
   overflow: hidden;
   cursor: pointer;
   border: 1px solid rgba(255,255,255,0.07);
+  transform: ${p => p.$transform ?? 'translateY(-50%)'};
+  opacity: ${p => p.$opacity ?? 1};
+  z-index: ${p => p.$zIndex ?? 1};
+  box-shadow: ${p => p.$boxShadow ?? 'none'};
   transition:
     transform  0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     opacity    0.6s ease,
@@ -211,6 +215,24 @@ const ProgressRing = styled.div`
   gap: 3px;
 `;
 
+const ProgressBarWrap = styled.div`
+  margin-top: 24px;
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const ProgressBarFill = styled.div`
+  height: 100%;
+  border-radius: 2px;
+  background: var(--c-verde, #c6f221);
+  width: ${p => p.$pct}%;
+  transition: width 0.12s linear;
+`;
+
 /* ── component ── */
 export default function Team() {
   const { lang } = useLang();
@@ -279,12 +301,10 @@ export default function Team() {
             <Card
               key={m.name}
               onClick={() => goTo(i)}
-              style={{
-                transform: `translateY(-50%) translateX(${tx}) scale(${scale})`,
-                opacity,
-                zIndex: 10 - absD,
-                boxShadow: shadow,
-              }}
+              $transform={`translateY(-50%) translateX(${tx}) scale(${scale})`}
+              $opacity={opacity}
+              $zIndex={10 - absD}
+              $boxShadow={shadow}
             >
               <img src={m.img} alt={m.name} draggable={false} loading="lazy" decoding="async" width="300" height="400" />
             </Card>
@@ -299,16 +319,9 @@ export default function Team() {
           <RoleBadge  key={`r-${animKey}`}>{member.role}</RoleBadge>
         </InfoBlock>
 
-        {/* progress bar */}
-        <div style={{ marginTop: 24, height: 2, background: 'rgba(255,255,255,0.07)', borderRadius: 2, maxWidth: 320, margin: '24px auto 0' }}>
-          <div style={{
-            height: '100%',
-            borderRadius: 2,
-            background: 'var(--c-verde, #c6f221)',
-            width: `${pct}%`,
-            transition: 'width 0.12s linear',
-          }} />
-        </div>
+        <ProgressBarWrap>
+          <ProgressBarFill $pct={pct} />
+        </ProgressBarWrap>
 
         {/* nav */}
         <NavRow>

@@ -305,6 +305,34 @@ const Copyright = styled.div`
   color: rgba(255,255,255,0.25);
 `;
 
+const AuraBgLayer = styled.div`
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+  opacity: 0.4;
+`;
+
+const AuraBorderLayer = styled.div`
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; opacity: 0.2;
+`;
+
+const AuraBorderBeam = styled.div`
+  position: absolute;
+  width: 150%; height: 150%;
+  background: linear-gradient(90deg,transparent,#000,transparent);
+  animation: borderBeamRotation var(--speed) infinite linear;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+`;
+
+const AuraTextWrap = styled.div`
+  position: relative;
+  z-index: 10;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 40px;
+`;
+
 /* ── component ── */
 export default function Footer() {
   const { lang } = useLang();
@@ -332,13 +360,13 @@ export default function Footer() {
 
                 {/* AURA BUTTON */}
                 <AuraBtn href="#agendar" aria-label={t.ctaBtn}>
-                  <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{opacity:.4}}>
+                  <AuraBgLayer>
                     <div className="shimmer-container"><div className="shimmer-gradient" /></div>
-                  </div>
+                  </AuraBgLayer>
                   <div className="shimmer-onda" />
-                  <div className="absolute inset-0 z-0 pointer-events-none" style={{opacity:.2}}>
-                    <div style={{position:'absolute',width:'150%',height:'150%',background:'linear-gradient(90deg,transparent,#000,transparent)',animation:'borderBeamRotation var(--speed) infinite linear',top:'50%',left:'50%',transform:'translate(-50%,-50%)'}}/>
-                  </div>
+                  <AuraBorderLayer>
+                    <AuraBorderBeam />
+                  </AuraBorderLayer>
                   <div className="inner-bg" />
                   <div className="bottom-glow" />
                   <div className="fundo-white-hover" />
@@ -348,10 +376,10 @@ export default function Footer() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
                     </svg>
                   </div>
-                  <div style={{position:'relative',zIndex:10,width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 40px'}}>
+                  <AuraTextWrap>
                     <span className="texto-principal">{t.ctaBtn}</span>
                     <span className="texto-hover" aria-hidden="true">{t.ctaHover}</span>
-                  </div>
+                  </AuraTextWrap>
                 </AuraBtn>
 
                 <BrandEmail>contato@vvtrafficdata.com</BrandEmail>

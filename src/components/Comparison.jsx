@@ -26,14 +26,6 @@ const CmpHead = styled.div`
     gap: 16px;
   }
 
-  .pill {
-    padding: 4px 12px;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
   .head-label { }
 
   @media (max-width: 600px) {
@@ -42,12 +34,6 @@ const CmpHead = styled.div`
       font-size: 0.82rem;
       gap: 8px;
       justify-content: center;
-    }
-    .pill {
-      padding: 5px 12px;
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-      white-space: nowrap;
     }
     .head-label { display: none; }
   }
@@ -81,12 +67,42 @@ const CmpRow = styled.div`
       gap: 8px;
       font-size: 0.78rem;
     }
-    .neg, .pos {
-      width: 16px !important;
-      height: 16px !important;
-      flex-shrink: 0;
-    }
   }
+`;
+
+const RevealWrap = styled.div`
+  max-width: 760px;
+`;
+
+const PillLeft = styled.span`
+  padding: 4px 12px; border-radius: 100px; font-size: 0.75rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(255,74,74,0.1); color: var(--c-error);
+`;
+
+const PillRight = styled.span`
+  padding: 4px 12px; border-radius: 100px; font-size: 0.75rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(198,242,33,0.15); color: var(--c-verde);
+`;
+
+const HeadRight = styled.div`
+  background: rgba(198,242,33,0.05);
+  padding: 20px 18px;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 3vw, 1.25rem);
+  font-weight: 600;
+  display: flex; align-items: center; gap: 16px;
+  @media (max-width: 600px) {
+    padding: 14px 12px; font-size: 0.82rem; gap: 8px; justify-content: center;
+  }
+`;
+
+const RowRight = styled.div`
+  padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px;
+  line-height: 1.5; font-size: 0.9rem;
+  background: rgba(198,242,33,0.02);
+  @media (max-width: 600px) { padding: 12px 10px; gap: 8px; font-size: 0.78rem; }
 `;
 
 const Highlight = styled.div`
@@ -115,29 +131,34 @@ const Highlight = styled.div`
   }
 `;
 
+const HighlightText = styled.p`
+  margin: 0;
+  font-weight: 600;
+`;
+
 const Comparison = () => {
   const { lang } = useLang();
   const t = T[lang].comparison;
   return (
     <section className="section" id="comparativo">
       <div className="container">
-        <div className="reveal" style={{ maxWidth: 760 }}>
+        <RevealWrap className="reveal">
           <h2 className="t-section-heading">
             VV Traffic Data <span className="muted">{t.headingMuted}</span> <br/>
             <span className="verde">{t.headingGreen}</span>
           </h2>
-        </div>
+        </RevealWrap>
 
         <CmpWrap className="glass reveal">
           <CmpHead>
             <div>
-              <span className="pill" style={{ background: "rgba(255,74,74,0.1)", color: "var(--c-error)" }}>{t.pillLeft}</span>
+              <PillLeft className="pill">{t.pillLeft}</PillLeft>
               <span className="head-label">{t.labelLeft}</span>
             </div>
-            <div style={{ background: "rgba(198,242,33,0.05)" }}>
-              <span className="pill" style={{ background: "rgba(198,242,33,0.15)", color: "var(--c-verde)" }}>{t.pillRight}</span>
+            <HeadRight>
+              <PillRight className="pill">{t.pillRight}</PillRight>
               <span className="head-label">{t.labelRight}</span>
-            </div>
+            </HeadRight>
           </CmpHead>
 
           {t.rows.map(([a, b], i) => (
@@ -146,19 +167,19 @@ const Comparison = () => {
                 <X className="neg" size={20} />
                 <span className="muted">{a}</span>
               </div>
-              <div style={{ background: "rgba(198,242,33,0.02)" }}>
+              <RowRight>
                 <Check className="pos" size={20} />
-                <span style={{ fontWeight: 500 }}>{b}</span>
-              </div>
+                <span>{b}</span>
+              </RowRight>
             </CmpRow>
           ))}
         </CmpWrap>
 
         <Highlight className="reveal">
           <div className="icon" aria-hidden="true">UE</div>
-          <p className="t-subheading" style={{ margin: 0, fontWeight: 600 }}>
+          <HighlightText className="t-subheading">
             {t.highlightPre}<span className="verde">{t.highlightGreen}</span>{t.highlightPost}
-          </p>
+          </HighlightText>
         </Highlight>
       </div>
     </section>

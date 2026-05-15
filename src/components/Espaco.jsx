@@ -425,6 +425,11 @@ const StripNum = styled.div`
   line-height: 1;
   letter-spacing: -.05em;
   flex-shrink: 0;
+
+  span {
+    font-size: 1.5rem;
+    color: var(--c-verde, #c6f221);
+  }
 `;
 
 const StripDivider = styled.div`
@@ -594,7 +599,7 @@ export default function Espaco() {
         {/* bottom strip */}
         <BottomStrip data-reveal>
           <StripLeft>
-            <StripNum>128<span style={{fontSize:'1.5rem',color:'var(--c-verde,#c6f221)'}}>+</span></StripNum>
+            <StripNum>128<span>+</span></StripNum>
             <StripDivider />
             <StripText>
               <p className="title">{te.stripTitle}</p>

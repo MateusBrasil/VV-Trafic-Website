@@ -196,6 +196,13 @@ const Dot = styled.button`
   background: ${p => p.$active
     ? 'var(--c-verde, #c6f221)'
     : 'rgba(255,255,255,0.18)'};
+  /* Expand tap area to 44×44px without changing visual size */
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -18px -12px;
+  }
 
   &:hover {
     background: ${p => p.$active

@@ -331,7 +331,7 @@ export default function Footer() {
                 </BrandDesc>
 
                 {/* AURA BUTTON */}
-                <AuraBtn href="#agendar">
+                <AuraBtn href="#agendar" aria-label="Agendar reunião">
                   <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{opacity:.4}}>
                     <div className="shimmer-container"><div className="shimmer-gradient" /></div>
                   </div>

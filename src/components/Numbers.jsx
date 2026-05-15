@@ -238,6 +238,12 @@ const Dot = styled.button`
   cursor: pointer;
   transition: all .3s ease;
   padding: 0;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -18px -12px;
+  }
 `;
 
 /* progress bar at bottom of slide */

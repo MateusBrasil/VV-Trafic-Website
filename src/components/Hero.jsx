@@ -70,6 +70,7 @@ const Grid = styled.div`
 const LeftCol = styled.div`
   min-width: 0;
   width: 100%;
+  animation: ${fadeUp} 0.8s 0.05s ease-out both;
 `;
 
 const Eyebrow = styled.div`

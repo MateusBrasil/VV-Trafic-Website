@@ -33,11 +33,10 @@ function App() {
 
       gsapCtx = gsap.context(() => {
         gsap.utils.toArray('.reveal').forEach((elem) => {
-          const alreadyVisible = elem.getBoundingClientRect().top < window.innerHeight * 0.95;
-
-          if (alreadyVisible) {
-            gsap.to(elem, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
-          } else {
+          // Only animate elements that are below the fold.
+          // Above-fold elements stay visible (no opacity:0) so LCP fires correctly.
+          if (elem.getBoundingClientRect().top >= window.innerHeight * 0.95) {
+            gsap.set(elem, { y: 30, opacity: 0 });
             gsap.to(elem, {
               y: 0,
               opacity: 1,

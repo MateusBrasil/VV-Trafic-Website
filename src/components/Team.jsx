@@ -321,8 +321,8 @@ export default function Team() {
           </NavBtn>
 
           <Dots>
-            {MEMBERS.map((_, i) => (
-              <Dot key={i} $active={i === cur} onClick={() => goTo(i)} />
+            {MEMBERS.map((m, i) => (
+              <Dot key={i} $active={i === cur} onClick={() => goTo(i)} aria-label={`Ver ${m.name}`} />
             ))}
           </Dots>
 

@@ -183,6 +183,10 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* Animations */
+@keyframes infiniteSliderLoop {
+  to { transform: translateX(-50%); }
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(30px);

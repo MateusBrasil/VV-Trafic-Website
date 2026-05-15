@@ -309,6 +309,7 @@ export default function FinalCta() {
             <img
               src="/assets/panel-roas-2.png"
               alt="Painel de resultados VV Traffic Data"
+              width="1200" height="675"
               style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
             />
           </Panel>

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import gsap from 'gsap';
 import ZeroButton from './ZeroButton';
 
 /* ── keyframes ── */
@@ -633,35 +632,7 @@ function CandleChart() {
 const TARGET = 128;
 
 export default function Hero() {
-  const lineRef    = useRef(null);
-  const barFillRef = useRef(null);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (lineRef.current) {
-      gsap.fromTo(
-        lineRef.current,
-        { strokeDasharray: 1000, strokeDashoffset: 1000 },
-        { strokeDashoffset: 0, duration: 2, ease: 'power2.out', delay: 0.5 }
-      );
-    }
-
-    const duration = 2000;
-    const startTime = performance.now();
-    const tick = (now) => {
-      const elapsed = now - startTime - 800;
-      if (elapsed < 0) { requestAnimationFrame(tick); return; }
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * TARGET));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-
-    setTimeout(() => {
-      if (barFillRef.current) barFillRef.current.style.width = '100%';
-    }, 900);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <HeroSection className="section" id="top">

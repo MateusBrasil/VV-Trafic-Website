@@ -241,7 +241,7 @@ const AuraBtn = styled.a`
 /* ── nav columns ── */
 const NavCol = styled.div``;
 
-const ColTitle = styled.h4`
+const ColTitle = styled.h3`
   font-size: 0.7rem;
   letter-spacing: .15em;
   color: rgba(255,255,255,0.6);
@@ -317,7 +317,7 @@ export default function Footer() {
               {/* Brand */}
               <BrandCol>
                 <LogoWrap as="a" href="#top">
-                  <img src="/assets/vv-logo.png" alt="VV Traffic Data" />
+                  <img src="/assets/vv-logo.png" alt="VV Traffic Data" width="64" height="64" />
                   <div>
                     <div className="name">VV Traffic Data</div>
                     <div className="sub">Technology</div>

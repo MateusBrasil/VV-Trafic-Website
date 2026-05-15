@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import LanguageSelector from "./ui/LanguageSelector";
 
 /* ── CSS ── */
 const customStyles = `
@@ -187,7 +188,7 @@ const IconQuote = () => (
 );
 
 /* ── FloatingNav — no framer-motion ── */
-const FloatingNav = ({ navItems }) => {
+const FloatingNav = ({ navItems, lang, setLang }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [visible, setVisible]           = useState(true);
   const [mobileOpen, setMobileOpen]     = useState(false);
@@ -242,6 +243,9 @@ const FloatingNav = ({ navItems }) => {
             Agendar Reunião Diagnóstica
             <span className="cta-arrow">→</span>
           </a>
+          <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center' }}>
+            <LanguageSelector lang={lang} setLang={setLang} />
+          </div>
           <p className="mob-trust">30 min · sem compromisso · diagnóstico gratuito</p>
         </div>
       </div>
@@ -287,6 +291,10 @@ const FloatingNav = ({ navItems }) => {
             ))}
           </nav>
 
+          <span className="desktop-cta">
+            <LanguageSelector lang={lang} setLang={setLang} />
+          </span>
+
           <a href="#agendar" className="desktop-cta" style={{ textDecoration: 'none' }}>
             <button className="bookmarkBtn" aria-label="Agendar reunião">
               <span className="IconContainer">
@@ -316,6 +324,8 @@ const FloatingNav = ({ navItems }) => {
 };
 
 export default function Header() {
+  const [lang, setLang] = useState('pt-PT');
+
   const navItems = [
     { name: "Início",      link: "#top",        icon: <IconHome /> },
     { name: "Resultados",  link: "#numeros",     icon: <IconChart /> },
@@ -323,5 +333,5 @@ export default function Header() {
     { name: "Equipa",      link: "#equipa",      icon: <IconTeam /> },
     { name: "Testemunhos", link: "#testemunhos", icon: <IconQuote /> },
   ];
-  return <FloatingNav navItems={navItems} />;
+  return <FloatingNav navItems={navItems} lang={lang} setLang={setLang} />;
 }

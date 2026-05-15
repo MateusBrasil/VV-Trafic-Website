@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ZeroButton from './ZeroButton';
@@ -12,15 +12,30 @@ const shimmer = keyframes`
   100% { background-position:  200% center; }
 `;
 const blink = keyframes`
-  0%,100% { opacity:1; } 50% { opacity:.3; }
+  0%,100% { opacity:1; } 50% { opacity:.25; }
+`;
+const fadeUp = keyframes`
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+`;
+const scanline = keyframes`
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+`;
+const pulseRing = keyframes`
+  0%   { transform:scale(1);   opacity:.6; }
+  100% { transform:scale(1.9); opacity:0; }
+`;
+const rotateBorder = keyframes`
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 `;
 
-/* ─── counter hook (fixed) ─── */
-function useCounter(target, duration = 1600) {
+/* ─── counter hook ─── */
+function useCounter(target, duration = 1800) {
   const [val, setVal]   = useState(0);
   const elRef           = useRef(null);
   const triggered       = useRef(false);
-
   useEffect(() => {
     const el = elRef.current;
     if (!el) return;
@@ -40,7 +55,6 @@ function useCounter(target, duration = 1600) {
     obs.observe(el);
     return () => obs.disconnect();
   }, [target, duration]);
-
   return [val, elRef];
 }
 
@@ -48,22 +62,34 @@ function useCounter(target, duration = 1600) {
 const Section = styled.section`
   padding: 120px 0 140px;
   position: relative;
+  overflow: hidden;
+
+  /* subtle noise texture */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
 `;
 
 const Wrap = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
-
+  position: relative;
+  z-index: 1;
   @media (max-width: 768px) { padding: 0 24px; }
 `;
 
-/* ── top label row ── */
+/* ── top row ── */
 const TopRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 56px;
+  margin-bottom: 52px;
   flex-wrap: wrap;
   gap: 16px;
 `;
@@ -77,12 +103,7 @@ const Label = styled.span`
   display: flex;
   align-items: center;
   gap: 10px;
-
-  &::before {
-    content: '';
-    width: 24px; height: 1px;
-    background: var(--c-verde, #c6f221);
-  }
+  &::before { content:''; width:24px; height:1px; background:currentColor; }
 `;
 
 const LocationPill = styled.div`
@@ -96,23 +117,17 @@ const LocationPill = styled.div`
   font-weight: 600;
   color: rgba(255,255,255,0.5);
   letter-spacing: .04em;
-
-  span {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--c-verde, #c6f221);
-    animation: ${blink} 2s ease-in-out infinite;
-  }
+  span { width:6px; height:6px; border-radius:50%; background:var(--c-verde,#c6f221); animation:${blink} 2s ease-in-out infinite; }
 `;
 
-/* ── main title ── */
+/* ── heading ── */
 const TitleRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: end;
   margin-bottom: 52px;
-
-  @media (max-width: 768px) { grid-template-columns: 1fr; gap: 20px; }
+  @media (max-width: 768px) { grid-template-columns:1fr; gap:20px; }
 `;
 
 const Heading = styled.h2`
@@ -121,7 +136,6 @@ const Heading = styled.h2`
   line-height: 1.0;
   letter-spacing: -.04em;
   margin: 0;
-
   em {
     font-style: normal;
     background: linear-gradient(90deg, #c6f221 0%, #d8ff60 50%, #c6f221 100%);
@@ -141,75 +155,212 @@ const Desc = styled.p`
   align-self: end;
 `;
 
-/* ── photo grid ── */
-const PhotoGrid = styled.div`
+/* ── main grid ── */
+const MainGrid = styled.div`
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  grid-template-rows: 1fr auto;
+  grid-template-columns: 1.2fr 0.8fr;
   gap: 16px;
   margin-bottom: 16px;
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+`;
+
+const RightCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+/* ── video card ── */
+const VideoCard = styled.div`
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 4 / 5;
+  cursor: pointer;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1s cubic-bezier(.25,.46,.45,.94);
+  }
+  &:hover video { transform: scale(1.03); }
+
+  @media (max-width: 900px) { aspect-ratio: 16 / 10; }
+`;
+
+/* scanline effect on video */
+const Scanline = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+  opacity: 0.04;
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(transparent, rgba(198,242,33,0.4), transparent);
+    animation: ${scanline} 6s linear infinite;
   }
 `;
 
-/* shared card */
-const ImgCard = styled.div`
+/* vignette */
+const Vignette = styled.div`
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%),
+    linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.05) 40%, transparent 65%);
+  pointer-events: none;
+  z-index: 3;
+`;
+
+/* top-left live badge */
+const LiveBadge = styled.div`
+  position: absolute;
+  top: 18px; left: 18px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 100px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(198,242,33,0.25);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-verde, #c6f221);
+
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--c-verde, #c6f221);
+    position: relative;
+    flex-shrink: 0;
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(198,242,33,0.4);
+      animation: ${pulseRing} 1.8s ease-out infinite;
+    }
+  }
+`;
+
+/* sound toggle button */
+const SoundBtn = styled.button`
+  position: absolute;
+  top: 18px; right: 18px;
+  z-index: 5;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s ease;
+  &:hover {
+    background: rgba(198,242,33,0.15);
+    border-color: rgba(198,242,33,0.4);
+    color: var(--c-verde,#c6f221);
+    transform: scale(1.1);
+  }
+  svg { display:block; flex-shrink:0; }
+`;
+
+/* bottom bar inside video */
+const VideoFooter = styled.div`
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 5;
+  padding: 20px 18px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+`;
+
+const Tag = styled.span`
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 100px;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.12);
+  font-size: .68rem; font-weight: 600;
+  color: rgba(255,255,255,.8); letter-spacing:.06em; white-space:nowrap;
+`;
+
+/* ── photo card ── */
+const PhotoCard = styled.div`
   position: relative;
   border-radius: 20px;
   overflow: hidden;
   background: rgba(255,255,255,0.03);
+  flex: 1;
+  min-height: 220px;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform .9s cubic-bezier(.25,.46,.45,.94);
+    object-position: center 30%;
+    transition: transform 1s cubic-bezier(.25,.46,.45,.94);
   }
-  &:hover img { transform: scale(1.05); }
+  &:hover img { transform: scale(1.06); }
 `;
 
-/* interior — tall, spans both rows */
-const InteriorCard = styled(ImgCard)`
-  grid-column: 1;
-  grid-row: 1 / 3;
-  aspect-ratio: 4 / 5;
-
-  @media (max-width: 900px) {
-    grid-column: 1; grid-row: auto;
-    aspect-ratio: 16 / 10;
-  }
+const PhotoOverlay = styled.div`
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.6) 0%, rgba(0,0,0,.05) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 2;
 `;
 
-/* facade — top right */
-const FacadeCard = styled(ImgCard)`
-  grid-column: 2;
-  grid-row: 1;
-  aspect-ratio: 4 / 3;
-
-  @media (max-width: 900px) { grid-column: 1; grid-row: auto; }
+const PhotoLabel = styled.div`
+  position: absolute;
+  bottom: 16px; left: 16px; right: 16px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-/* stats card — bottom right */
+/* ── stats card ── */
 const StatsCard = styled.div`
-  grid-column: 2;
-  grid-row: 2;
   border-radius: 20px;
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.07);
-  padding: 32px;
+  padding: 28px 28px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px 20px;
+  gap: 24px 20px;
+  position: relative;
+  overflow: hidden;
 
-  @media (max-width: 900px) { grid-column: 1; grid-row: auto; }
+  &::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198,242,33,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
 `;
 
 const Stat = styled.div`
   .val {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 900;
     font-family: var(--font-display);
     color: #fff;
@@ -219,47 +370,15 @@ const Stat = styled.div`
     align-items: baseline;
     gap: 2px;
   }
-  .sup {
-    font-size: 1rem;
-    color: var(--c-verde, #c6f221);
-    font-weight: 700;
-  }
+  .sup { font-size: .9rem; color: var(--c-verde,#c6f221); font-weight:700; }
   .lbl {
-    margin-top: 6px;
-    font-size: 0.68rem;
+    margin-top: 5px;
+    font-size: 0.62rem;
     letter-spacing: .1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.3);
     font-weight: 600;
   }
-`;
-
-/* image overlays */
-const Overlay = styled.div`
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 40%, transparent 65%);
-  pointer-events: none;
-`;
-
-const ImgLabel = styled.div`
-  position: absolute;
-  bottom: 18px; left: 18px; right: 18px;
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-`;
-
-const Tag = styled.span`
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 100px;
-  background: rgba(0,0,0,.45); backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,.1);
-  font-size: .68rem; font-weight: 600;
-  color: rgba(255,255,255,.8); letter-spacing:.06em; white-space:nowrap;
-`;
-
-const TagGreen = styled(Tag)`
-  border-color: rgba(198,242,33,.3);
-  color: var(--c-verde, #c6f221);
-  span { width:5px;height:5px;border-radius:50%;background:currentColor;animation:${blink} 1.8s ease-in-out infinite; }
 `;
 
 /* ── bottom strip ── */
@@ -271,8 +390,20 @@ const BottomStrip = styled.div`
   padding: 36px 40px;
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.06);
-  background: linear-gradient(135deg, rgba(198,242,33,0.03) 0%, transparent 70%);
+  background: linear-gradient(135deg, rgba(198,242,33,0.04) 0%, transparent 60%);
   flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198,242,33,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
   @media (max-width: 768px) { padding: 28px 24px; }
 `;
@@ -306,41 +437,43 @@ const StripText = styled.div`
   .sub   { font-size: .875rem; color: rgba(255,255,255,.45); line-height:1.5; max-width:340px; }
 `;
 
-const Btn = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 32px;
-  border-radius: 100px;
-  background: var(--c-verde, #c6f221);
-  color: #000;
-  font-weight: 800;
-  font-size: .82rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: transform .2s ease, box-shadow .2s ease;
+/* ─── SVG icons ─── */
+const IconVolume = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+  </svg>
+);
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(198,242,33,.3);
-  }
-`;
+const IconMute = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <line x1="23" y1="9" x2="17" y2="15"/>
+    <line x1="17" y1="9" x2="23" y2="15"/>
+  </svg>
+);
 
 /* ─── component ─── */
 export default function Espaco() {
   const sectionRef = useRef(null);
+  const videoRef   = useRef(null);
+  const [muted, setMuted] = useState(true);
 
   const [cont, contRef] = useCounter(4);
   const [emp,  empRef]  = useCounter(128);
   const [h,    hRef]    = useCounter(72);
-  const [roas, roasRef] = useCounter(72); // display as 7,2x separately
+
+  const toggleMute = useCallback((e) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    const next = !videoRef.current.muted;
+    videoRef.current.muted = next;
+    setMuted(next);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // stagger children of section
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
         gsap.from(el, {
           y: 48, opacity: 0, duration: 1, ease: 'power3.out',
@@ -355,17 +488,13 @@ export default function Espaco() {
     <Section ref={sectionRef} id="espaco">
       <Wrap>
 
-        {/* label + pill */}
         <TopRow data-reveal>
           <Label>O Nosso Espaço</Label>
           <LocationPill><span />Guimarães, Portugal · VV Group HQ</LocationPill>
         </TopRow>
 
-        {/* heading + desc */}
         <TitleRow data-reveal>
-          <Heading>
-            Onde a <em>estratégia</em><br />ganha forma.
-          </Heading>
+          <Heading>Onde a <em>estratégia</em><br />ganha forma.</Heading>
           <Desc>
             A VV Traffic Data opera a partir de Guimarães com uma equipa
             multidisciplinar dedicada a escalar empresas em 4 continentes.
@@ -373,49 +502,76 @@ export default function Espaco() {
           </Desc>
         </TitleRow>
 
-        {/* photos + stats */}
-        <PhotoGrid data-reveal>
+        <MainGrid data-reveal>
 
-          {/* interior — left tall card */}
-          <InteriorCard>
-            <img src="/espaco/espaco-02.png" alt="Interior VV Traffic Data" loading="lazy" />
-            <Overlay />
-            <ImgLabel>
-              <TagGreen><span />Operacional 24/7</TagGreen>
+          {/* ── VIDEO — left tall ── */}
+          <VideoCard>
+            <video
+              ref={videoRef}
+              src="/espaco/video-site.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+
+            <Scanline />
+            <Vignette />
+
+            {/* live badge */}
+            <LiveBadge>
+              <div className="dot" />
+              Ao Vivo · HQ
+            </LiveBadge>
+
+            {/* sound toggle */}
+            <SoundBtn onClick={toggleMute} aria-label={muted ? 'Ativar som' : 'Silenciar'}>
+              {muted ? <IconMute /> : <IconVolume />}
+            </SoundBtn>
+
+            {/* bottom info */}
+            <VideoFooter>
               <Tag>Interior · Guimarães</Tag>
-            </ImgLabel>
-          </InteriorCard>
+              <Tag>VV Traffic Data HQ</Tag>
+            </VideoFooter>
+          </VideoCard>
 
-          {/* facade — top right */}
-          <FacadeCard>
-            <img src="/espaco/espaco-01.png" alt="Fachada VV Traffic Data" loading="lazy" />
-            <Overlay />
-            <ImgLabel>
-              <Tag>VV Studio · VV Traffic Data</Tag>
-            </ImgLabel>
-          </FacadeCard>
+          {/* ── RIGHT COLUMN ── */}
+          <RightCol>
 
-          {/* stats — bottom right */}
-          <StatsCard>
-            <Stat>
-              <div className="val" ref={contRef}>{cont}<span className="sup">+</span></div>
-              <div className="lbl">Continentes</div>
-            </Stat>
-            <Stat>
-              <div className="val" ref={empRef}>{emp}<span className="sup">+</span></div>
-              <div className="lbl">Empresas aceleradas</div>
-            </Stat>
-            <Stat>
-              <div className="val" ref={hRef}>{h}<span className="sup">h</span></div>
-              <div className="lbl">Primeiros resultados</div>
-            </Stat>
-            <Stat>
-              <div className="val" ref={roasRef}>7,2<span className="sup">x</span></div>
-              <div className="lbl">ROAS médio</div>
-            </Stat>
-          </StatsCard>
+            {/* photo */}
+            <PhotoCard>
+              <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" />
+              <PhotoOverlay />
+              <PhotoLabel>
+                <Tag>● Operacional 24/7</Tag>
+                <Tag>Guimarães · PT</Tag>
+              </PhotoLabel>
+            </PhotoCard>
 
-        </PhotoGrid>
+            {/* stats */}
+            <StatsCard>
+              <Stat>
+                <div className="val" ref={contRef}>{cont}<span className="sup">+</span></div>
+                <div className="lbl">Continentes</div>
+              </Stat>
+              <Stat>
+                <div className="val" ref={empRef}>{emp}<span className="sup">+</span></div>
+                <div className="lbl">Empresas aceleradas</div>
+              </Stat>
+              <Stat>
+                <div className="val" ref={hRef}>{h}<span className="sup">h</span></div>
+                <div className="lbl">Primeiros resultados</div>
+              </Stat>
+              <Stat>
+                <div className="val">7,2<span className="sup">×</span></div>
+                <div className="lbl">ROAS médio</div>
+              </Stat>
+            </StatsCard>
+
+          </RightCol>
+
+        </MainGrid>
 
         {/* bottom strip */}
         <BottomStrip data-reveal>

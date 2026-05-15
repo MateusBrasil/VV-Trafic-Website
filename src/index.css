@@ -13,6 +13,7 @@
 
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
+  --font-arabic: 'Tajawal', sans-serif;
 
   --nav-height: 120px;
 }
@@ -60,6 +61,24 @@ body {
 
 html {
   overflow-x: hidden;
+}
+
+html[lang="ar"] body,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] p,
+html[lang="ar"] span,
+html[lang="ar"] button,
+html[lang="ar"] a {
+  font-family: var(--font-arabic);
+}
+
+html[dir="rtl"] {
+  direction: rtl;
 }
 
 a {

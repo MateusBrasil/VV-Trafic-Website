@@ -1,9 +1,17 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState('pt-PT');
+  const [lang, setLangState] = useState('pt-PT');
+
+  const setLang = (newLang) => {
+    setLangState(newLang);
+    const isRtl = newLang === 'ar';
+    document.documentElement.dir  = isRtl ? 'rtl' : 'ltr';
+    document.documentElement.lang = newLang === 'pt-PT' ? 'pt' : newLang === 'ar' ? 'ar' : 'en';
+  };
+
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
       {children}

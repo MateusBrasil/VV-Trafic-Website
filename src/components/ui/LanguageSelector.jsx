@@ -33,11 +33,21 @@ const FlagGB = () => (
   </svg>
 );
 
-const FLAGS = { 'pt-PT': <FlagPT />, 'en': <FlagGB /> };
+const FlagSA = () => (
+  <svg width="22" height="15" viewBox="0 0 22 15" xmlns="http://www.w3.org/2000/svg"
+    className="flag-icon">
+    <rect width="22" height="15" fill="#006C35"/>
+    <text x="11" y="10.5" textAnchor="middle" fill="white" fontSize="6" fontFamily="serif">&#x2B4D;</text>
+    <line x1="4" y1="11" x2="18" y2="11" stroke="white" strokeWidth="1.2"/>
+  </svg>
+);
+
+const FLAGS = { 'pt-PT': <FlagPT />, 'en': <FlagGB />, 'ar': <FlagSA /> };
 
 const LANGUAGES = [
   { code: 'pt-PT', label: 'Português', short: 'PT' },
   { code: 'en',    label: 'English',   short: 'EN' },
+  { code: 'ar',    label: 'العربية',   short: 'AR' },
 ];
 
 const langStyles = `

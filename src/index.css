@@ -94,6 +94,14 @@ h1, h2, h3, h4, h5, h6 {
   padding: 88px 0;
   position: relative;
   z-index: 1;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
+
+/* Hero is above fold — skip content-visibility for it */
+#top {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
 }
 
 /* Base button */

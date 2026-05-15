@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
+import { useLang } from "../context/LanguageContext";
+import { T } from "../i18n/translations";
 
 /* ── global scroll keyframe ── */
 const GlobalScrollAnim = createGlobalStyle`
@@ -199,61 +201,31 @@ const InfiniteMovingCards = ({
   );
 };
 
-/* ── testimonials data ── */
-const testimonials = [
-  {
-    quote: "São uma equipe espetacular, recebendo-nos sempre muito bem, super profissionais e fazem um trabalho fantástico... Com certeza são os melhores... Obrigada por tudo.",
-    name: "Leonor Nascimento",
-    title: "Avaliação Google · ★★★★★",
-  },
-  {
-    quote: "É uma satisfação trabalhar com VV Traffic Data, com profissionais especializados em cada área do mundo digital e atendimento personalizado, proporcionando uma maior credibilidade e resultados no meu negócio.",
-    name: "André Vitaliano",
-    title: "Avaliação Google · ★★★★★",
-  },
-  {
-    quote: "Simpatia, competência, um grande sentido de empreendedorismo. O parceiro certo para a divulgação e crescimento do seu negócio/trabalho. Recomendo vivamente!",
-    name: "Alberto Augusto Campos Ribeiro Baptista",
-    title: "Local Guide · 47 avaliações",
-  },
-  {
-    quote: "Está sendo incrível. Toda a equipe envolvida no projeto como se fosse deles... muita dedicação, conhecimento e transparência.... Top top!",
-    name: "Wagner Castro",
-    title: "Avaliação Google · ★★★★★",
-  },
-  {
-    quote: "Atendimento incrível, ótimos designers, qualidade extrema. Super recomendo!!!!",
-    name: "Jesse Elton",
-    title: "Avaliação Google · 5/5",
-  },
-  {
-    quote: "Experiência incrível. Excelente atendimento, ambiente agradável e um trabalho com entrega rápida e com qualidade.",
-    name: "Lizy Marques",
-    title: "Avaliação Google · 5/5",
-  },
-];
-
 /* ── main component ── */
-const Testimonials = () => (
-  <>
-    <GlobalScrollAnim />
-    <Section id="testemunhos">
-      <Container>
-        <Header className="reveal">
-          <h2 className="t-section-heading">
-            O que os nossos <span className="verde">clientes dizem.</span>
-          </h2>
-        </Header>
-      </Container>
+const Testimonials = () => {
+  const { lang } = useLang();
+  const t = T[lang].testimonials;
+  return (
+    <>
+      <GlobalScrollAnim />
+      <Section id="testemunhos">
+        <Container>
+          <Header className="reveal">
+            <h2 className="t-section-heading">
+              {t.headingPre}<span className="verde">{t.headingGreen}</span>
+            </h2>
+          </Header>
+        </Container>
 
-      <InfiniteMovingCards
-        items={testimonials}
-        direction="right"
-        speed="slow"
-        pauseOnHover={true}
-      />
-    </Section>
-  </>
-);
+        <InfiniteMovingCards
+          items={t.items}
+          direction="right"
+          speed="slow"
+          pauseOnHover={true}
+        />
+      </Section>
+    </>
+  );
+};
 
 export default Testimonials;

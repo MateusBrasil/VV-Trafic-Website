@@ -1,5 +1,7 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 /* ── global animations (exact from prompt) ── */
 const FooterAnims = createGlobalStyle`
@@ -305,6 +307,8 @@ const Copyright = styled.div`
 
 /* ── component ── */
 export default function Footer() {
+  const { lang } = useLang();
+  const t = T[lang].footer;
   return (
     <>
       <FooterAnims />
@@ -324,14 +328,10 @@ export default function Footer() {
                   </div>
                 </LogoWrap>
 
-                <BrandDesc>
-                  Gestão de tráfego pago, copywriting e estratégia de
-                  aquisição para empresas que faturam €20.000+/mês em
-                  Portugal e em 4 continentes.
-                </BrandDesc>
+                <BrandDesc>{t.brandDesc}</BrandDesc>
 
                 {/* AURA BUTTON */}
-                <AuraBtn href="#agendar" aria-label="Agendar reunião">
+                <AuraBtn href="#agendar" aria-label={t.ctaBtn}>
                   <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{opacity:.4}}>
                     <div className="shimmer-container"><div className="shimmer-gradient" /></div>
                   </div>
@@ -349,46 +349,41 @@ export default function Footer() {
                     </svg>
                   </div>
                   <div style={{position:'relative',zIndex:10,width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',padding:'0 40px'}}>
-                    <span className="texto-principal">Agendar reunião</span>
-                    <span className="texto-hover" aria-hidden="true">Iniciar agora →</span>
+                    <span className="texto-principal">{t.ctaBtn}</span>
+                    <span className="texto-hover" aria-hidden="true">{t.ctaHover}</span>
                   </div>
                 </AuraBtn>
 
                 <BrandEmail>contato@vvtrafficdata.com</BrandEmail>
               </BrandCol>
 
-              {/* Empresa */}
+              {/* Col 1 */}
               <NavCol>
-                <ColTitle>Empresa</ColTitle>
+                <ColTitle>{t.col1Title}</ColTitle>
                 <NavList>
-                  <li><NavLink href="#equipa">A nossa equipa</NavLink></li>
-                  <li><NavLink href="#espaco">O nosso espaço</NavLink></li>
-                  <li><NavLink href="#numeros">Resultados</NavLink></li>
-                  <li><NavLink href="#testemunhos">Testemunhos</NavLink></li>
-                  <li><NavLink href="#agendar">Carreiras</NavLink></li>
+                  {t.col1Links.map(({ label, href }) => (
+                    <li key={label}><NavLink href={href}>{label}</NavLink></li>
+                  ))}
                 </NavList>
               </NavCol>
 
-              {/* Serviços */}
+              {/* Col 2 */}
               <NavCol>
-                <ColTitle>Serviços</ColTitle>
+                <ColTitle>{t.col2Title}</ColTitle>
                 <NavList>
-                  <li><NavLink href="#metodo">Método ESCALA</NavLink></li>
-                  <li><NavLink href="#metodo">Tráfego Pago</NavLink></li>
-                  <li><NavLink href="#metodo">Copywriting</NavLink></li>
-                  <li><NavLink href="#metodo">Estratégia Digital</NavLink></li>
-                  <li><NavLink href="#metodo">Análise de Dados</NavLink></li>
+                  {t.col2Links.map(({ label, href }) => (
+                    <li key={label}><NavLink href={href}>{label}</NavLink></li>
+                  ))}
                 </NavList>
               </NavCol>
 
-              {/* Contacto */}
+              {/* Col 3 */}
               <NavCol>
-                <ColTitle>Contacto</ColTitle>
+                <ColTitle>{t.col3Title}</ColTitle>
                 <NavList>
-                  <li><NavLink href="#agendar">Agendar reunião</NavLink></li>
-                  <li><NavLink href="#comparativo">Comparativo</NavLink></li>
-                  <li><NavLink href="#numeros">Case studies</NavLink></li>
-                  <li><NavLink href="#agendar">Diagnóstico gratuito</NavLink></li>
+                  {t.col3Links.map(({ label, href }) => (
+                    <li key={label}><NavLink href={href}>{label}</NavLink></li>
+                  ))}
                 </NavList>
               </NavCol>
 
@@ -397,17 +392,14 @@ export default function Footer() {
             {/* Bottom bar */}
             <BottomBar>
               <BottomNav>
-                <BottomLink href="#">Política de Privacidade</BottomLink>
-                <Separator>|</Separator>
-                <BottomLink href="#">Termos de Uso</BottomLink>
-                <Separator>|</Separator>
-                <BottomLink href="#">RGPD</BottomLink>
-                <Separator>|</Separator>
-                <BottomLink href="#">Cookies</BottomLink>
-                <Separator>|</Separator>
-                <BottomLink href="#">Mapa do Site</BottomLink>
+                {t.legalLinks.map((label, i) => (
+                  <React.Fragment key={label}>
+                    {i > 0 && <Separator>|</Separator>}
+                    <BottomLink href="#">{label}</BottomLink>
+                  </React.Fragment>
+                ))}
               </BottomNav>
-              <Copyright>© 2026 VV Traffic Data · VV Group. Todos os direitos reservados.</Copyright>
+              <Copyright>{t.copyright}</Copyright>
             </BottomBar>
 
           </CardContent>

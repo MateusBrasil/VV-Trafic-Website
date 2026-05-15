@@ -1,16 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Shield } from 'lucide-react';
-import ZeroButton from './ZeroButton';
-
-const ESCALA = [
-  ["E", "Estruturação",  "Definimos o teu cliente ideal e construímos a oferta irresistível. Sem oferta sólida, nenhum anúncio funciona."],
-  ["S", "Segmentação",   "Mapeamos o público com maior potencial de conversão — Meta Ads ou Google Ads."],
-  ["C", "Criação",       "Desenvolvemos os criativos com copywriting de resposta direta. O anúncio que vende à primeira vista."],
-  ["A", "Activação",     "Campanha no ar. Primeiros resultados em 72 horas. Não em semanas. Não em meses."],
-  ["L", "Leitura",       "Análise semanal dos dados. Eliminamos o que não converte. Reforçamos o que vende."],
-  ["A", "Aceleração",    "Escalamos os anúncios vencedores para maximizar o ROI e transformar tráfego em crescimento previsível."],
-];
+import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 const Grid = styled.div`
   display: grid;
@@ -112,20 +103,22 @@ const GuaranteeBox = styled.div`
 `;
 
 const EscalaComponent = () => {
+  const { lang } = useLang();
+  const t = T[lang].escala;
   return (
     <section className="section" id="metodo">
       <div className="container">
         <div className="reveal" style={{ textAlign: 'center' }}>
           <h2 className="t-section-heading">
-            O <span className="verde">Método ESCALA.</span>
+            {t.headingPre}<span className="verde">{t.headingGreen}</span>
           </h2>
           <p className="t-body-large muted" style={{ marginTop: 16 }}>
-            A estrutura por detrás de +€12M gerados em 8 países.
+            {t.subtitle}
           </p>
         </div>
 
         <Grid>
-          {ESCALA.map(([letter, title, body], i) => (
+          {t.steps.map(([letter, title, body], i) => (
             <StepCard className="reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
               <span className="index t-mono">{String(i + 1).padStart(2, "0")}</span>
               <span className="letter">{letter}</span>

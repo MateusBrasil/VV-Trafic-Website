@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { InfiniteSlider } from './ui/InfiniteSlider';
 import { ProgressiveBlur } from './ui/ProgressiveBlur';
+import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 const Strip = styled.div`
   padding: 48px 0 56px;
@@ -107,9 +109,11 @@ const ROW1_FULL = [...ROW1, ...ROW1, ...ROW1];
 const ROW2_FULL = [...ROW2, ...ROW2, ...ROW2];
 
 export default function ClientLogos() {
+  const { lang } = useLang();
+  const t = T[lang].clients;
   return (
     <Strip className="reveal">
-      <p className="strip-label">Já estruturámos canais de aquisição para</p>
+      <p className="strip-label">{t.label}</p>
       <Rows>
         <Row clients={ROW1_FULL} reverse={false} speed={36} />
         <Row clients={ROW2_FULL} reverse={true}  speed={42} />

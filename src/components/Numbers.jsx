@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
 import ZeroButton from './ZeroButton';
 import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 /* ─── CountUp ─── */
 function CountUp({ to, prefix = "", suffix = "", duration = 2000 }) {
@@ -13,14 +13,23 @@ function CountUp({ to, prefix = "", suffix = "", duration = 2000 }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obj = { val: 0 };
-    gsap.to(obj, {
-      val: to,
-      duration: duration / 1000,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 90%' },
-      onUpdate: () => setVal(obj.val),
+    let kill;
+    Promise.all([
+      import('gsap').then(m => m.default),
+      import('gsap/ScrollTrigger').then(m => m.ScrollTrigger),
+    ]).then(([gsap, ScrollTrigger]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      const obj = { val: 0 };
+      const tween = gsap.to(obj, {
+        val: to,
+        duration: duration / 1000,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 90%' },
+        onUpdate: () => setVal(obj.val),
+      });
+      kill = () => tween.kill();
     });
+    return () => kill?.();
   }, [to, duration]);
 
   const display = Number.isInteger(to)
@@ -284,6 +293,7 @@ const variants = {
 
 function ProvasCarousel() {
   const { lang } = useLang();
+  const tn = T[lang].numbers;
   const slides = lang === 'en' ? SLIDES_EN : SLIDES_PT;
 
   const [[idx, dir], setPage] = useState([0, 0]);
@@ -368,8 +378,8 @@ function ProvasCarousel() {
         </AnimatePresence>
 
         {/* arrows */}
-        <ArrowBtn $left onClick={() => paginate(-1)} aria-label="Anterior">‹</ArrowBtn>
-        <ArrowBtn onClick={() => paginate(1)} aria-label="Seguinte">›</ArrowBtn>
+        <ArrowBtn $left onClick={() => paginate(-1)} aria-label={tn.prev}>‹</ArrowBtn>
+        <ArrowBtn onClick={() => paginate(1)} aria-label={tn.next}>›</ArrowBtn>
 
         {/* counter */}
         <CounterBadge>{idx + 1} / {slides.length}</CounterBadge>
@@ -381,7 +391,7 @@ function ProvasCarousel() {
       {/* dots */}
       <DotsRow>
         {slides.map((_, i) => (
-          <Dot key={i} $active={i === idx} onClick={() => goTo(i)} aria-label={`Caso ${i + 1}`} />
+          <Dot key={i} $active={i === idx} onClick={() => goTo(i)} aria-label={tn.dot(i)} />
         ))}
       </DotsRow>
 
@@ -399,45 +409,47 @@ function ProvasCarousel() {
 }
 
 /* ─── Main section ─── */
-const Numbers = () => (
+const Numbers = () => {
+  const { lang } = useLang();
+  const t = T[lang].numbers;
+  return (
   <section className="section" id="numeros">
     <div className="container">
       <div className="reveal" style={{ maxWidth: '800px' }}>
         <h2 className="t-section-heading">
-          Os números <span className="verde">falam por si.</span>
+          {t.headingPre}<span className="verde">{t.headingGreen}</span>
         </h2>
         <p className="t-body-large muted" style={{ marginTop: 16 }}>
-          Em menos de dois anos, construímos um histórico mensurável em vendas geradas,
-          estruturas comerciais e operações internacionais.
+          {t.subtitle}
         </p>
       </div>
 
       <StatsWrap>
         <StatCard className="reveal">
-          <div className="eyebrow">Vendas Geradas</div>
+          <div className="eyebrow">{t.stat1Eyebrow}</div>
           <div className="val-num">
             <CountUp to={12} prefix="€" suffix="M" /><em>+</em>
           </div>
           <div className="divider" />
-          <div className="label">em vendas diretas geradas para os nossos clientes nos últimos 2 anos</div>
+          <div className="label">{t.stat1Desc}</div>
         </StatCard>
 
         <StatCard className="reveal">
-          <div className="eyebrow">Negócios Acelerados</div>
+          <div className="eyebrow">{t.stat2Eyebrow}</div>
           <div className="val-num">
             <em>+</em><CountUp to={132} />
           </div>
           <div className="divider" />
-          <div className="label">negócios com canal de aquisição estruturado e activo</div>
+          <div className="label">{t.stat2Desc}</div>
         </StatCard>
 
         <StatCard className="reveal">
-          <div className="eyebrow">Presença Global</div>
+          <div className="eyebrow">{t.stat3Eyebrow}</div>
           <div className="val-num">
             <CountUp to={8} />
           </div>
           <div className="divider" />
-          <div className="label">países com operações ativas do VV Group</div>
+          <div className="label">{t.stat3Desc}</div>
         </StatCard>
       </StatsWrap>
 
@@ -446,10 +458,11 @@ const Numbers = () => (
       </div>
 
       <div className="reveal" style={{ marginTop: 60, display: "flex", justifyContent: "center" }}>
-        <ZeroButton href="#agendar" label="Agendar Reunião Diagnóstica" />
+        <ZeroButton href="#agendar" label={t.cta} />
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default Numbers;

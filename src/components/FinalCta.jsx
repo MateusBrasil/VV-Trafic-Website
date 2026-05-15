@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 const gradShift = keyframes`
   0%,100% { background-position: 0% 50%; }
@@ -278,6 +279,7 @@ const QuoteAuthor = styled.p`
 export default function FinalCta() {
   const { lang } = useLang();
   const isEn = lang === 'en';
+  const t = T[lang].finalCta;
 
   return (
     <Section id="agendar">
@@ -287,25 +289,21 @@ export default function FinalCta() {
         <Layout className="reveal">
           {/* LEFT */}
           <Left>
-            <Overline>Diagnóstico Gratuito</Overline>
+            <Overline>{t.overline}</Overline>
 
             <Heading>
-              O teu negócio está<br />
-              pronto para <em>escalar?</em>
+              {t.headingPre}{t.headingBreak && <br />}
+              {t.headingPre2}<em>{t.headingEm}</em>
             </Heading>
 
-            <Body>
-              Uma conversa de 30 minutos com um estrategista da VV.
-              Se houver alinhamento, apresentamos proposta.
-              Se não houver — sais com um diagnóstico claro do teu canal de aquisição.
-            </Body>
+            <Body>{t.body}</Body>
 
             <WaBtn href="https://wa.link/i13y51" target="_blank" rel="noopener noreferrer">
               <WaIcon />
-              Agendar no WhatsApp
+              {t.cta}
             </WaBtn>
 
-            <Micro>30 min · avaliação mútua · sem compromisso</Micro>
+            <Micro>{t.micro}</Micro>
           </Left>
 
           {/* RIGHT */}

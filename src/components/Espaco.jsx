@@ -3,6 +3,8 @@ import styled, { keyframes, css } from 'styled-components';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ZeroButton from './ZeroButton';
+import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -456,6 +458,8 @@ const IconMute = () => (
 
 /* ─── component ─── */
 export default function Espaco() {
+  const { lang } = useLang();
+  const te = T[lang].espaco;
   const sectionRef = useRef(null);
   const videoRef   = useRef(null);
   const [muted, setMuted] = useState(true);
@@ -504,17 +508,13 @@ export default function Espaco() {
       <Wrap>
 
         <TopRow data-reveal>
-          <Label>O Nosso Espaço</Label>
-          <LocationPill><span />Guimarães, Portugal · VV Group HQ</LocationPill>
+          <Label>{te.topLabel}</Label>
+          <LocationPill><span />{te.location}</LocationPill>
         </TopRow>
 
         <TitleRow data-reveal>
-          <Heading>Onde a <em>estratégia</em><br />ganha forma.</Heading>
-          <Desc>
-            A VV Traffic Data opera a partir de Guimarães com uma equipa
-            multidisciplinar dedicada a escalar empresas em 4 continentes.
-            Um espaço criado para pensar, criar e entregar resultados reais.
-          </Desc>
+          <Heading>{te.headingPre}<em>{te.headingEm}</em><br />{te.headingPost}</Heading>
+          <Desc>{te.desc}</Desc>
         </TitleRow>
 
         <MainGrid data-reveal>
@@ -536,18 +536,18 @@ export default function Espaco() {
             {/* live badge */}
             <LiveBadge>
               <div className="dot" />
-              Ao Vivo · HQ
+              {te.liveBadge}
             </LiveBadge>
 
             {/* sound toggle */}
-            <SoundBtn onClick={toggleMute} aria-label={muted ? 'Ativar som' : 'Silenciar'}>
+            <SoundBtn onClick={toggleMute} aria-label={muted ? te.soundOn : te.soundOff}>
               {muted ? <IconMute /> : <IconVolume />}
             </SoundBtn>
 
             {/* bottom info */}
             <VideoFooter>
-              <Tag>Interior · Guimarães</Tag>
-              <Tag>VV Traffic Data HQ</Tag>
+              <Tag>{te.videoTag1}</Tag>
+              <Tag>{te.videoTag2}</Tag>
             </VideoFooter>
           </VideoCard>
 
@@ -558,12 +558,12 @@ export default function Espaco() {
             <PhotoCard>
               <picture>
                 <source srcSet="/espaco/espaco-nova.webp" type="image/webp" />
-                <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" decoding="async" width="800" height="600" />
+                <img src="/espaco/espaco-nova.jpg" alt={te.imgAlt} loading="lazy" decoding="async" width="800" height="600" />
               </picture>
               <PhotoOverlay />
               <PhotoLabel>
-                <Tag>● Operacional 24/7</Tag>
-                <Tag>Guimarães · PT</Tag>
+                <Tag>{te.photoTag1}</Tag>
+                <Tag>{te.photoTag2}</Tag>
               </PhotoLabel>
             </PhotoCard>
 
@@ -571,19 +571,19 @@ export default function Espaco() {
             <StatsCard>
               <Stat>
                 <div className="val" ref={contRef}>{cont}<span className="sup">+</span></div>
-                <div className="lbl">Continentes</div>
+                <div className="lbl">{te.stat1Lbl}</div>
               </Stat>
               <Stat>
                 <div className="val" ref={empRef}>{emp}<span className="sup">+</span></div>
-                <div className="lbl">Empresas aceleradas</div>
+                <div className="lbl">{te.stat2Lbl}</div>
               </Stat>
               <Stat>
                 <div className="val" ref={hRef}>{h}<span className="sup">h</span></div>
-                <div className="lbl">Primeiros resultados</div>
+                <div className="lbl">{te.stat3Lbl}</div>
               </Stat>
               <Stat>
                 <div className="val">7,2<span className="sup">×</span></div>
-                <div className="lbl">ROAS médio</div>
+                <div className="lbl">{te.stat4Lbl}</div>
               </Stat>
             </StatsCard>
 
@@ -597,14 +597,11 @@ export default function Espaco() {
             <StripNum>128<span style={{fontSize:'1.5rem',color:'var(--c-verde,#c6f221)'}}>+</span></StripNum>
             <StripDivider />
             <StripText>
-              <p className="title">Empresas aceleradas com o Método ESCALA</p>
-              <p className="sub">
-                Garantia em contrato · Primeiros resultados em 72 horas ·
-                Presente em 4 continentes.
-              </p>
+              <p className="title">{te.stripTitle}</p>
+              <p className="sub">{te.stripSub}</p>
             </StripText>
           </StripLeft>
-          <ZeroButton href="#agendar" label="Agendar Reunião" />
+          <ZeroButton href="#agendar" label={te.cta} />
         </BottomStrip>
 
       </Wrap>

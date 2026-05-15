@@ -1,18 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
-const MEMBERS = [
-  { name: "Victor Guerhart", role: "Fundador & CVO",     img: "/equipe/victor-guerhart.png" },
-  { name: "Fred Martins",    role: "CEO",                img: "/equipe/fred-martins.png" },
-  { name: "Thainá Guerhart", role: "COO & CFO",          img: "/equipe/thaina-guerhart.png" },
-  { name: "Kaiky Tuler",     role: "Head de Tráfego",    img: "/equipe/kaiky-tuler.png" },
-  { name: "Audrey Doanne",   role: "Diretora de Arte",   img: "/equipe/audrey-doanne.png" },
-  { name: "Chloe Vieira",    role: "Social Media",       img: "/equipe/chloe-vieira.png" },
-  { name: "Luiz Neves",      role: "Gerente Comercial",  img: "/equipe/luiz-neves.png" },
-  { name: "Mateus Brasil",   role: "Head de I.A e Automação", img: "/equipe/mateus-brasil.png" },
-];
-
-const N = MEMBERS.length;
+const N = 8; // number of team members (must match translations)
 const CARD_W = 300;
 const CARD_H = 400;
 const STEP    = 324; // center-to-center distance
@@ -222,6 +213,9 @@ const ProgressRing = styled.div`
 
 /* ── component ── */
 export default function Team() {
+  const { lang } = useLang();
+  const t = T[lang].team;
+  const members = t.members;
   const [cur, setCur]       = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const [pct, setPct]       = useState(0);
@@ -252,25 +246,22 @@ export default function Team() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [cur, next]);
 
-  const member = MEMBERS[cur];
+  const member = members[cur];
 
   return (
     <Wrapper id="equipa">
       <Container>
         <SectionHead className="reveal">
           <h2 className="t-section-heading">
-            A equipa por detrás dos <span className="verde">resultados.</span>
+            {t.headingPre}<span className="verde">{t.headingGreen}</span>
           </h2>
-          <Sub>
-            Um squad dedicado — gestores de tráfego, designers,
-            estrategistas e analistas de dados — a trabalhar em simultâneo na tua conta.
-          </Sub>
+          <Sub>{t.subtitle}</Sub>
         </SectionHead>
       </Container>
 
       {/* ── full-bleed carousel ── */}
       <TrackOuter>
-        {MEMBERS.map((m, i) => {
+        {members.map((m, i) => {
           const d    = wdist(i, cur);
           const absD = Math.abs(d);
 
@@ -321,19 +312,19 @@ export default function Team() {
 
         {/* nav */}
         <NavRow>
-          <NavBtn onClick={prev} aria-label="Anterior">
+          <NavBtn onClick={prev} aria-label={t.ariaPrev}>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M11 4L6 9L11 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </NavBtn>
 
           <Dots>
-            {MEMBERS.map((m, i) => (
-              <Dot key={i} $active={i === cur} onClick={() => goTo(i)} aria-label={`Ver ${m.name}`} />
+            {members.map((m, i) => (
+              <Dot key={i} $active={i === cur} onClick={() => goTo(i)} aria-label={t.ariaDot(m.name)} />
             ))}
           </Dots>
 
-          <NavBtn onClick={next} aria-label="Próximo">
+          <NavBtn onClick={next} aria-label={t.ariaNext}>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M7 4L12 9L7 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>

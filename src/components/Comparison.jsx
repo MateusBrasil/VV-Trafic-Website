@@ -1,14 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { X, Check } from 'lucide-react';
-
-const ROWS = [
-  ["30 a 45 dias para os primeiros resultados", "Primeiros resultados em 72 horas"],
-  ["Relatório mensal com métricas de vaidade", "Relatório semanal — 5 números que importam para o decisor"],
-  ["Não sabem dizer se estão a gerar lucro ou prejuízo", "Cada euro investido é rastreado e justificado"],
-  ["Gerem anúncios — não estruturam o processo comercial", "Estruturamos o processo completo — da oferta ao fecho"],
-  ["Contrato longo com penalização de saída", "Mês a mês após 90 dias — sem fidelidade forçada"],
-];
+import { useLang } from '../context/LanguageContext';
+import { T } from '../i18n/translations';
 
 const CmpWrap = styled.div`
   margin-top: 60px;
@@ -122,29 +116,31 @@ const Highlight = styled.div`
 `;
 
 const Comparison = () => {
+  const { lang } = useLang();
+  const t = T[lang].comparison;
   return (
     <section className="section" id="comparativo">
       <div className="container">
         <div className="reveal" style={{ maxWidth: 760 }}>
           <h2 className="t-section-heading">
-            VV Traffic Data <span className="muted">vs</span> <br/> 
-            <span className="verde">Agências Tradicionais.</span>
+            VV Traffic Data <span className="muted">{t.headingMuted}</span> <br/>
+            <span className="verde">{t.headingGreen}</span>
           </h2>
         </div>
 
         <CmpWrap className="glass reveal">
           <CmpHead>
             <div>
-              <span className="pill" style={{ background: "rgba(255,74,74,0.1)", color: "var(--c-error)" }}>Tradicional</span>
-              <span className="head-label">Agências Tradicionais</span>
+              <span className="pill" style={{ background: "rgba(255,74,74,0.1)", color: "var(--c-error)" }}>{t.pillLeft}</span>
+              <span className="head-label">{t.labelLeft}</span>
             </div>
             <div style={{ background: "rgba(198,242,33,0.05)" }}>
-              <span className="pill" style={{ background: "rgba(198,242,33,0.15)", color: "var(--c-verde)" }}>VV</span>
-              <span className="head-label">VV Traffic Data</span>
+              <span className="pill" style={{ background: "rgba(198,242,33,0.15)", color: "var(--c-verde)" }}>{t.pillRight}</span>
+              <span className="head-label">{t.labelRight}</span>
             </div>
           </CmpHead>
 
-          {ROWS.map(([a, b], i) => (
+          {t.rows.map(([a, b], i) => (
             <CmpRow key={i}>
               <div>
                 <X className="neg" size={20} />
@@ -161,7 +157,7 @@ const Comparison = () => {
         <Highlight className="reveal">
           <div className="icon" aria-hidden="true">UE</div>
           <p className="t-subheading" style={{ margin: 0, fontWeight: 600 }}>
-            Somos a <span className="verde">primeira empresa na União Europeia</span> com garantia de entrega em contrato.
+            {t.highlightPre}<span className="verde">{t.highlightGreen}</span>{t.highlightPost}
           </p>
         </Highlight>
       </div>

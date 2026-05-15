@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import LanguageSelector from "./ui/LanguageSelector";
 import { useLang } from "../context/LanguageContext";
+import { T } from "../i18n/translations";
 
 /* ── CSS ── */
 const customStyles = `
@@ -189,8 +190,11 @@ const IconQuote = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1 0 2.5 1 5 2.5 5 1.5 0 2.5 1 2.5 2v1H3z"/><path d="M13 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2h-2c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1 0 2.5 1 5 2.5 5 1.5 0 2.5 1 2.5 2v1h-7z"/></svg>
 );
 
+/* ── icon map by nav index ── */
+const NAV_ICONS = [<IconHome />, <IconChart />, <IconMethod />, <IconTeam />, <IconQuote />];
+
 /* ── FloatingNav — no framer-motion ── */
-const FloatingNav = ({ navItems, lang, setLang }) => {
+const FloatingNav = ({ navItems, th, lang, setLang }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [visible, setVisible]           = useState(true);
   const [mobileOpen, setMobileOpen]     = useState(false);
@@ -225,10 +229,10 @@ const FloatingNav = ({ navItems, lang, setLang }) => {
           <div className="mob-logo-area">
             <img src="/assets/vv-logo.png" alt="VV Traffic Data" width="48" height="48" />
           </div>
-          <button className="mob-close-btn" onClick={closeMobile} aria-label="Fechar menu">✕</button>
+          <button className="mob-close-btn" onClick={closeMobile} aria-label={th.ariaClose}>✕</button>
         </div>
 
-        <nav className="mob-nav-list" aria-label="Navegação mobile">
+        <nav className="mob-nav-list" aria-label={th.mobileNavAria}>
           {navItems.map((item, i) => (
             <a key={i} href={item.link} className="mob-nav-item" onClick={closeMobile}>
               <span className="mob-item-icon">{item.icon}</span>
@@ -242,13 +246,13 @@ const FloatingNav = ({ navItems, lang, setLang }) => {
 
         <div className="mob-sheet-footer">
           <a href="#agendar" className="mob-cta-btn" onClick={closeMobile}>
-            Agendar Reunião Diagnóstica
+            {th.mobileCta}
             <span className="cta-arrow">→</span>
           </a>
           <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'center' }}>
             <LanguageSelector lang={lang} setLang={setLang} />
           </div>
-          <p className="mob-trust">30 min · sem compromisso · diagnóstico gratuito</p>
+          <p className="mob-trust">{th.mobileTrust}</p>
         </div>
       </div>
 
@@ -297,19 +301,19 @@ const FloatingNav = ({ navItems, lang, setLang }) => {
             <LanguageSelector lang={lang} setLang={setLang} />
           </span>
 
-          <a href="#agendar" className="bookmarkBtn desktop-cta" aria-label="Agendar reunião">
+          <a href="#agendar" className="bookmarkBtn desktop-cta" aria-label={th.cta}>
             <span className="IconContainer">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-icon-svg">
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </span>
-            <p className="btn-text">Agendar</p>
+            <p className="btn-text">{th.cta}</p>
           </a>
 
           <button
             className="hamburger"
             onClick={() => setMobileOpen(o => !o)}
-            aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-label={mobileOpen ? th.ariaClose : th.ariaOpen}
             aria-expanded={mobileOpen}
           >
             <span style={{ transform: mobileOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
@@ -325,13 +329,7 @@ const FloatingNav = ({ navItems, lang, setLang }) => {
 
 export default function Header() {
   const { lang, setLang } = useLang();
-
-  const navItems = [
-    { name: "Início",      link: "#top",        icon: <IconHome /> },
-    { name: "Resultados",  link: "#numeros",     icon: <IconChart /> },
-    { name: "Método",      link: "#metodo",      icon: <IconMethod /> },
-    { name: "Equipa",      link: "#equipa",      icon: <IconTeam /> },
-    { name: "Testemunhos", link: "#testemunhos", icon: <IconQuote /> },
-  ];
-  return <FloatingNav navItems={navItems} lang={lang} setLang={setLang} />;
+  const th = T[lang].header;
+  const navItems = th.nav.map((item, i) => ({ ...item, icon: NAV_ICONS[i] }));
+  return <FloatingNav navItems={navItems} th={th} lang={lang} setLang={setLang} />;
 }

@@ -306,12 +306,16 @@ export default function FinalCta() {
 
           {/* RIGHT */}
           <Panel>
-            <img
-              src="/assets/panel-roas-2.png"
-              alt="Painel de resultados VV Traffic Data"
-              width="1200" height="675"
-              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
-            />
+            <picture>
+              <source srcSet="/assets/panel-roas-2.webp" type="image/webp" />
+              <img
+                src="/assets/panel-roas-2.png"
+                alt="Painel de resultados VV Traffic Data"
+                width="1200" height="675"
+                loading="lazy"
+                style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
+              />
+            </picture>
           </Panel>
         </Layout>
       </Wrap>

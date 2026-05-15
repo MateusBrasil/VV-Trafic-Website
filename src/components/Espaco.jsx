@@ -556,7 +556,10 @@ export default function Espaco() {
 
             {/* photo */}
             <PhotoCard>
-              <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" width="800" height="600" />
+              <picture>
+                <source srcSet="/espaco/espaco-nova.webp" type="image/webp" />
+                <img src="/espaco/espaco-nova.jpg" alt="Espaço VV Traffic Data" loading="lazy" width="800" height="600" />
+              </picture>
               <PhotoOverlay />
               <PhotoLabel>
                 <Tag>● Operacional 24/7</Tag>

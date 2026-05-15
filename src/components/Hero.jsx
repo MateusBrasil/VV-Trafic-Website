@@ -679,13 +679,19 @@ export default function Hero() {
 
           {/* ── RIGHT: full panel — desktop only ── */}
           <VisualPanel className="reveal">
-            <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
+            <picture>
+              <source srcSet="/assets/panel-roas.webp" type="image/webp" />
+              <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
+            </picture>
           </VisualPanel>
         </Grid>
 
         {/* ── MOBILE PANEL ── */}
         <MobilePanel>
-          <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
+          <picture>
+            <source srcSet="/assets/panel-roas.webp" type="image/webp" />
+            <img src="/assets/panel-roas.png" alt="Painel ROAS · VV Traffic Data · 7,2x" width="1280" height="720" fetchpriority="high" />
+          </picture>
         </MobilePanel>
 
         <TrustBar>

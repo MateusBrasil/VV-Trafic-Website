@@ -12,7 +12,9 @@ const Numbers      = lazy(() => import('./components/Numbers'));
 const Comparison   = lazy(() => import('./components/Comparison'));
 const Escala       = lazy(() => import('./components/Escala'));
 const Team         = lazy(() => import('./components/Team'));
-const Espaco       = lazy(() => import('./components/Espaco'));
+// Espaco section temporarily hidden — old VV Traffic studio video; awaiting
+// Saudi Arabia building photo replacement for the UAE-targeted build.
+// const Espaco       = lazy(() => import('./components/Espaco'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
 const FinalCta     = lazy(() => import('./components/FinalCta'));
 const Footer       = lazy(() => import('./components/Footer'));
@@ -78,7 +80,7 @@ function App() {
         <Suspense fallback={null}><Comparison /></Suspense>
         <Suspense fallback={null}><Escala /></Suspense>
         <Suspense fallback={null}><Team /></Suspense>
-        <Suspense fallback={null}><Espaco /></Suspense>
+        {/* <Suspense fallback={null}><Espaco /></Suspense> */}
         <Suspense fallback={null}><Testimonials /></Suspense>
         <Suspense fallback={null}><FinalCta /></Suspense>
       </main>

@@ -106,6 +106,11 @@ const customStyles = `
     .mobile-brand .mb-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1rem; color: #fff; letter-spacing: -.03em; }
     .mobile-brand .mb-dot { color: #2E86C1; }
   }
+  .nav-flag {
+    width: 22px; height: 14px; border-radius: 3px; object-fit: cover; flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.15); opacity: 0.92;
+    margin-left: 8px;
+  }
 `;
 
 const mobileOverlayStyles = `
@@ -280,6 +285,7 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
         <div className="nav-pill-inner glass-container nav-pill-content">
           <span className="mobile-brand">
             <span className="mb-logo">VV Group<span className="mb-dot">.</span></span>
+            <img src="/assets/uae-flag.png" alt="UAE" className="nav-flag" width="22" height="14" />
           </span>
 
           <nav className="desktop-nav desktop-nav-inner" aria-label="Navegação principal">

@@ -83,11 +83,11 @@ const PillLeft = styled.span`
 const PillRight = styled.span`
   padding: 4px 12px; border-radius: 100px; font-size: 0.75rem;
   letter-spacing: 0.1em; text-transform: uppercase;
-  background: rgba(46,134,193,0.15); color: var(--c-verde);
+  background: rgba(198,242,33,0.15); color: var(--c-verde);
 `;
 
 const HeadRight = styled.div`
-  background: rgba(46,134,193,0.05);
+  background: rgba(198,242,33,0.05);
   padding: 20px 18px;
   font-family: var(--font-display);
   font-size: clamp(0.95rem, 3vw, 1.25rem);
@@ -101,7 +101,7 @@ const HeadRight = styled.div`
 const RowRight = styled.div`
   padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px;
   line-height: 1.5; font-size: 0.9rem;
-  background: rgba(46,134,193,0.02);
+  background: rgba(198,242,33,0.02);
   @media (max-width: 600px) { padding: 12px 10px; gap: 8px; font-size: 0.78rem; }
 `;
 
@@ -112,7 +112,7 @@ const Highlight = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
-  background: linear-gradient(90deg, rgba(46,134,193,0.1) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgba(198,242,33,0.1) 0%, transparent 100%);
   border-left: 4px solid var(--c-verde);
 
   .icon {
@@ -144,7 +144,7 @@ const Comparison = () => {
       <div className="container">
         <RevealWrap className="reveal">
           <h2 className="t-section-heading">
-            VV Group <span className="muted">{t.headingMuted}</span> <br/>
+            VV Traffic Data <span className="muted">{t.headingMuted}</span> <br/>
             <span className="verde">{t.headingGreen}</span>
           </h2>
         </RevealWrap>

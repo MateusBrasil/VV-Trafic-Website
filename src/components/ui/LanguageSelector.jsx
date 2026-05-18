@@ -67,8 +67,8 @@ const langStyles = `
     margin-left: 8px;
   }
   .lang-btn:hover {
-    background: rgba(46,134,193,0.1) !important;
-    border-color: rgba(46,134,193,0.3) !important;
+    background: rgba(198,242,33,0.1) !important;
+    border-color: rgba(198,242,33,0.3) !important;
     color: #fff !important;
   }
   .lang-chevron { transition: transform 0.2s ease; opacity: 0.55; }
@@ -79,7 +79,7 @@ const langStyles = `
     border-radius: 16px; overflow: hidden;
     background: rgba(5,28,24,0.97);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(46,134,193,0.15);
+    border: 1px solid rgba(198,242,33,0.15);
     box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
     z-index: 99999;
     animation: langDropIn 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
@@ -91,8 +91,8 @@ const langStyles = `
     font-weight: 500; text-align: left; transition: background 0.15s ease;
     color: rgba(255,255,255,0.7);
   }
-  .lang-item[aria-selected="true"] { color: #2E86C1; font-weight: 700; }
-  .lang-item:hover { background: rgba(46,134,193,0.07) !important; color: #fff !important; }
+  .lang-item[aria-selected="true"] { color: #c6f221; font-weight: 700; }
+  .lang-item:hover { background: rgba(198,242,33,0.07) !important; color: #fff !important; }
   .lang-label { flex: 1; }
   @keyframes langDropIn {
     from { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.96); }
@@ -146,7 +146,7 @@ export default function LanguageSelector({ lang, setLang }) {
                 >
                   {FLAGS[l.code]}
                   <span className="lang-label">{l.label}</span>
-                  {isSelected && <Check size={14} color="#2E86C1" />}
+                  {isSelected && <Check size={14} color="#c6f221" />}
                 </button>
               );
             })}

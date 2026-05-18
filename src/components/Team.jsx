@@ -139,9 +139,9 @@ const RoleBadge = styled.span`
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--c-verde, #2E86C1);
-  background: rgba(46,134,193,0.08);
-  border: 1px solid rgba(46,134,193,0.22);
+  color: var(--c-verde, #c6f221);
+  background: rgba(198,242,33,0.08);
+  border: 1px solid rgba(198,242,33,0.22);
   border-radius: 100px;
   padding: 6px 20px;
   animation: ${fadeUp} 0.5s 0.07s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -168,9 +168,9 @@ const NavBtn = styled.button`
   flex-shrink: 0;
 
   &:hover {
-    border-color: var(--c-verde, #2E86C1);
-    background: rgba(46,134,193,0.1);
-    color: var(--c-verde, #2E86C1);
+    border-color: var(--c-verde, #c6f221);
+    background: rgba(198,242,33,0.1);
+    color: var(--c-verde, #c6f221);
   }
 `;
 
@@ -189,7 +189,7 @@ const Dot = styled.button`
   cursor: pointer;
   transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
   background: ${p => p.$active
-    ? 'var(--c-verde, #2E86C1)'
+    ? 'var(--c-verde, #c6f221)'
     : 'rgba(255,255,255,0.18)'};
   /* Expand tap area to 44×44px without changing visual size */
   position: relative;
@@ -201,7 +201,7 @@ const Dot = styled.button`
 
   &:hover {
     background: ${p => p.$active
-      ? 'var(--c-verde, #2E86C1)'
+      ? 'var(--c-verde, #c6f221)'
       : 'rgba(255,255,255,0.4)'};
   }
 `;
@@ -228,7 +228,7 @@ const ProgressBarWrap = styled.div`
 const ProgressBarFill = styled.div`
   height: 100%;
   border-radius: 2px;
-  background: var(--c-verde, #2E86C1);
+  background: var(--c-verde, #c6f221);
   width: ${p => p.$pct}%;
   transition: width 0.12s linear;
 `;
@@ -292,7 +292,7 @@ export default function Team() {
           const scale   = absD === 0 ? 1 : absD === 1 ? 0.85 : absD === 2 ? 0.72 : 0.6;
           const opacity = absD === 0 ? 1 : absD === 1 ? 0.55 : absD === 2 ? 0.28 : 0.1;
           const shadow  = absD === 0
-            ? '0 32px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(46,134,193,0.12)'
+            ? '0 32px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(198,242,33,0.12)'
             : 'none';
 
           const tx = `calc(-50% + ${d * STEP}px)`;

@@ -84,17 +84,17 @@ const StatCard = styled.div`
     top: -60px; left: -60px;
     width: 180px; height: 180px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(46,134,193,0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(198,242,33,0.06) 0%, transparent 70%);
     pointer-events: none;
     transition: opacity 0.4s ease;
     opacity: 0;
   }
 
   &:hover {
-    background: rgba(46,134,193,0.04);
+    background: rgba(198,242,33,0.04);
     &::before { opacity: 1; }
     &::after  { opacity: 1; }
-    .val-num  { text-shadow: 0 0 40px rgba(46,134,193,0.3); }
+    .val-num  { text-shadow: 0 0 40px rgba(198,242,33,0.3); }
   }
 
   .eyebrow {
@@ -102,7 +102,7 @@ const StatCard = styled.div`
     font-weight: 700;
     letter-spacing: .18em;
     text-transform: uppercase;
-    color: rgba(46,134,193,0.6);
+    color: rgba(198,242,33,0.6);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -111,7 +111,7 @@ const StatCard = styled.div`
     &::before {
       content: '';
       width: 16px; height: 1px;
-      background: rgba(46,134,193,0.4);
+      background: rgba(198,242,33,0.4);
     }
   }
 
@@ -189,7 +189,7 @@ const Placeholder = styled(motion.div)`
   padding: 24px;
 
   .icon { font-size: 2.5rem; opacity: .3; }
-  .name { color: rgba(46,134,193,0.5); font-weight: 700; font-size: 0.9rem; }
+  .name { color: rgba(198,242,33,0.5); font-weight: 700; font-size: 0.9rem; }
 `;
 
 /* side arrow buttons */
@@ -210,7 +210,7 @@ const ArrowBtn = styled.button`
   display: flex; align-items: center; justify-content: center;
   transition: all .2s ease;
   @media (max-width: 480px) { width: 36px; height: 36px; font-size: 1rem; }
-  &:hover { background: rgba(46,134,193,0.2); border-color: rgba(46,134,193,0.4); color: #2E86C1; }
+  &:hover { background: rgba(198,242,33,0.2); border-color: rgba(198,242,33,0.4); color: #c6f221; }
 `;
 
 /* counter badge top-right */
@@ -270,7 +270,7 @@ const ProgressBar = styled.div`
 const HiddenImg = styled.img`display: none;`;
 
 const PlaceholderCode = styled.code`
-  color: #2E86C1;
+  color: #c6f221;
   font-size: 0.75rem;
 `;
 
@@ -439,7 +439,7 @@ const ProgressWrap = styled.div`
 const ProgressFill = styled.div`
   height: 100%;
   border-radius: 2px;
-  background: var(--c-verde, #2E86C1);
+  background: var(--c-verde, #c6f221);
   width: ${p => p.$pct}%;
   transition: width 0.12s linear;
 `;

@@ -72,12 +72,12 @@ const CardItem = styled.li`
   transition: border-color 0.3s ease;
 
   &:hover {
-    border-color: rgba(46,134,193,0.25);
+    border-color: rgba(198,242,33,0.25);
   }
 `;
 
 const Stars = styled.div`
-  color: var(--c-verde, #2E86C1);
+  color: var(--c-verde, #c6f221);
   font-size: 0.85rem;
   letter-spacing: 0.15em;
   margin-bottom: 20px;
@@ -106,7 +106,7 @@ const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--c-verde, #2E86C1);
+  background: var(--c-verde, #c6f221);
   color: #000;
   display: flex;
   align-items: center;

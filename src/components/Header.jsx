@@ -34,14 +34,14 @@ const customStyles = `
 
   .bookmarkBtn {
     width: auto; min-width: 140px; height: 48px; border-radius: 50px;
-    border: 1px solid rgba(46,134,193,0.5); background: rgb(15,15,15);
+    border: 1px solid rgba(198,242,33,0.5); background: rgb(15,15,15);
     display: flex; align-items: center; justify-content: flex-start;
     cursor: pointer; overflow: hidden; padding: 0; position: relative; margin-left: 15px; transition: 0.3s;
     text-decoration: none;
   }
   .bookmarkBtn::before {
     content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(46,134,193,0.2) 25%, rgba(255,255,255,0.9) 50%, rgba(46,134,193,0.2) 75%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(198,242,33,0.2) 25%, rgba(255,255,255,0.9) 50%, rgba(198,242,33,0.2) 75%, transparent 100%);
     background-size: 200% 100%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -51,7 +51,7 @@ const customStyles = `
   .bookmarkBtn:hover::before { opacity: 1; animation: shinerySync 2s infinite ease-in-out; }
   @keyframes shinerySync { 0% { background-position: 150% 0; } 100% { background-position: -150% 0; } }
   .IconContainer {
-    width: 36px; height: 36px; background: linear-gradient(to bottom, #5DADE2, #2E86C1);
+    width: 36px; height: 36px; background: linear-gradient(to bottom, #d8ff60, #c6f221);
     border-radius: 50px; display: flex; align-items: center; justify-content: center;
     overflow: hidden; z-index: 2; transition: 0.3s; flex-shrink: 0; margin-left: 6px; position: relative;
   }
@@ -95,8 +95,8 @@ const customStyles = `
   .nav-link-text { color: rgba(163,163,163,1); font-size: 1.05rem; font-weight: 600; letter-spacing: 0.025em; }
   .nav-underline {
     position: absolute; bottom: -4px; left: 0; right: 0; height: 3px;
-    background: linear-gradient(to right, transparent, #2E86C1, transparent);
-    box-shadow: 0 0 12px rgba(46,134,193,0.8);
+    background: linear-gradient(to right, transparent, #c6f221, transparent);
+    box-shadow: 0 0 12px rgba(198,242,33,0.8);
   }
   @media (max-width: 768px) {
     .hamburger { display: flex; }
@@ -104,7 +104,7 @@ const customStyles = `
     .desktop-cta { display: none !important; }
     .mobile-brand { display: flex; align-items: center; gap: 8px; margin-right: auto; padding-left: 4px; }
     .mobile-brand .mb-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1rem; color: #fff; letter-spacing: -.03em; }
-    .mobile-brand .mb-dot { color: #2E86C1; }
+    .mobile-brand .mb-dot { color: #c6f221; }
   }
 `;
 
@@ -123,8 +123,8 @@ const mobileOverlayStyles = `
     position: fixed; top: 16px; right: 16px;
     width: calc(100vw - 32px); max-width: 340px;
     background: rgba(5,28,24,0.98); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
-    border: 1px solid rgba(46,134,193,0.15); border-radius: 28px; z-index: 9999; overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 64px -12px rgba(0,0,0,0.7), 0 0 40px -10px rgba(46,134,193,0.08);
+    border: 1px solid rgba(198,242,33,0.15); border-radius: 28px; z-index: 9999; overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 64px -12px rgba(0,0,0,0.7), 0 0 40px -10px rgba(198,242,33,0.08);
     opacity: 0; transform: translateY(-24px) scale(0.97); pointer-events: none; visibility: hidden;
     transition: opacity 0.3s cubic-bezier(0.34,1.56,0.64,1), transform 0.3s cubic-bezier(0.34,1.56,0.64,1), visibility 0s 0.3s;
   }
@@ -139,7 +139,7 @@ const mobileOverlayStyles = `
   .mob-logo-area { display: flex; align-items: center; gap: 10px; }
   .mob-logo-area img { height: 48px; width: auto; border-radius: 8px; }
   .mob-logo-area .ml-name { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1rem; color: #fff; letter-spacing: -.02em; }
-  .mob-logo-area .ml-sub { font-size: 0.55rem; color: #2E86C1; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+  .mob-logo-area .ml-sub { font-size: 0.55rem; color: #c6f221; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
   .mob-close-btn {
     width: 36px; height: 36px; border-radius: 50%;
     background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
@@ -156,9 +156,9 @@ const mobileOverlayStyles = `
     opacity: 0; transform: translateX(-12px);
     transition: background .2s ease, color .2s ease, opacity 0.25s, transform 0.25s;
   }
-  .mob-nav-item:hover, .mob-nav-item:active { background: rgba(46,134,193,0.07); color: #fff; }
-  .mob-nav-item:hover .mob-item-icon { background: rgba(46,134,193,0.2); }
-  .mob-nav-item:hover .mob-item-arrow { opacity: 1; transform: translateX(0); color: #2E86C1; }
+  .mob-nav-item:hover, .mob-nav-item:active { background: rgba(198,242,33,0.07); color: #fff; }
+  .mob-nav-item:hover .mob-item-icon { background: rgba(198,242,33,0.2); }
+  .mob-nav-item:hover .mob-item-arrow { opacity: 1; transform: translateX(0); color: #c6f221; }
   .mob-sheet.mob-open .mob-nav-item:nth-child(1) { opacity:1; transform:none; transition-delay:0.11s; }
   .mob-sheet.mob-open .mob-nav-item:nth-child(2) { opacity:1; transform:none; transition-delay:0.17s; }
   .mob-sheet.mob-open .mob-nav-item:nth-child(3) { opacity:1; transform:none; transition-delay:0.23s; }
@@ -170,21 +170,21 @@ const mobileOverlayStyles = `
     display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s ease;
   }
   .mob-item-icon svg { width: 18px; height: 18px; color: rgba(255,255,255,0.7); }
-  .mob-nav-item:hover .mob-item-icon svg { color: #2E86C1; }
+  .mob-nav-item:hover .mob-item-icon svg { color: #c6f221; }
   .mob-item-label { flex: 1; }
   .mob-item-arrow { font-size: 0.9rem; color: rgba(255,255,255,0.2); opacity: 0; transform: translateX(-6px); transition: all .2s ease; flex-shrink: 0; }
   .mob-divider { height: 1px; margin: 0 20px; background: rgba(255,255,255,0.06); }
   .mob-sheet-footer { padding: 16px 16px 20px; }
   .mob-cta-btn {
     display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; padding: 16px 20px; border-radius: 14px; background: #2E86C1; color: #000;
+    width: 100%; padding: 16px 20px; border-radius: 14px; background: #c6f221; color: #000;
     font-family: 'Space Grotesk', sans-serif; font-size: 0.875rem; font-weight: 800;
     letter-spacing: .07em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
     opacity: 0; transform: translateY(10px);
     transition: opacity 0.25s 0.38s, transform 0.25s 0.38s, box-shadow .25s ease;
   }
   .mob-sheet.mob-open .mob-cta-btn { opacity: 1; transform: translateY(0); }
-  .mob-cta-btn:hover, .mob-cta-btn:active { transform: translateY(-1px) !important; box-shadow: 0 12px 32px rgba(46,134,193,0.3); }
+  .mob-cta-btn:hover, .mob-cta-btn:active { transform: translateY(-1px) !important; box-shadow: 0 12px 32px rgba(198,242,33,0.3); }
   .mob-cta-btn .cta-arrow { transition: transform .25s ease; }
   .mob-cta-btn:hover .cta-arrow { transform: translateX(4px); }
   .mob-trust { margin-top: 10px; text-align: center; font-size: 0.62rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,0.2); font-weight: 600; }
@@ -246,7 +246,7 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
       <div className={`mob-sheet${mobileOpen ? ' mob-open' : ''}`}>
         <div className="mob-sheet-head">
           <div className="mob-logo-area">
-            <img src="/assets/vv-group.png" alt="VV Group" width="48" height="48" />
+            <img src="/assets/vv-logo.png" alt="VV Traffic Data" width="48" height="48" />
           </div>
           <button className="mob-close-btn" onClick={closeMobile} aria-label={th.ariaClose}>✕</button>
         </div>
@@ -279,7 +279,7 @@ const FloatingNav = ({ navItems, th, lang, setLang }) => {
       <div className="nav-pill-wrap" {...(!visible ? { 'data-hidden': '' } : {})}>
         <div className="nav-pill-inner glass-container nav-pill-content">
           <span className="mobile-brand">
-            <span className="mb-logo">VV Group<span className="mb-dot">.</span></span>
+            <span className="mb-logo">VV Traffic<span className="mb-dot">.</span></span>
           </span>
 
           <nav className="desktop-nav desktop-nav-inner" aria-label="Navegação principal">

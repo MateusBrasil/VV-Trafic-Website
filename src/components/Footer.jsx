@@ -35,14 +35,14 @@ const Card = styled.div`
   position: relative;
   overflow: hidden;
   background: rgba(3,21,18,0.88);
-  border: 1px solid rgba(46,134,193,0.1);
+  border: 1px solid rgba(198,242,33,0.1);
   border-radius: 40px;
   backdrop-filter: blur(24px);
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.04),
     0 1px 1px -0.5px rgba(0,0,0,0.3),
     0 12px 40px -12px rgba(0,0,0,0.6),
-    0 0 60px -20px rgba(46,134,193,0.06);
+    0 0 60px -20px rgba(198,242,33,0.06);
 `;
 
 const CardInner = styled.div`
@@ -91,7 +91,7 @@ const LogoWrap = styled.div`
   }
   .sub {
     font-size: 0.65rem;
-    color: var(--c-verde, #2E86C1);
+    color: var(--c-verde, #c6f221);
     letter-spacing: .14em;
     text-transform: uppercase;
     font-weight: 600;
@@ -349,9 +349,9 @@ export default function Footer() {
               {/* Brand */}
               <BrandCol>
                 <LogoWrap as="a" href="#top">
-                  <img src="/assets/vv-group.png" alt="VV Group" width="64" height="64" />
+                  <img src="/assets/vv-logo.png" alt="VV Traffic Data" width="64" height="64" />
                   <div>
-                    <div className="name">VV Group</div>
+                    <div className="name">VV Traffic Data</div>
                     <div className="sub">Technology</div>
                   </div>
                 </LogoWrap>
@@ -382,7 +382,7 @@ export default function Footer() {
                   </AuraTextWrap>
                 </AuraBtn>
 
-                <BrandEmail>contato@vvgroup.com</BrandEmail>
+                <BrandEmail>contato@vvtrafficdata.com</BrandEmail>
               </BrandCol>
 
               {/* Col 1 */}

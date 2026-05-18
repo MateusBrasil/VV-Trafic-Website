@@ -81,23 +81,13 @@ const LogoWrap = styled.div`
   gap: 12px;
   text-decoration: none;
 
-  img.brand-logo { height: 64px; width: auto; border-radius: 10px; }
+  img { height: 64px; width: auto; border-radius: 10px; }
 
   .name {
     font-weight: 800;
     font-size: 1.1rem;
     color: #fff;
     letter-spacing: -.02em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .name .flag {
-    width: 22px;
-    height: 14px;
-    border-radius: 3px;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
-    opacity: 0.9;
   }
   .sub {
     font-size: 0.65rem;
@@ -359,12 +349,9 @@ export default function Footer() {
               {/* Brand */}
               <BrandCol>
                 <LogoWrap as="a" href="#top">
-                  <img className="brand-logo" src="/assets/vv-group.png" alt="VV Group" width="64" height="64" />
+                  <img src="/assets/vv-group.png" alt="VV Group" width="64" height="64" />
                   <div>
-                    <div className="name">
-                      <span>VV Group</span>
-                      <img className="flag" src="/assets/uae-flag.png" alt="UAE" width="22" height="14" />
-                    </div>
+                    <div className="name">VV Group</div>
                     <div className="sub">Technology</div>
                   </div>
                 </LogoWrap>

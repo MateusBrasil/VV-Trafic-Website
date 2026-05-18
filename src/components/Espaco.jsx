@@ -101,7 +101,7 @@ const Label = styled.span`
   font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--c-verde, #c6f221);
+  color: var(--c-verde, #2E86C1);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -119,7 +119,7 @@ const LocationPill = styled.div`
   font-weight: 600;
   color: rgba(255,255,255,0.5);
   letter-spacing: .04em;
-  span { width:6px; height:6px; border-radius:50%; background:var(--c-verde,#c6f221); animation:${blink} 2s ease-in-out infinite; }
+  span { width:6px; height:6px; border-radius:50%; background:var(--c-verde,#2E86C1); animation:${blink} 2s ease-in-out infinite; }
 `;
 
 /* ── heading ── */
@@ -140,7 +140,7 @@ const Heading = styled.h2`
   margin: 0;
   em {
     font-style: normal;
-    background: linear-gradient(90deg, #c6f221 0%, #d8ff60 50%, #c6f221 100%);
+    background: linear-gradient(90deg, #2E86C1 0%, #5DADE2 50%, #2E86C1 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -207,7 +207,7 @@ const Scanline = styled.div`
     position: absolute;
     left: 0; right: 0;
     height: 200px;
-    background: linear-gradient(transparent, rgba(198,242,33,0.4), transparent);
+    background: linear-gradient(transparent, rgba(46,134,193,0.4), transparent);
     animation: ${scanline} 6s linear infinite;
   }
 `;
@@ -234,16 +234,16 @@ const LiveBadge = styled.div`
   border-radius: 100px;
   background: rgba(0,0,0,0.55);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(198,242,33,0.25);
+  border: 1px solid rgba(46,134,193,0.25);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--c-verde, #c6f221);
+  color: var(--c-verde, #2E86C1);
 
   .dot {
     width: 7px; height: 7px; border-radius: 50%;
-    background: var(--c-verde, #c6f221);
+    background: var(--c-verde, #2E86C1);
     position: relative;
     flex-shrink: 0;
     &::before {
@@ -251,7 +251,7 @@ const LiveBadge = styled.div`
       position: absolute;
       inset: -4px;
       border-radius: 50%;
-      background: rgba(198,242,33,0.4);
+      background: rgba(46,134,193,0.4);
       animation: ${pulseRing} 1.8s ease-out infinite;
     }
   }
@@ -272,9 +272,9 @@ const SoundBtn = styled.button`
   display: flex; align-items: center; justify-content: center;
   transition: all .2s ease;
   &:hover {
-    background: rgba(198,242,33,0.15);
-    border-color: rgba(198,242,33,0.4);
-    color: var(--c-verde,#c6f221);
+    background: rgba(46,134,193,0.15);
+    border-color: rgba(46,134,193,0.4);
+    color: var(--c-verde,#2E86C1);
     transform: scale(1.1);
   }
   svg { display:block; flex-shrink:0; }
@@ -355,7 +355,7 @@ const StatsCard = styled.div`
     top: -40px; right: -40px;
     width: 120px; height: 120px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(198,242,33,0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(46,134,193,0.06) 0%, transparent 70%);
     pointer-events: none;
   }
 `;
@@ -372,7 +372,7 @@ const Stat = styled.div`
     align-items: baseline;
     gap: 2px;
   }
-  .sup { font-size: .9rem; color: var(--c-verde,#c6f221); font-weight:700; }
+  .sup { font-size: .9rem; color: var(--c-verde,#2E86C1); font-weight:700; }
   .lbl {
     margin-top: 5px;
     font-size: 0.62rem;
@@ -392,7 +392,7 @@ const BottomStrip = styled.div`
   padding: 36px 40px;
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.06);
-  background: linear-gradient(135deg, rgba(198,242,33,0.04) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(46,134,193,0.04) 0%, transparent 60%);
   flex-wrap: wrap;
   position: relative;
   overflow: hidden;
@@ -403,7 +403,7 @@ const BottomStrip = styled.div`
     bottom: -60px; right: -60px;
     width: 200px; height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(198,242,33,0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(46,134,193,0.05) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -421,14 +421,14 @@ const StripNum = styled.div`
   font-size: clamp(2.2rem, 4vw, 3.5rem);
   font-weight: 900;
   font-family: var(--font-display);
-  color: var(--c-verde, #c6f221);
+  color: var(--c-verde, #2E86C1);
   line-height: 1;
   letter-spacing: -.05em;
   flex-shrink: 0;
 
   span {
     font-size: 1.5rem;
-    color: var(--c-verde, #c6f221);
+    color: var(--c-verde, #2E86C1);
   }
 `;
 

@@ -54,7 +54,7 @@ const Overline = styled.div`
   font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--c-verde, #c6f221);
+  color: var(--c-verde, #2E86C1);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@ const Heading = styled.h2`
 
   em {
     font-style: normal;
-    background: linear-gradient(90deg, #c6f221, #d8ff60, #c6f221);
+    background: linear-gradient(90deg, #2E86C1, #5DADE2, #2E86C1);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -101,7 +101,7 @@ const WaBtn = styled.a`
   gap: 12px;
   padding: 17px 34px;
   border-radius: 100px;
-  background: var(--c-verde, #c6f221);
+  background: var(--c-verde, #2E86C1);
   color: #000;
   font-weight: 800;
   font-size: 0.825rem;
@@ -113,7 +113,7 @@ const WaBtn = styled.a`
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(198,242,33,0.25);
+    box-shadow: 0 16px 40px rgba(46,134,193,0.25);
   }
 `;
 
@@ -181,7 +181,7 @@ const LiveDot = styled.div`
     content: '';
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--c-verde, #c6f221);
+    background: var(--c-verde, #2E86C1);
   }
 `;
 
@@ -202,7 +202,7 @@ const StatNum = styled.div`
   font-size: clamp(2.8rem, 5vw, 4rem);
   font-weight: 900;
   font-family: var(--font-display);
-  color: var(--c-verde, #c6f221);
+  color: var(--c-verde, #2E86C1);
   line-height: 1;
   letter-spacing: -.05em;
 
@@ -254,7 +254,7 @@ const MetricNum = styled.div`
   line-height: 1;
   margin-bottom: 5px;
 
-  span { font-size: 1rem; color: #5a8a00; font-weight: 700; }
+  span { font-size: 1rem; color: #1F6391; font-weight: 700; }
 `;
 
 const MetricLbl = styled.div`
@@ -324,7 +324,7 @@ export default function FinalCta() {
               {!isAr && <source srcSet={isEn ? "/assets/panel-roas-2-en.webp" : "/assets/panel-roas-2.webp"} type="image/webp" />}
               <PanelImg
                 src={isAr ? "/assets/panel-roas-2-ar.png" : isEn ? "/assets/panel-roas-2-en.png" : "/assets/panel-roas-2.png"}
-                alt="VV Traffic Data results panel"
+                alt="VV Group results panel"
                 width="1200" height="675"
                 loading="lazy"
                 decoding="async"

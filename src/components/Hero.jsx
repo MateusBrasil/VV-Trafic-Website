@@ -6,9 +6,9 @@ import { T } from '../i18n/translations';
 
 /* ── keyframes ── */
 const pulseDot = keyframes`
-  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198,242,33,0.7); }
-  70%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(198,242,33,0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(198,242,33,0); }
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46,134,193,0.7); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(46,134,193,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46,134,193,0); }
 `;
 
 const fadeUp = keyframes`
@@ -174,13 +174,13 @@ const SecondaryBtn = styled.a`
   }
 
   &:hover {
-    border-color: rgba(198, 242, 33, 0.3);
-    background: rgba(198, 242, 33, 0.05);
+    border-color: rgba(46, 134, 193, 0.3);
+    background: rgba(46, 134, 193, 0.05);
     color: #fff;
 
     .arrow {
-      border-color: rgba(198, 242, 33, 0.4);
-      background: rgba(198, 242, 33, 0.1);
+      border-color: rgba(46, 134, 193, 0.4);
+      background: rgba(46, 134, 193, 0.1);
       color: var(--c-verde);
       svg { transform: translateX(3px); }
     }
@@ -212,7 +212,7 @@ const VisualPanel = styled.div`
   min-width: 0;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(198,242,33,0.08);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(46,134,193,0.08);
 
   img {
     width: 100%;
@@ -232,7 +232,7 @@ const MobilePanel = styled.div`
     margin-top: 32px;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(198,242,33,0.08);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(46,134,193,0.08);
     animation: ${fadeUp} 0.6s 0.2s ease both;
     width: 100%;
     box-sizing: border-box;
@@ -252,8 +252,8 @@ const TrustBar = styled.div`
     margin-top: 12px;
     padding: 12px 16px;
     border-radius: 14px;
-    background: rgba(198,242,33,0.04);
-    border: 1px solid rgba(198,242,33,0.1);
+    background: rgba(46,134,193,0.04);
+    border: 1px solid rgba(46,134,193,0.1);
     animation: ${fadeUp} 0.6s 0.35s ease both;
     width: 100%;
     box-sizing: border-box;
@@ -320,7 +320,7 @@ export default function Hero() {
           <VisualPanel className="reveal">
             <picture>
               <source srcSet={panelWebp} type="image/webp" />
-              <img src={panelPng} alt="ROAS Panel · VV Traffic Data · 7.2x" width="1280" height="720" fetchpriority="high" />
+              <img src={panelPng} alt="ROAS Panel · VV Group · 7.2x" width="1280" height="720" fetchpriority="high" />
             </picture>
           </VisualPanel>
         </Grid>
@@ -329,7 +329,7 @@ export default function Hero() {
         <MobilePanel>
           <picture>
             <source srcSet={panelWebp} type="image/webp" />
-            <img src={panelPng} alt="ROAS Panel · VV Traffic Data · 7.2x" width="1280" height="720" fetchpriority="high" />
+            <img src={panelPng} alt="ROAS Panel · VV Group · 7.2x" width="1280" height="720" fetchpriority="high" />
           </picture>
         </MobilePanel>
 

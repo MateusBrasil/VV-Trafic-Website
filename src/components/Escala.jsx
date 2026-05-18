@@ -36,8 +36,8 @@ const StepCard = styled.article`
   transition-delay: ${p => p.$delay ?? 0}s;
   
   &:hover {
-    background: rgba(198,242,33,0.05);
-    border-color: rgba(198,242,33,0.2);
+    background: rgba(46,134,193,0.05);
+    border-color: rgba(46,134,193,0.2);
     transform: translateY(-5px);
     
     .letter {

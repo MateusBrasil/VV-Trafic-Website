@@ -33,16 +33,21 @@ const FlagGB = () => (
   </svg>
 );
 
-const FlagSA = () => (
+const FlagAE = () => (
   <svg width="22" height="15" viewBox="0 0 22 15" xmlns="http://www.w3.org/2000/svg"
     className="flag-icon">
-    <rect width="22" height="15" fill="#006C35"/>
-    <text x="11" y="10.5" textAnchor="middle" fill="white" fontSize="6" fontFamily="serif">&#x2B4D;</text>
-    <line x1="4" y1="11" x2="18" y2="11" stroke="white" strokeWidth="1.2"/>
+    {/* Red vertical hoist (left in LTR; flag canonical orientation) */}
+    <rect x="0" y="0" width="5.5" height="15" fill="#EF3340"/>
+    {/* Green top stripe (right side) */}
+    <rect x="5.5" y="0" width="16.5" height="5" fill="#009639"/>
+    {/* White middle stripe */}
+    <rect x="5.5" y="5" width="16.5" height="5" fill="#FFFFFF"/>
+    {/* Black bottom stripe */}
+    <rect x="5.5" y="10" width="16.5" height="5" fill="#000000"/>
   </svg>
 );
 
-const FLAGS = { 'pt-PT': <FlagPT />, 'en': <FlagGB />, 'ar': <FlagSA /> };
+const FLAGS = { 'pt-PT': <FlagPT />, 'en': <FlagGB />, 'ar': <FlagAE /> };
 
 const LANGUAGES = [
   { code: 'pt-PT', label: 'Português', short: 'PT' },

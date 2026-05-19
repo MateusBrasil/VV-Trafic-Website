@@ -1,19 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled, { keyframes, createGlobalStyle } from "styled-components";
+import React from "react";
+import styled, { keyframes } from "styled-components";
 import { useLang } from "../context/LanguageContext";
 import { T } from "../i18n/translations";
 
-/* ── global scroll keyframe ── */
-const GlobalScrollAnim = createGlobalStyle`
-  @keyframes scroll {
-    to { transform: translate(calc(-50% - 0.5rem)); }
-  }
-  .animate-scroll {
-    animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
-  }
-  .animate-scroll:hover {
-    animation-play-state: paused;
-  }
+/* slide track scrolls right→left; duplicate-content trick = seamless loop */
+const scrollLoop = keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-50% - 10px), 0, 0); }
 `;
 
 /* ── styled ── */
@@ -43,7 +36,6 @@ const ScrollerContainer = styled.div`
 
 const ScrollerList = styled.ul`
   display: flex;
-  min-width: 100%;
   flex-shrink: 0;
   gap: 20px;
   padding: 24px 0;
@@ -51,6 +43,9 @@ const ScrollerList = styled.ul`
   flex-wrap: nowrap;
   list-style: none;
   margin: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: ${scrollLoop} ${p => p.$duration}s linear infinite;
 `;
 
 const BlockQuote = styled.blockquote`
@@ -133,60 +128,17 @@ const AuthorTitle = styled.span`
   line-height: 1.4;
 `;
 
-/* ── InfiniteMovingCards (exact logic from prompt) ── */
-const InfiniteMovingCards = ({
-  items,
-  direction = "left",
-  speed = "fast",
-  pauseOnHover = true,
-}) => {
-  const containerRef = useRef(null);
-  const scrollerRef  = useRef(null);
-  const [start, setStart] = useState(false);
-
-  useEffect(() => {
-    addAnimation();
-  }, []);
-
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) scrollerRef.current.appendChild(duplicatedItem);
-      });
-      getDirection();
-      getSpeed();
-      setStart(true);
-    }
-  }
-
-  const getDirection = () => {
-    if (containerRef.current) {
-      containerRef.current.style.setProperty(
-        "--animation-direction",
-        direction === "left" ? "forwards" : "reverse"
-      );
-    }
-  };
-
-  const getSpeed = () => {
-    if (containerRef.current) {
-      const dur = speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s";
-      containerRef.current.style.setProperty("--animation-duration", dur);
-    }
-  };
-
+/* ── Infinite moving cards — pure CSS, no React state, no cloneNode ── */
+const InfiniteMovingCards = ({ items, duration = 80 }) => {
+  /* Render twice so translate(-50% - 10px) loops seamlessly (10px = half the 20px gap) */
+  const looped = [...items, ...items];
   return (
-    <ScrollerContainer ref={containerRef}>
-      <ScrollerList
-        ref={scrollerRef}
-        className={`${start ? "animate-scroll" : ""}`}
-      >
-        {items.map((item, idx) => {
+    <ScrollerContainer>
+      <ScrollerList $duration={duration}>
+        {looped.map((item, idx) => {
           const initials = item.name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
           return (
-            <CardItem key={item.name + idx}>
+            <CardItem key={`${item.name}-${idx}`}>
               <BlockQuote>
                 <Stars>★★★★★</Stars>
                 <Quote>"{item.quote}"</Quote>
@@ -211,25 +163,17 @@ const Testimonials = () => {
   const { lang } = useLang();
   const t = T[lang].testimonials;
   return (
-    <>
-      <GlobalScrollAnim />
-      <Section id="testemunhos">
-        <Container>
-          <Header className="reveal">
-            <h2 className="t-section-heading">
-              {t.headingPre}<span className="verde">{t.headingGreen}</span>
-            </h2>
-          </Header>
-        </Container>
+    <Section id="testemunhos">
+      <Container>
+        <Header>
+          <h2 className="t-section-heading">
+            {t.headingPre}<span className="verde">{t.headingGreen}</span>
+          </h2>
+        </Header>
+      </Container>
 
-        <InfiniteMovingCards
-          items={t.items}
-          direction="right"
-          speed="slow"
-          pauseOnHover={true}
-        />
-      </Section>
-    </>
+      <InfiniteMovingCards items={t.items} duration={80} />
+    </Section>
   );
 };
 

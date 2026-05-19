@@ -292,7 +292,12 @@ const Tag = styled.span`
   color: rgba(255,255,255,.8); letter-spacing:.06em; white-space:nowrap;
 `;
 
-/* ── photo card ── */
+/* ── photo card with auto-rotating gallery ── */
+const photoFade = keyframes`
+  0%, 28%, 100% { opacity: 0; }
+  4%, 24%       { opacity: 1; }
+`;
+
 const PhotoCard = styled.div`
   position: relative;
   border-radius: 20px;
@@ -302,14 +307,20 @@ const PhotoCard = styled.div`
   min-height: 220px;
 
   img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    object-position: center 30%;
-    transition: transform 1s cubic-bezier(.25,.46,.45,.94);
+    object-position: center 35%;
+    opacity: 0;
+    animation: ${photoFade} 15s ease-in-out infinite;
+    will-change: opacity;
   }
-  &:hover img { transform: scale(1.06); }
+  img:nth-of-type(1) { animation-delay: 0s;  }
+  img:nth-of-type(2) { animation-delay: 5s;  }
+  img:nth-of-type(3) { animation-delay: 10s; }
 `;
 
 const PhotoOverlay = styled.div`
@@ -522,10 +533,9 @@ export default function Espaco() {
 
             {/* photo */}
             <PhotoCard>
-              <picture>
-                <source srcSet="/espaco/espaco-nova.webp" type="image/webp" />
-                <img src="/espaco/espaco-nova.jpg" alt={te.imgAlt} loading="lazy" decoding="async" width="800" height="600" />
-              </picture>
+              <img src="/espaco/espaco-1.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
+              <img src="/espaco/espaco-2.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
+              <img src="/espaco/espaco-3.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
               <PhotoOverlay />
               <PhotoLabel>
                 <Tag>{te.photoTag1}</Tag>

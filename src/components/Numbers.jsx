@@ -297,11 +297,11 @@ const SLIDES_EN = [
 ];
 
 const SLIDES_AR = [
-  { src: '/provas/prova-1-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
-  { src: '/provas/prova-2-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
-  { src: '/provas/prova-3-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
-  { src: '/provas/prova-4-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
-  { src: '/provas/prova-5-ar.png', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-1-ar.webp', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-2-ar.webp', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-3-ar.webp', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-4-ar.webp', label: 'قصة نجاح · نتائج حقيقية' },
+  { src: '/provas/prova-5-ar.webp', label: 'قصة نجاح · نتائج حقيقية' },
 ];
 
 const INTERVAL = 5000;

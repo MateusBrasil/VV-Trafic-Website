@@ -321,9 +321,9 @@ export default function FinalCta() {
           {/* RIGHT */}
           <Panel>
             <picture>
-              {!isAr && <source srcSet={isEn ? "/assets/panel-roas-2-en.webp" : "/assets/panel-roas-2.webp"} type="image/webp" />}
+              <source srcSet={isAr ? "/assets/panel-roas-2-ar.webp" : isEn ? "/assets/panel-roas-2-en.webp" : "/assets/panel-roas-2.webp"} type="image/webp" />
               <PanelImg
-                src={isAr ? "/assets/panel-roas-2-ar.png" : isEn ? "/assets/panel-roas-2-en.png" : "/assets/panel-roas-2.png"}
+                src={isAr ? "/assets/panel-roas-2-ar.webp" : isEn ? "/assets/panel-roas-2-en.png" : "/assets/panel-roas-2.png"}
                 alt="VV Group results panel"
                 width="1200" height="675"
                 loading="lazy"

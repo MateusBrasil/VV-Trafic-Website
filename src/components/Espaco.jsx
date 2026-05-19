@@ -294,8 +294,8 @@ const Tag = styled.span`
 
 /* ── photo card with auto-rotating gallery ── */
 const photoFade = keyframes`
-  0%, 28%, 100% { opacity: 0; }
-  4%, 24%       { opacity: 1; }
+  0%, 35%, 100% { opacity: 0; }
+  5%, 30%       { opacity: 1; }
 `;
 
 const PhotoCard = styled.div`
@@ -315,12 +315,12 @@ const PhotoCard = styled.div`
     display: block;
     object-position: center 35%;
     opacity: 0;
-    animation: ${photoFade} 15s ease-in-out infinite;
+    animation: ${photoFade} 9s ease-in-out infinite;
     will-change: opacity;
   }
-  img:nth-of-type(1) { animation-delay: 0s;  }
-  img:nth-of-type(2) { animation-delay: 5s;  }
-  img:nth-of-type(3) { animation-delay: 10s; }
+  img:nth-of-type(1) { animation-delay: 0s; }
+  img:nth-of-type(2) { animation-delay: 3s; }
+  img:nth-of-type(3) { animation-delay: 6s; }
 `;
 
 const PhotoOverlay = styled.div`

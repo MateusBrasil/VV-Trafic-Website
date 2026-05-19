@@ -106,9 +106,9 @@ const ROW2 = [
 function Row({ clients, reverse, speed }) {
   return (
     <SliderWrap>
-      <InfiniteSlider gap={0} speed={speed} speedOnHover={speed * 2.2} reverse={reverse}>
-        {clients.map((c) => (
-          <ClientItem key={c.src}>
+      <InfiniteSlider gap={0} speed={speed} reverse={reverse}>
+        {clients.map((c, i) => (
+          <ClientItem key={`${c.src}-${i}`}>
             <img
               src={c.src}
               alt={c.alt}
@@ -135,7 +135,7 @@ export default function ClientLogos() {
   const { lang } = useLang();
   const t = T[lang].clients;
   return (
-    <Strip className="reveal">
+    <Strip>
       <p className="strip-label">{t.label}</p>
       <Rows>
         <Row clients={ROW1_FULL} reverse={false} speed={36} />

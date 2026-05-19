@@ -150,7 +150,7 @@ const Desc = styled.p`
 /* ── main grid ── */
 const MainGrid = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 16px;
 
@@ -303,8 +303,9 @@ const PhotoCard = styled.div`
   border-radius: 20px;
   overflow: hidden;
   background: rgba(255,255,255,0.03);
-  flex: 1;
-  min-height: 220px;
+  aspect-ratio: 4 / 5;
+
+  @media (max-width: 900px) { aspect-ratio: 5 / 4; }
 
   img {
     position: absolute;
@@ -469,10 +470,6 @@ export default function Espaco() {
   const te = T[lang].espaco;
   const sectionRef = useRef(null);
 
-  const [cont, contRef] = useCounter(4);
-  const [emp,  empRef]  = useCounter(128);
-  const [h,    hRef]    = useCounter(72);
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
@@ -528,42 +525,17 @@ export default function Espaco() {
             </VideoFooter>
           </VideoCard>
 
-          {/* ── RIGHT COLUMN ── */}
-          <RightCol>
-
-            {/* photo */}
-            <PhotoCard>
-              <img src="/espaco/espaco-1.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
-              <img src="/espaco/espaco-2.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
-              <img src="/espaco/espaco-3.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
-              <PhotoOverlay />
-              <PhotoLabel>
-                <Tag>{te.photoTag1}</Tag>
-                <Tag>{te.photoTag2}</Tag>
-              </PhotoLabel>
-            </PhotoCard>
-
-            {/* stats */}
-            <StatsCard>
-              <Stat>
-                <div className="val" ref={contRef}>{cont}<span className="sup">+</span></div>
-                <div className="lbl">{te.stat1Lbl}</div>
-              </Stat>
-              <Stat>
-                <div className="val" ref={empRef}>{emp}<span className="sup">+</span></div>
-                <div className="lbl">{te.stat2Lbl}</div>
-              </Stat>
-              <Stat>
-                <div className="val" ref={hRef}>{h}<span className="sup">h</span></div>
-                <div className="lbl">{te.stat3Lbl}</div>
-              </Stat>
-              <Stat>
-                <div className="val">7,2<span className="sup">×</span></div>
-                <div className="lbl">{te.stat4Lbl}</div>
-              </Stat>
-            </StatsCard>
-
-          </RightCol>
+          {/* ── RIGHT: gallery (full height) ── */}
+          <PhotoCard>
+            <img src="/espaco/espaco-1.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
+            <img src="/espaco/espaco-2.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
+            <img src="/espaco/espaco-3.webp" alt={te.imgAlt} loading="lazy" decoding="async" width="1280" height="853" />
+            <PhotoOverlay />
+            <PhotoLabel>
+              <Tag>{te.photoTag1}</Tag>
+              <Tag>{te.photoTag2}</Tag>
+            </PhotoLabel>
+          </PhotoCard>
 
         </MainGrid>
 

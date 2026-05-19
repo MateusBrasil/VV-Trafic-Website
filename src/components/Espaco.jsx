@@ -186,12 +186,13 @@ const VideoCard = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     transition: transform 1s cubic-bezier(.25,.46,.45,.94);
   }
   &:hover video, &:hover img.bg { transform: scale(1.03); }
 
-  @media (max-width: 900px) { aspect-ratio: 16 / 10; }
+  @media (max-width: 900px) { aspect-ratio: 5 / 4; }
 `;
 
 /* scanline effect on video */
@@ -499,16 +500,16 @@ export default function Espaco() {
 
         <MainGrid data-reveal>
 
-          {/* ── BURJ KHALIFA — left tall ── */}
+          {/* ── VV GROUP HQ BUILDING — left tall ── */}
           <VideoCard>
             <img
               className="bg"
-              src="/assets/burj-khalifa.jpg"
-              alt="Burj Khalifa · Dubai"
+              src="/assets/predio-vv.webp"
+              alt="VV Group HQ"
               loading="lazy"
               decoding="async"
-              width="800"
-              height="1000"
+              width="1280"
+              height="1023"
             />
 
             <Vignette />

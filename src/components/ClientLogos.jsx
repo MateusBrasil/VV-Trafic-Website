@@ -1,15 +1,25 @@
 import React from 'react';
-import styled from 'styled-components';
-import { InfiniteSlider } from './ui/InfiniteSlider';
-import { ProgressiveBlur } from './ui/ProgressiveBlur';
+import styled, { keyframes } from 'styled-components';
 import { useLang } from '../context/LanguageContext';
 import { T } from '../i18n/translations';
+
+const scrollLTR = keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+`;
+
+const scrollRTL = keyframes`
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+`;
 
 const Strip = styled.div`
   padding: 48px 0 56px;
   border-top: 1px solid rgba(255,255,255,0.05);
-  overflow: hidden;
   width: 100%;
+  /* CSS mask creates the fade-out edges without backdrop-filter cost */
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 
   @media (max-width: 768px) { padding: 36px 0 44px; }
 
@@ -20,6 +30,9 @@ const Strip = styled.div`
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
+    /* keep the label outside the mask fade */
+    mask: none;
+    -webkit-mask: none;
   }
 `;
 
@@ -30,25 +43,17 @@ const Rows = styled.div`
 `;
 
 const SliderWrap = styled.div`
-  position: relative;
   width: 100%;
   overflow: hidden;
 `;
 
-const BlurEdgeLeft = styled(ProgressiveBlur)`
-  position: absolute;
-  top: 0; left: 0;
-  height: 100%;
-  width: 100px;
-  pointer-events: none;
-`;
-
-const BlurEdgeRight = styled(ProgressiveBlur)`
-  position: absolute;
-  top: 0; right: 0;
-  height: 100%;
-  width: 100px;
-  pointer-events: none;
+const Track = styled.div`
+  display: flex;
+  width: max-content;
+  flex-shrink: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: ${p => p.$reverse ? scrollRTL : scrollLTR} ${p => p.$speed}s linear infinite;
 `;
 
 const ClientItem = styled.div`
@@ -56,10 +61,8 @@ const ClientItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  /* fixed slot width prevents collapse while images decode → no gaps in the strip */
   width: 200px;
   height: 64px;
-  padding: 0;
   margin: 0 18px;
 
   @media (max-width: 768px) {
@@ -74,11 +77,9 @@ const ClientItem = styled.div`
     object-fit: contain;
     display: block;
     opacity: 0.88;
-    transition: opacity 0.3s ease;
     user-select: none;
     pointer-events: none;
   }
-  img:hover { opacity: 1; }
 `;
 
 const ROW1 = [
@@ -104,10 +105,12 @@ const ROW2 = [
 ];
 
 function Row({ clients, reverse, speed }) {
+  /* Render the list twice so translate(-50%) loops seamlessly */
+  const items = [...clients, ...clients];
   return (
     <SliderWrap>
-      <InfiniteSlider gap={0} speed={speed} reverse={reverse}>
-        {clients.map((c, i) => (
+      <Track $reverse={reverse} $speed={speed}>
+        {items.map((c, i) => (
           <ClientItem key={`${c.src}-${i}`}>
             <img
               src={c.src}
@@ -120,16 +123,14 @@ function Row({ clients, reverse, speed }) {
             />
           </ClientItem>
         ))}
-      </InfiniteSlider>
-      <BlurEdgeLeft direction="left" blurIntensity={0.9} />
-      <BlurEdgeRight direction="right" blurIntensity={0.9} />
+      </Track>
     </SliderWrap>
   );
 }
 
-/* repeat each row 3× so there's never a gap regardless of screen width */
-const ROW1_FULL = [...ROW1, ...ROW1, ...ROW1];
-const ROW2_FULL = [...ROW2, ...ROW2, ...ROW2];
+/* repeat each row 2× so even ultrawide screens never see a gap */
+const ROW1_FULL = [...ROW1, ...ROW1];
+const ROW2_FULL = [...ROW2, ...ROW2];
 
 export default function ClientLogos() {
   const { lang } = useLang();

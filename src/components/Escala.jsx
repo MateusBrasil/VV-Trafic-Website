@@ -5,40 +5,6 @@ import { T } from '../i18n/translations';
 
 const SectionWrap = styled.section`
   position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: -80px;
-    transform: translateY(-50%);
-    width: clamp(280px, 30vw, 520px);
-    height: 100%;
-    background-image: url('/assets/burj-khalifa.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center right;
-    opacity: 0.08;
-    pointer-events: none;
-    z-index: 0;
-    mask-image: linear-gradient(to left, #000 30%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to left, #000 30%, transparent 100%);
-  }
-
-  html[dir="rtl"] &::before {
-    right: auto;
-    left: -80px;
-    background-position: center left;
-    mask-image: linear-gradient(to right, #000 30%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, #000 30%, transparent 100%);
-  }
-
-  > .container { position: relative; z-index: 1; }
-
-  @media (max-width: 768px) {
-    &::before { opacity: 0.05; width: 60vw; }
-  }
 `;
 
 const Grid = styled.div`

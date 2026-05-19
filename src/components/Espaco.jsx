@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -182,14 +182,14 @@ const VideoCard = styled.div`
   aspect-ratio: 4 / 5;
   cursor: pointer;
 
-  video {
+  video, img.bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 1s cubic-bezier(.25,.46,.45,.94);
   }
-  &:hover video { transform: scale(1.03); }
+  &:hover video, &:hover img.bg { transform: scale(1.03); }
 
   @media (max-width: 900px) { aspect-ratio: 16 / 10; }
 `;
@@ -466,35 +466,10 @@ export default function Espaco() {
   const { lang } = useLang();
   const te = T[lang].espaco;
   const sectionRef = useRef(null);
-  const videoRef   = useRef(null);
-  const [muted, setMuted] = useState(true);
 
   const [cont, contRef] = useCounter(4);
   const [emp,  empRef]  = useCounter(128);
   const [h,    hRef]    = useCounter(72);
-
-  const toggleMute = useCallback((e) => {
-    e.stopPropagation();
-    if (!videoRef.current) return;
-    const next = !videoRef.current.muted;
-    videoRef.current.muted = next;
-    setMuted(next);
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      const obs = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) {
-          video.src = '/espaco/video-site.mp4';
-          video.load();
-          video.play().catch(() => {});
-          obs.disconnect();
-        }
-      }, { rootMargin: '200px' });
-      obs.observe(video);
-    }
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -524,18 +499,18 @@ export default function Espaco() {
 
         <MainGrid data-reveal>
 
-          {/* ── VIDEO — left tall ── */}
+          {/* ── BURJ KHALIFA — left tall ── */}
           <VideoCard>
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="none"
+            <img
+              className="bg"
+              src="/assets/burj-khalifa.jpg"
+              alt="Burj Khalifa · Dubai"
+              loading="lazy"
+              decoding="async"
+              width="800"
+              height="1000"
             />
 
-            <Scanline />
             <Vignette />
 
             {/* live badge */}
@@ -543,11 +518,6 @@ export default function Espaco() {
               <div className="dot" />
               {te.liveBadge}
             </LiveBadge>
-
-            {/* sound toggle */}
-            <SoundBtn onClick={toggleMute} aria-label={muted ? te.soundOn : te.soundOff}>
-              {muted ? <IconMute /> : <IconVolume />}
-            </SoundBtn>
 
             {/* bottom info */}
             <VideoFooter>

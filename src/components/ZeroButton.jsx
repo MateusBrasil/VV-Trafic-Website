@@ -29,7 +29,7 @@ const Wrap = styled.a`
   transition: box-shadow 0.5s ease;
 
   &:hover {
-    box-shadow: 0 25px 50px -12px rgba(101, 163, 13, 0.2);
+    box-shadow: 0 25px 50px -12px rgba(46, 134, 193, 0.25);
   }
 
   @media (max-width: 768px) {
@@ -42,10 +42,10 @@ const Wrap = styled.a`
 const Inner = styled.span`
   position: relative;
   overflow: hidden;
-  background: radial-gradient(67.54% 100.03% at 50% 0%, #fafff0 0%, #f4ffcd 25.48%, #d4ff57 62.5%, #a2cc00 100%);
-  box-shadow: 0 5.98px 23.203px 0 rgba(162, 204, 0, 0.15), 0 14.352px 53.701px 0 rgba(162, 204, 0, 0.35);
+  background: radial-gradient(67.54% 100.03% at 50% 0%, #ebf5fb 0%, #aed6f1 25.48%, #5DADE2 62.5%, #2E86C1 100%);
+  box-shadow: 0 5.98px 23.203px 0 rgba(46, 134, 193, 0.18), 0 14.352px 53.701px 0 rgba(46, 134, 193, 0.38);
   border: 1.196px solid rgba(255, 255, 255, 0.5);
-  color: #18181b;
+  color: #ffffff;
   padding: 0 32px;
   height: 44px;
   border-radius: 9999px;
@@ -108,7 +108,7 @@ const Arrow = styled.div`
 
     svg {
       transform: rotate(180deg);
-      color: #84cc16;
+      color: #2E86C1;
     }
   }
 

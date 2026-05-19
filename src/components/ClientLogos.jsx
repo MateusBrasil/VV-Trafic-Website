@@ -56,13 +56,20 @@ const ClientItem = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 36px;
+  /* fixed slot width prevents collapse while images decode → no gaps in the strip */
+  width: 200px;
+  height: 64px;
+  padding: 0;
+  margin: 0 18px;
 
-  @media (max-width: 768px) { padding: 0 24px; }
+  @media (max-width: 768px) {
+    width: 150px;
+    margin: 0 12px;
+  }
 
   img {
     height: 64px;
-    width: auto;
+    width: 100%;
     max-width: 160px;
     object-fit: contain;
     display: block;
@@ -102,7 +109,15 @@ function Row({ clients, reverse, speed }) {
       <InfiniteSlider gap={0} speed={speed} speedOnHover={speed * 2.2} reverse={reverse}>
         {clients.map((c) => (
           <ClientItem key={c.src}>
-            <img src={c.src} alt={c.alt} draggable={false} loading="lazy" height="64" decoding="async" />
+            <img
+              src={c.src}
+              alt={c.alt}
+              draggable={false}
+              loading="eager"
+              decoding="async"
+              width="160"
+              height="64"
+            />
           </ClientItem>
         ))}
       </InfiniteSlider>

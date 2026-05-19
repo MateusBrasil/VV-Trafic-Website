@@ -319,7 +319,6 @@ function ProvasCarousel() {
 
   const [[idx, dir], setPage] = useState([0, 0]);
   const [progress, setProgress] = useState(0);
-  const [loaded, setLoaded] = useState({});
   const timerRef = useRef(null);
   const startRef = useRef(null);
   const rafRef = useRef(null);
@@ -327,9 +326,13 @@ function ProvasCarousel() {
   // Reset carousel when language changes
   useEffect(() => {
     setPage([0, 0]);
-    setLoaded({});
     setProgress(0);
   }, [lang]);
+
+  // Warm cache for all slides so navigation never shows a blank frame.
+  useEffect(() => {
+    slides.forEach((s) => { const img = new Image(); img.src = s.src; });
+  }, [slides]);
 
   const paginate = useCallback((newDir) => {
     setPage(([cur]) => [(cur + newDir + slides.length) % slides.length, newDir]);
@@ -370,28 +373,16 @@ function ProvasCarousel() {
             exit="exit"
             transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            {loaded[idx] ? (
-              <SlideImg
-                src={slides[idx].src}
-                alt={slides[idx].label}
-                draggable={false}
-                width="1280"
-                height="720"
-              />
-            ) : (
-              <>
-                <Placeholder>
-                  <div className="icon">📸</div>
-                  <div className="name">{slides[idx].label.split('·')[0].trim()}</div>
-                  <div>Adiciona a imagem em<br /><PlaceholderCode>public/provas/prova-{idx+1}.png</PlaceholderCode></div>
-                </Placeholder>
-                <HiddenImg
-                  src={slides[idx].src}
-                  alt=""
-                  onLoad={() => setLoaded(l => ({ ...l, [idx]: true }))}
-                />
-              </>
-            )}
+            <SlideImg
+              src={slides[idx].src}
+              alt={slides[idx].label}
+              draggable={false}
+              width="1280"
+              height="720"
+              loading={idx === 0 ? "eager" : "lazy"}
+              decoding="async"
+              fetchpriority={idx === 0 ? "high" : "auto"}
+            />
           </MotionFill>
         </AnimatePresence>
 

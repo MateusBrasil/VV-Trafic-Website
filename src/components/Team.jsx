@@ -3,16 +3,15 @@ import styled, { keyframes } from 'styled-components';
 import { useLang } from '../context/LanguageContext';
 import { T } from '../i18n/translations';
 
-const N = 8; // number of team members (must match translations)
 const CARD_W = 300;
 const CARD_H = 400;
 const STEP    = 324; // center-to-center distance
 const AUTO_MS = 4500;
 
 /* wrapping signed distance */
-function wdist(i, cur) {
-  let d = ((i - cur) % N + N) % N;
-  if (d > N / 2) d -= N;
+function wdist(i, cur, n) {
+  let d = ((i - cur) % n + n) % n;
+  if (d > n / 2) d -= n;
   return d;
 }
 
@@ -238,6 +237,7 @@ export default function Team() {
   const { lang } = useLang();
   const t = T[lang].team;
   const members = t.members;
+  const N = members.length;
   const [cur, setCur]       = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const [pct, setPct]       = useState(0);
@@ -250,7 +250,7 @@ export default function Team() {
     setAnimKey(k => k + 1);
     setPct(0);
     t0Ref.current = performance.now();
-  }, []);
+  }, [N]);
 
   const prev = () => goTo(cur - 1);
   const next = useCallback(() => goTo(cur + 1), [cur, goTo]);
@@ -284,7 +284,7 @@ export default function Team() {
       {/* ── full-bleed carousel ── */}
       <TrackOuter>
         {members.map((m, i) => {
-          const d    = wdist(i, cur);
+          const d    = wdist(i, cur, N);
           const absD = Math.abs(d);
 
           if (absD > 3) return null;
